@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+
+@Data
 public class Order {
 
 	@Id
@@ -26,4 +29,16 @@ public class Order {
 	
 	@Column(nullable = false)
 	private BigDecimal desconto;
+
+	public Order(LocalDateTime date, Client client, Status status, BigDecimal desconto) {
+		this.date = date;
+		this.client = client;
+		this.status = status;
+		this.desconto = desconto;
+	}
+
+	public Order() {		
+	}
+	
+	
 }
