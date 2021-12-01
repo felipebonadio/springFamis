@@ -4,13 +4,19 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Products {
 	
 	@Id
@@ -21,19 +27,5 @@ public class Products {
 	private String name;
 	
 	@Column(nullable = false)
-	private BigDecimal value;
-	
-	@Column(nullable = false)
-	private Integer quantity;
-
-	public Products(String name, BigDecimal value, Integer quantity) {
-		this.name = name;
-		this.value = value;
-		this.quantity = quantity;
-	}
-
-	public Products() {
-	}
-	
-	
+	private BigDecimal value;		
 }

@@ -1,6 +1,8 @@
 package br.com.famis.model;
 
 import java.util.UUID;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,20 +21,30 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderProduct {
-	
+public class Orders {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	
-	@ManyToOne
-    @JoinColumn(name = "products_id")	
-	private Products products;
-	
-//	@OneToMany
-//	@JoinColumn(name = "order_id")	
-//	private Orders order;
+	@Column(nullable = false)
+	private LocalDateTime date;
 
 	@Column(nullable = false)
-	private Integer quantity;
+	private Status status;
+	
+	@Column(nullable = false)
+	private BigDecimal discount;
+	
+	@ManyToOne
+    @JoinColumn(name = "collaborator_id")	
+	private Collaborator collaborator;		
+
+	@ManyToOne
+	@JoinColumn(name = "client_id")		
+	private Client client;
+	
+	@ManyToOne
+	@JoinColumn(name = "orderProduct_id")	
+	private OrderProduct orderProduct;
 }
