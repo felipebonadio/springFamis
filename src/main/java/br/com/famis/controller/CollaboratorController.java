@@ -11,6 +11,7 @@ import br.com.famis.service.FamisService;
 @CrossOrigin(exposedHeaders = "errors, content-type")
 @RequestMapping("api")
 public class CollaboratorController {
-	
+
+
 	
 }
