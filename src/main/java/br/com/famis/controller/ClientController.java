@@ -1,11 +1,11 @@
 package br.com.famis.controller;
 
-import br.com.famis.model.Adress;
 import br.com.famis.model.Client;
 import br.com.famis.service.FamisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,5 +36,13 @@ public class ClientController {
             return new ResponseEntity<List<Client>>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<List<Client>>(clients, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Client> save(@RequestBody Client client, BindingResult bindingResult) {
+        if(bindingResult.hasErrors() || (client == null) || (client.getName() == null)){
+            return new ResponseEntity<Client>(client, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Client>(famisService.saveClient(client), HttpStatus.CREATED);
     }
 }
