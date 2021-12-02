@@ -28,9 +28,9 @@ public class OrderProduct {
     @JoinColumn(name = "products_id")	
 	private Products products;
 	
-//	@OneToMany
-//	@JoinColumn(name = "order_id")	
-//	private Orders order;
+	@ManyToOne
+	@JoinColumn(name = "order_id")
+	private Orders order;
 
 	@Column(nullable = false)
 	private Integer quantity;

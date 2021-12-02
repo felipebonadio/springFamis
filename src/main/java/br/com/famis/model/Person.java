@@ -10,12 +10,14 @@ import javax.persistence.MappedSuperclass;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @MappedSuperclass
 public abstract class Person {
 
@@ -40,7 +42,8 @@ public abstract class Person {
 	
 	@Column(nullable = false)
 	private String password;
-	
+
+
 //	@ManyToOne(fetch = FetchType.LAZY)
 //  @JoinColumn(name = "id_contato")
 //	

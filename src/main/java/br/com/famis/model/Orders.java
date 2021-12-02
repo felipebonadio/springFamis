@@ -43,8 +43,4 @@ public class Orders {
 	@ManyToOne
 	@JoinColumn(name = "client_id")		
 	private Client client;
-	
-	@ManyToOne
-	@JoinColumn(name = "orderProduct_id")	
-	private OrderProduct orderProduct;
 }
