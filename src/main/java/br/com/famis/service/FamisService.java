@@ -2,6 +2,7 @@ package br.com.famis.service;
 
 import br.com.famis.model.Adress;
 import br.com.famis.model.Client;
+import br.com.famis.model.Collaborator;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -20,5 +21,9 @@ public interface FamisService {
     Client saveClient(Client client) throws DataAccessException;
     Client updateClient(UUID clientId, Client client) throws DataAccessException;
     void deleteClient(Client client) throws DataAccessException;
+
+    Collaborator findCollaboratorById(UUID id) throws DataAccessException;
+    List<Collaborator> findAllCollaborators() throws DataAccessException;
+    Collaborator saveCollaborator(Collaborator collaborator) throws DataAccessException;
 
 }

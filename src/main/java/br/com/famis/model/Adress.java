@@ -15,8 +15,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Adress {
 	
@@ -39,11 +37,23 @@ public class Adress {
 	@Column(nullable = false)
 	private String state;	
 	
-	@ManyToOne	
-	@JoinColumn(name = "client_id")
-	private Client client;
-	
-	@ManyToOne	
-	@JoinColumn(name = "collaborator_id")
-	private Collaborator collaborator;
+//	@ManyToOne
+//	@JoinColumn(name = "client_id")
+//	private Client client;
+//
+//	@ManyToOne
+//	@JoinColumn(name = "collaborator_id")
+//	private Collaborator collaborator;
+
+
+	public Adress(String cep, String place, String district, String city, String state) {
+		this.cep = cep;
+		this.place = place;
+		this.district = district;
+		this.city = city;
+		this.state = state;
+	}
+
+	public Adress() {
+	}
 }

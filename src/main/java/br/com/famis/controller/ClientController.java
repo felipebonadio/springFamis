@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
-@RequestMapping("api/client")
+@RequestMapping("/clients")
 public class ClientController {
 
     @Autowired
@@ -58,5 +58,15 @@ public class ClientController {
         }
 
         return new ResponseEntity<Client>(updatedClient, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{clientId}", method = RequestMethod.DELETE, produces = "application/json")
+    public ResponseEntity<Client> deleteById(@PathVariable("clientId") UUID clientId) {
+        Client client = this.famisService.findClientById(clientId);
+        famisService.deleteClient(client);
+        if (client == null) {
+            return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Client>(client, HttpStatus.OK);
     }
 }

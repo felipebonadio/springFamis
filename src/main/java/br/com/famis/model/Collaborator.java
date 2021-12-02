@@ -1,27 +1,27 @@
 package br.com.famis.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class Collaborator extends Person {
 
-	@OneToMany	
-	private List<Adress> adress;
-	
-	
-	
+	@OneToMany
+	private List<Adress> adress = new ArrayList<Adress>();
+
+	public Collaborator(String name, String lastName, String phone, String cpf, String email, String password, Adress adress) {
+		super(name, lastName, phone, cpf, email, password);
+		this.adress.add(adress);
+	}
+
+	public Collaborator() {
+	}
 }

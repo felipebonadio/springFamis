@@ -8,15 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode
 @MappedSuperclass
 public abstract class Person {
@@ -44,9 +40,15 @@ public abstract class Person {
 	private String password;
 
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//  @JoinColumn(name = "id_contato")
-//	
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "guest", fetch = FetchType.EAGER)
-	
+	public Person(String name, String lastName, String phone, String cpf, String email, String password) {
+		this.name = name;
+		this.lastName = lastName;
+		this.phone = phone;
+		this.cpf = cpf;
+		this.email = email;
+		this.password = password;
+	}
+
+	public Person() {
+	}
 }
