@@ -39,10 +39,24 @@ public class ClientController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Client> save(@RequestBody Client client, BindingResult bindingResult) {
+    public ResponseEntity<Client> saveClient(@RequestBody Client client, BindingResult bindingResult) {
         if(bindingResult.hasErrors() || (client == null) || (client.getName() == null)){
             return new ResponseEntity<Client>(client, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Client>(famisService.saveClient(client), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{clientId}", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity<Client> updateClient(@PathVariable("clientId") UUID clientId, @RequestBody Client client, BindingResult bindingResult){
+        if(bindingResult.hasErrors() || (client == null) || (client.getName() == null)){
+            return new ResponseEntity<Client>(client, HttpStatus.BAD_REQUEST);
+        }
+        Client updatedClient = this.famisService.updateClient(clientId, client);
+
+        if(updatedClient == null){
+            return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Client>(updatedClient, HttpStatus.OK);
     }
 }
