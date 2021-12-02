@@ -1,7 +1,9 @@
 package br.com.famis.service;
 
 import br.com.famis.model.Adress;
+import br.com.famis.model.Client;
 import br.com.famis.repository.AdressRepository;
+import br.com.famis.repository.ClientRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.UUID;
 public class FamisServiceImpl implements FamisService{
 
     private AdressRepository adressRepository;
+    private ClientRepository clientRepository;
 
 
     @Override
@@ -25,7 +28,7 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public List<Adress> findAllAdress() throws DataAccessException {
+    public List<Adress> findAllAdresses() throws DataAccessException {
         return (List<Adress>) adressRepository.findAll();
     }
 
@@ -37,7 +40,7 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public Adress updateAdress(UUID adressId, Adress adress) throws DataAccessException {
        Adress currentAdress = new Adress();
-       if (currentAdress ==null){
+       if (currentAdress == null){
            return null;
        }
        currentAdress.setCep(adress.getCep());
@@ -53,5 +56,45 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public void deleteAdress(Adress adress) throws DataAccessException {
         adressRepository.delete(adress);
+    }
+
+    @Override
+    public Client findClientById(UUID id) throws DataAccessException {
+        Optional<Client> client = clientRepository.findById(id);
+        if( client.isEmpty()){
+            return null;
+        }
+        return client.get();
+    }
+
+    @Override
+    public List<Client> findAllClients() throws DataAccessException {
+        return (List<Client>) clientRepository.findAll();
+    }
+
+    @Override
+    public Client saveClient(Client client) throws DataAccessException {
+        return clientRepository.save(client);
+    }
+
+    @Override
+    public Client updateClient(UUID clientId, Client client) throws DataAccessException {
+        Client currentClient = new Client();
+        if(currentClient == null){
+            return null;
+        }
+        currentClient.setName(client.getName());
+        currentClient.setLastName(client.getLastName());
+        currentClient.setAdress(client.getAdress());
+        currentClient.setCpf(client.getCpf());
+        currentClient.setEmail(client.getEmail());
+        currentClient.setPassword(client.getPassword());
+        currentClient.setPhone(client.getPhone());
+        return currentClient;
+    }
+
+    @Override
+    public void deleteClient(Client client) throws DataAccessException {
+        clientRepository.delete(client);
     }
 }
