@@ -56,7 +56,6 @@ public class ClientController {
         if(updatedClient == null){
             return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
         }
-
         return new ResponseEntity<Client>(updatedClient, HttpStatus.OK);
     }
 
