@@ -1,9 +1,9 @@
 package br.com.famis.service;
 
-import br.com.famis.model.Adress;
+import br.com.famis.model.Address;
 import br.com.famis.model.Client;
 import br.com.famis.model.Collaborator;
-import br.com.famis.repository.AdressRepository;
+import br.com.famis.repository.AddressRepository;
 import br.com.famis.repository.ClientRepository;
 import br.com.famis.repository.CollaboratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,24 +17,24 @@ import java.util.UUID;
 @Service
 public class FamisServiceImpl implements FamisService{
 
-    private AdressRepository adressRepository;
+    private AddressRepository addressRepository;
     private ClientRepository clientRepository;
     private CollaboratorRepository collaboratorRepository;
 
     @Autowired
     public FamisServiceImpl(
-            AdressRepository adressRepository,
+            AddressRepository addressRepository,
             ClientRepository clientRepository,
             CollaboratorRepository collaboratorRepository
     ){
-        this.adressRepository = adressRepository;
+        this.addressRepository = addressRepository;
         this.clientRepository = clientRepository;
         this.collaboratorRepository = collaboratorRepository;
     }
 
     @Override
-    public Adress findAdressById(UUID id) throws DataAccessException {
-        Optional<Adress> adress = adressRepository.findById(id);
+    public Address findAddressById(UUID id) throws DataAccessException {
+        Optional<Address> adress = addressRepository.findById(id);
         if (adress.isEmpty()) {
             return null;
         }
@@ -42,34 +42,34 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public List<Adress> findAllAdresses() throws DataAccessException {
-        return (List<Adress>) adressRepository.findAll();
+    public List<Address> findAllAddresses() throws DataAccessException {
+        return (List<Address>) addressRepository.findAll();
     }
 
     @Override
-    public Adress saveAdress(Adress adress) throws DataAccessException {
-        return adressRepository.save(adress);
+    public Address saveAddress(Address address) throws DataAccessException {
+        return addressRepository.save(address);
     }
 
     @Override
-    public Adress updateAdress(UUID adressId, Adress adress) throws DataAccessException {
-       Adress currentAdress = new Adress();
-       if (currentAdress == null){
+    public Address updateAddress(UUID addressId, Address address) throws DataAccessException {
+       Address currentAddress = new Address();
+       if (currentAddress == null){
            return null;
        }
-       currentAdress.setCep(adress.getCep());
-       currentAdress.setCity(adress.getCity());
-       currentAdress.setDistrict(adress.getDistrict());
-       currentAdress.setPlace(adress.getPlace());
-       currentAdress.setState(adress.getState());
+       currentAddress.setCep(address.getCep());
+       currentAddress.setCity(address.getCity());
+       currentAddress.setDistrict(address.getDistrict());
+       currentAddress.setPlace(address.getPlace());
+       currentAddress.setState(address.getState());
 //       currentAdress.setCollaborator(adress.getCollaborator());
 //       currentAdress.setClient(adress.getClient());
-       return adressRepository.save(currentAdress);
+       return addressRepository.save(currentAddress);
     }
 
     @Override
-    public void deleteAdress(Adress adress) throws DataAccessException {
-        adressRepository.delete(adress);
+    public void deleteAddress(Address address) throws DataAccessException {
+        addressRepository.delete(address);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class FamisServiceImpl implements FamisService{
         }
         currentClient.setName(client.getName());
         currentClient.setLastName(client.getLastName());
-        currentClient.setAdress(client.getAdress());
+        currentClient.setAddresses(client.getAddresses());
         currentClient.setCpf(client.getCpf());
         currentClient.setEmail(client.getEmail());
         currentClient.setPassword(client.getPassword());
@@ -139,7 +139,7 @@ public class FamisServiceImpl implements FamisService{
         }
         currentCollaborator.setName(collaborator.getName());
         currentCollaborator.setLastName(collaborator.getLastName());
-        currentCollaborator.setAdress(collaborator.getAdress());
+        currentCollaborator.setAddresses(collaborator.getAddresses());
         currentCollaborator.setCpf(collaborator.getCpf());
         currentCollaborator.setEmail(collaborator.getEmail());
         currentCollaborator.setPassword(collaborator.getPassword());

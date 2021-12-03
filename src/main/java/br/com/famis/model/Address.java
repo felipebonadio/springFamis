@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-public class Adress {
+public class Address {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,7 +46,7 @@ public class Adress {
 //	private Collaborator collaborator;
 
 
-	public Adress(String cep, String place, String district, String city, String state) {
+	public Address(String cep, String place, String district, String city, String state) {
 		this.cep = cep;
 		this.place = place;
 		this.district = district;
@@ -54,6 +54,6 @@ public class Adress {
 		this.state = state;
 	}
 
-	public Adress() {
+	public Address() {
 	}
 }

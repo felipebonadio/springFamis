@@ -2,47 +2,40 @@ package br.com.famis.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 public class Client extends Person {
 
 	@OneToMany		
-	private List<Adress> adress = new ArrayList<Adress>();
+	private List<Address> addresses = new ArrayList<Address>();
 
-	public Client(String name, String lastName, String phone, String cpf, String email, String password, Adress adress) {
+	public Client(String name, String lastName, String phone, String cpf, String email, String password, Address address) {
 		super(name, lastName, phone, cpf, email, password);
-		this.adress.add(adress);
+		this.addresses.add(address);
 	}
 
 	public Client() {
 	}
 
-	public List<Adress> getAdress() {
-		return adress;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public void setAdress(List<Adress> adress) {
-		this.adress = adress;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
-	public void addAdress(Adress adress) {
-		this.adress.add(adress);
+	public void addAddress(Address address) {
+		this.addresses.add(address);
 	}
 
-	public boolean removeAdress(Adress adress) {
-		return this.adress.remove(adress);
+	public boolean removeAddress(Address address) {
+		return this.addresses.remove(address);
 	}
 }

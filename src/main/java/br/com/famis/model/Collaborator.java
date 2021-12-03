@@ -15,29 +15,29 @@ import lombok.Data;
 public class Collaborator extends Person {
 
 	@OneToMany
-	private List<Adress> adress = new ArrayList<Adress>();
+	private List<Address> addresses = new ArrayList<Address>();
 
-	public Collaborator(String name, String lastName, String phone, String cpf, String email, String password, Adress adress) {
+	public Collaborator(String name, String lastName, String phone, String cpf, String email, String password, Address address) {
 		super(name, lastName, phone, cpf, email, password);
-		this.adress.add(adress);
+		this.addresses.add(address);
 	}
 
 	public Collaborator() {
 	}
 
-	public List<Adress> getAdress() {
-		return adress;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public void setAdress(List<Adress> adress) {
-		this.adress = adress;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
-	public void addAdress(Adress adress) {
-		this.adress.add(adress);
+	public void addAddress(Address address) {
+		this.addresses.add(address);
 	}
 
-	public boolean removeAdress(Adress adress) {
-		return this.adress.remove(adress);
+	public boolean removeAddress(Address address) {
+		return this.addresses.remove(address);
 	}
 }

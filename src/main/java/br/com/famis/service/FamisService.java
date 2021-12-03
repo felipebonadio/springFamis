@@ -1,6 +1,6 @@
 package br.com.famis.service;
 
-import br.com.famis.model.Adress;
+import br.com.famis.model.Address;
 import br.com.famis.model.Client;
 import br.com.famis.model.Collaborator;
 import org.springframework.dao.DataAccessException;
@@ -10,11 +10,11 @@ import java.util.UUID;
 
 public interface FamisService {
 
-    Adress findAdressById(UUID id) throws DataAccessException;
-    List<Adress> findAllAdresses() throws DataAccessException;
-    Adress saveAdress(Adress adress) throws DataAccessException;
-    Adress updateAdress(UUID adressId, Adress adress) throws DataAccessException;
-    void deleteAdress(Adress adress) throws DataAccessException;
+    Address findAddressById(UUID id) throws DataAccessException;
+    List<Address> findAllAddresses() throws DataAccessException;
+    Address saveAddress(Address address) throws DataAccessException;
+    Address updateAddress(UUID addressId, Address address) throws DataAccessException;
+    void deleteAddress(Address address) throws DataAccessException;
 
     Client findClientById(UUID id) throws DataAccessException;
     List<Client> findAllClients() throws DataAccessException;
