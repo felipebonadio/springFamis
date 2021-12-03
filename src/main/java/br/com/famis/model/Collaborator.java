@@ -24,4 +24,20 @@ public class Collaborator extends Person {
 
 	public Collaborator() {
 	}
+
+	public List<Adress> getAdress() {
+		return adress;
+	}
+
+	public void setAdress(List<Adress> adress) {
+		this.adress = adress;
+	}
+
+	public void addAdress(Adress adress) {
+		this.adress.add(adress);
+	}
+
+	public boolean removeAdress(Adress adress) {
+		return this.adress.remove(adress);
+	}
 }

@@ -26,9 +26,9 @@ public class FamisApplication {
 			famisService.saveAdress(a1);
 			Client c1 = new Client("Felipe", "Bonadio", "1444444", "454545454", "febonadio@email", "1234", a1);
 			famisService.saveClient(c1);
+
 			Adress a2 = new Adress("5656565", "Rua 2", "Vila", "Barra", "Sp");
 			famisService.saveAdress(a2);
-
 			Collaborator co1 = new Collaborator("Anderson", "Bonadio", "1444444", "454545454", "febonadio@email", "1234", a2);
 			famisService.saveCollaborator(co1);
 

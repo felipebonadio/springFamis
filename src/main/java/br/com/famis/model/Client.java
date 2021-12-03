@@ -42,7 +42,7 @@ public class Client extends Person {
 		this.adress.add(adress);
 	}
 
-	public boolean removeReserve(Adress adress) {
+	public boolean removeAdress(Adress adress) {
 		return this.adress.remove(adress);
 	}
 }

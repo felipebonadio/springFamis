@@ -130,4 +130,25 @@ public class FamisServiceImpl implements FamisService{
     public Collaborator saveCollaborator(Collaborator collaborator) throws DataAccessException {
         return collaboratorRepository.save(collaborator);
     }
+
+    @Override
+    public Collaborator updateCollaborator(UUID collaboratorId, Collaborator collaborator) throws DataAccessException {
+        Collaborator currentCollaborator = new Collaborator();
+        if(currentCollaborator == null){
+            return null;
+        }
+        currentCollaborator.setName(collaborator.getName());
+        currentCollaborator.setLastName(collaborator.getLastName());
+        currentCollaborator.setAdress(collaborator.getAdress());
+        currentCollaborator.setCpf(collaborator.getCpf());
+        currentCollaborator.setEmail(collaborator.getEmail());
+        currentCollaborator.setPassword(collaborator.getPassword());
+        currentCollaborator.setPhone(collaborator.getPhone());
+        return currentCollaborator;
+    }
+
+    @Override
+    public void deleteCollaborator(Collaborator collaborator) throws DataAccessException {
+        collaboratorRepository.delete(collaborator);
+    }
 }
