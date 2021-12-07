@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 
 
 @Data
-@EqualsAndHashCode
 @Entity
 public class Collaborator extends Person {
 

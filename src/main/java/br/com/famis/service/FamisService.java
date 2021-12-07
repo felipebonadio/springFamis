@@ -3,6 +3,7 @@ package br.com.famis.service;
 import br.com.famis.model.Address;
 import br.com.famis.model.Client;
 import br.com.famis.model.Collaborator;
+import br.com.famis.model.Table;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -27,5 +28,11 @@ public interface FamisService {
     Collaborator saveCollaborator(Collaborator collaborator) throws DataAccessException;
     Collaborator updateCollaborator(UUID collaboratorId, Collaborator collaborator) throws DataAccessException;
     void deleteCollaborator(Collaborator collaborator) throws DataAccessException;
+
+    Table findTableById(UUID id) throws DataAccessException;
+    List<Table> findAllTables() throws DataAccessException;
+    Table saveTable(Table table) throws DataAccessException;
+    Table updateTable(UUID tableId, Table table) throws DataAccessException;
+    void deleteTable(Table table) throws DataAccessException;
 
 }

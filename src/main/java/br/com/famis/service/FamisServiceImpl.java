@@ -3,9 +3,11 @@ package br.com.famis.service;
 import br.com.famis.model.Address;
 import br.com.famis.model.Client;
 import br.com.famis.model.Collaborator;
+import br.com.famis.model.Table;
 import br.com.famis.repository.AddressRepository;
 import br.com.famis.repository.ClientRepository;
 import br.com.famis.repository.CollaboratorRepository;
+import br.com.famis.repository.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -20,16 +22,19 @@ public class FamisServiceImpl implements FamisService{
     private AddressRepository addressRepository;
     private ClientRepository clientRepository;
     private CollaboratorRepository collaboratorRepository;
+    private TableRepository tableRepository;
 
     @Autowired
     public FamisServiceImpl(
             AddressRepository addressRepository,
             ClientRepository clientRepository,
-            CollaboratorRepository collaboratorRepository
+            CollaboratorRepository collaboratorRepository,
+            TableRepository tableRepository
     ){
         this.addressRepository = addressRepository;
         this.clientRepository = clientRepository;
         this.collaboratorRepository = collaboratorRepository;
+        this.tableRepository = tableRepository;
     }
 
     @Override
@@ -148,5 +153,39 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public void deleteCollaborator(Collaborator collaborator) throws DataAccessException {
         collaboratorRepository.delete(collaborator);
+    }
+
+    @Override
+    public Table findTableById(UUID id) throws DataAccessException {
+        Optional<Table> table = tableRepository.findById(id);
+        if(table.isEmpty()){
+            return null;
+        }
+        return table.get();
+    }
+
+    @Override
+    public List<Table> findAllTables() throws DataAccessException {
+        return (List<Table>) tableRepository.findAll();
+    }
+
+    @Override
+    public Table saveTable(Table table) throws DataAccessException {
+        return tableRepository.save(table);
+    }
+
+    @Override
+    public Table updateTable(UUID tableId, Table table) throws DataAccessException {
+        Table currentTable = new Table();
+        if(currentTable == null){
+            return null;
+        }
+        currentTable.setNumber(table.getNumber());
+        return currentTable;
+    }
+
+    @Override
+    public void deleteTable(Table table) throws DataAccessException {
+        tableRepository.delete(table);
     }
 }

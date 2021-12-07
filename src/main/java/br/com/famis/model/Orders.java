@@ -43,4 +43,8 @@ public class Orders {
 	@ManyToOne
 	@JoinColumn(name = "client_id")		
 	private Client client;
+
+	@ManyToOne
+	@JoinColumn(name = "table_id")
+	private Table table;
 }
