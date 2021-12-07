@@ -62,8 +62,6 @@ public class FamisServiceImpl implements FamisService{
        currentAddress.setDistrict(address.getDistrict());
        currentAddress.setPlace(address.getPlace());
        currentAddress.setState(address.getState());
-//       currentAdress.setCollaborator(adress.getCollaborator());
-//       currentAdress.setClient(adress.getClient());
        return addressRepository.save(currentAddress);
     }
 

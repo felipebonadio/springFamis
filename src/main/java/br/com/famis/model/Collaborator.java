@@ -7,11 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
-@Entity
 @Data
-
+@EqualsAndHashCode
+@Entity
 public class Collaborator extends Person {
 
 	@OneToMany
