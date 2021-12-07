@@ -3,6 +3,7 @@ package br.com.famis;
 import br.com.famis.model.Address;
 import br.com.famis.model.Client;
 import br.com.famis.model.Collaborator;
+import br.com.famis.model.Consumer;
 import br.com.famis.service.FamisService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +30,9 @@ public class FamisApplication {
 			famisService.saveAddress(a2);
 			Collaborator co1 = new Collaborator("Anderson", "Bonadio", "1444444", "454545454", "febonadio@email", "1234", a2);
 			famisService.saveCollaborator(co1);
+
+			Consumer t1 = new Consumer( "1");
+			famisService.saveConsumer(t1);
 
 
 			};

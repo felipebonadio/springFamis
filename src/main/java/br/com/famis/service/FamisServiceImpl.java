@@ -3,11 +3,11 @@ package br.com.famis.service;
 import br.com.famis.model.Address;
 import br.com.famis.model.Client;
 import br.com.famis.model.Collaborator;
-import br.com.famis.model.Table;
+import br.com.famis.model.Consumer;
 import br.com.famis.repository.AddressRepository;
 import br.com.famis.repository.ClientRepository;
 import br.com.famis.repository.CollaboratorRepository;
-import br.com.famis.repository.TableRepository;
+import br.com.famis.repository.ConsumerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -22,19 +22,19 @@ public class FamisServiceImpl implements FamisService{
     private AddressRepository addressRepository;
     private ClientRepository clientRepository;
     private CollaboratorRepository collaboratorRepository;
-    private TableRepository tableRepository;
+    private ConsumerRepository consumerRepository;
 
     @Autowired
     public FamisServiceImpl(
             AddressRepository addressRepository,
             ClientRepository clientRepository,
             CollaboratorRepository collaboratorRepository,
-            TableRepository tableRepository
+            ConsumerRepository consumerRepository
     ){
         this.addressRepository = addressRepository;
         this.clientRepository = clientRepository;
         this.collaboratorRepository = collaboratorRepository;
-        this.tableRepository = tableRepository;
+        this.consumerRepository = consumerRepository;
     }
 
     @Override
@@ -156,36 +156,36 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Table findTableById(UUID id) throws DataAccessException {
-        Optional<Table> table = tableRepository.findById(id);
-        if(table.isEmpty()){
+    public Consumer findConsumerById(UUID id) throws DataAccessException {
+        Optional<Consumer> consumer = consumerRepository.findById(id);
+        if(consumer.isEmpty()){
             return null;
         }
-        return table.get();
+        return consumer.get();
     }
 
     @Override
-    public List<Table> findAllTables() throws DataAccessException {
-        return (List<Table>) tableRepository.findAll();
+    public List<Consumer> findAllConsumers() throws DataAccessException {
+        return (List<Consumer>) consumerRepository.findAll();
     }
 
     @Override
-    public Table saveTable(Table table) throws DataAccessException {
-        return tableRepository.save(table);
+    public Consumer saveConsumer(Consumer consumer) throws DataAccessException {
+        return consumerRepository.save(consumer);
     }
 
     @Override
-    public Table updateTable(UUID tableId, Table table) throws DataAccessException {
-        Table currentTable = new Table();
-        if(currentTable == null){
+    public Consumer updateConsumer(UUID consumerId, Consumer consumer) throws DataAccessException {
+        Consumer currentConsumer = new Consumer();
+        if(currentConsumer == null){
             return null;
         }
-        currentTable.setNumber(table.getNumber());
-        return currentTable;
+        currentConsumer.setNumber(consumer.getNumber());
+        return currentConsumer;
     }
 
     @Override
-    public void deleteTable(Table table) throws DataAccessException {
-        tableRepository.delete(table);
+    public void deleteConsumer(Consumer consumer) throws DataAccessException {
+        consumerRepository.delete(consumer);
     }
 }

@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +44,6 @@ public class Orders {
 	private Client client;
 
 	@ManyToOne
-	@JoinColumn(name = "table_id")
-	private Table table;
+	@JoinColumn(name = "consumer_id")
+	private Consumer consumer;
 }

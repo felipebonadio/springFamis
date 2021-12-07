@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 @EqualsAndHashCode
 @Entity
-public class Table {
+public class Consumer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,11 +20,11 @@ public class Table {
 
     private String number;
 
-    public Table(String number) {
+    public Consumer(String number) {
         this.number = number;
     }
 
-    public Table() {
+    public Consumer() {
     }
 
 
