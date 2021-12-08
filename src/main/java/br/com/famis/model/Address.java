@@ -36,14 +36,6 @@ public class Address {
 	
 	@Column(nullable = false)
 	private String state;	
-	
-//	@ManyToOne
-//	@JoinColumn(name = "client_id")
-//	private Client client;
-//
-//	@ManyToOne
-//	@JoinColumn(name = "collaborator_id")
-//	private Collaborator collaborator;
 
 
 	public Address(String cep, String place, String district, String city, String state) {
