@@ -63,9 +63,10 @@ public class FamisServiceImpl implements FamisService{
            return null;
        }
        currentAddress.setCep(address.getCep());
-       currentAddress.setCity(address.getCity());
-       currentAddress.setDistrict(address.getDistrict());
        currentAddress.setPlace(address.getPlace());
+       currentAddress.setNumber(address.getNumber());
+       currentAddress.setDistrict(address.getDistrict());
+       currentAddress.setCity(address.getCity());
        currentAddress.setState(address.getState());
        return addressRepository.save(currentAddress);
     }

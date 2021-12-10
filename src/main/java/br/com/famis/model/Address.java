@@ -27,7 +27,10 @@ public class Address {
 	
 	@Column(nullable = false)
 	private String place ;
-	
+
+	@Column(nullable = false)
+	private String number ;
+
 	@Column(nullable = false)
 	private String district;
 	
@@ -38,9 +41,10 @@ public class Address {
 	private String state;	
 
 
-	public Address(String cep, String place, String district, String city, String state) {
+	public Address(String cep, String place, String number, String district, String city, String state) {
 		this.cep = cep;
 		this.place = place;
+		this.number = number;
 		this.district = district;
 		this.city = city;
 		this.state = state;

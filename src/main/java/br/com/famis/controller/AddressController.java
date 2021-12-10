@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
-@RequestMapping("/adresses")
+@RequestMapping("/addresses")
 public class AddressController {
 
     @Autowired

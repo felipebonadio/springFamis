@@ -12,6 +12,7 @@ public class AddressMapper {
         AddressDto addressDto = new AddressDto();
         addressDto.setCep(address.getCep());
         addressDto.setPlace(address.getPlace());
+        addressDto.setNumber(address.getNumber());
         addressDto.setDistrict(address.getDistrict());
         addressDto.setCity(address.getPlace());
         addressDto.setState(address.getState());
@@ -23,6 +24,7 @@ public class AddressMapper {
         Address address = new Address();
         address.setCep(addressDto.getCep());
         address.setPlace(addressDto.getPlace());
+        address.setNumber(addressDto.getNumber());
         address.setDistrict(addressDto.getDistrict());
         address.setCity(addressDto.getCity());
         address.setState(addressDto.getState());
