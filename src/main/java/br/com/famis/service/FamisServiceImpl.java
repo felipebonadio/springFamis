@@ -97,7 +97,7 @@ public class FamisServiceImpl implements FamisService{
 
     @Override
     public Client updateClient(UUID clientId, Client client) throws DataAccessException {
-        Client currentClient = new Client();
+        Client currentClient = this.findClientById(clientId);
         if(currentClient == null){
             return null;
         }
@@ -137,13 +137,13 @@ public class FamisServiceImpl implements FamisService{
 
     @Override
     public Collaborator updateCollaborator(UUID collaboratorId, Collaborator collaborator) throws DataAccessException {
-        Collaborator currentCollaborator = new Collaborator();
+        Collaborator currentCollaborator = this.findCollaboratorById(collaboratorId);
         if(currentCollaborator == null){
             return null;
         }
         currentCollaborator.setName(collaborator.getName());
         currentCollaborator.setLastName(collaborator.getLastName());
-        currentCollaborator.setAddresses(collaborator.getAddresses());
+        currentCollaborator.setAddress(collaborator.getAddress());
         currentCollaborator.setCpf(collaborator.getCpf());
         currentCollaborator.setEmail(collaborator.getEmail());
         currentCollaborator.setPassword(collaborator.getPassword());

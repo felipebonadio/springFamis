@@ -40,15 +40,18 @@ public class CollaboratorController {
         return new ResponseEntity<List<Collaborator>>(collaborators, HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Collaborator> saveClient(@RequestBody Collaborator collaborator, BindingResult bindingResult) {
+    public ResponseEntity<Collaborator> saveCollaborator(@RequestBody Collaborator collaborator, BindingResult bindingResult) {
         if(bindingResult.hasErrors() || (collaborator == null) || (collaborator.getName() == null)){
             return new ResponseEntity<Collaborator>(collaborator, HttpStatus.BAD_REQUEST);
+        }
+        if(collaborator.getAddress() != null){
+            famisService.saveAddress(collaborator.getAddress());
         }
         return new ResponseEntity<Collaborator>(famisService.saveCollaborator(collaborator), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{collaboratorId}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity<Collaborator> updateClient(@PathVariable("collaboratorId") UUID collaboratorId, @RequestBody Collaborator collaborator, BindingResult bindingResult){
+    public ResponseEntity<Collaborator> updateCollaborator(@PathVariable("collaboratorId") UUID collaboratorId, @RequestBody Collaborator collaborator, BindingResult bindingResult){
         if(bindingResult.hasErrors() || (collaborator == null) || (collaborator.getName() == null)){
             return new ResponseEntity<Collaborator>(collaborator, HttpStatus.BAD_REQUEST);
         }
