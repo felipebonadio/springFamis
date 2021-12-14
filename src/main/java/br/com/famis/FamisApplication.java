@@ -23,12 +23,12 @@ public class FamisApplication {
 
 			Address a1 = new Address("284124", "Rua 1", "500", "Vila", "Barra", "Sp");
 			famisService.saveAddress(a1);
-			Client c1 = new Client("Felipe", "Bonadio", "1444444", "454545454", "febonadio@email", "1234", a1);
+			Client c1 = new Client("Felipe", "Bonadio", "1444444", "454545454", a1);
 			famisService.saveClient(c1);
 
 			Address a2 = new Address("5656565", "Rua 2"," 708" , "Vila", "Barra", "Sp");
 			famisService.saveAddress(a2);
-			Collaborator co1 = new Collaborator("Anderson", "Bonadio", "1444444", "454545454", "febonadio@email", "1234", a2);
+			Collaborator co1 = new Collaborator("Gabriel", "Lima", "1444444", "454545454", "CAIXA", "febonadio@teste.com.br", "1244", a2 );
 			famisService.saveCollaborator(co1);
 
 			Consumer t1 = new Consumer( "1");

@@ -1,8 +1,7 @@
 package br.com.famis.model;
 
 
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -15,12 +14,23 @@ public class Collaborator extends Person {
 	@OneToOne
 	private Address address;
 
-	public Collaborator(String name, String lastName, String phone, String cpf, String email, String password, Address address) {
-		super(name, lastName, phone, cpf, email, password);
+	@Column(nullable = false)
+	private String role;
+
+	@Column(nullable = false)
+	private String email;
+
+	@Column(nullable = false)
+	private String password;
+
+	public Collaborator( String name, String lastName, String phone, String cpf, String role, String email, String password, Address address) {
+		super(name, lastName, phone, cpf);
+		this.role = role;
+		this.email = email;
+		this.password = password;
 		this.address = address;
 	}
 
-	public Collaborator() { }
-
-
+	public Collaborator() {
+	}
 }

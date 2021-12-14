@@ -105,8 +105,6 @@ public class FamisServiceImpl implements FamisService{
         currentClient.setLastName(client.getLastName());
         currentClient.setAddresses(client.getAddresses());
         currentClient.setCpf(client.getCpf());
-        currentClient.setEmail(client.getEmail());
-        currentClient.setPassword(client.getPassword());
         currentClient.setPhone(client.getPhone());
         return currentClient;
     }
@@ -145,6 +143,7 @@ public class FamisServiceImpl implements FamisService{
         currentCollaborator.setLastName(collaborator.getLastName());
         currentCollaborator.setAddress(collaborator.getAddress());
         currentCollaborator.setCpf(collaborator.getCpf());
+        currentCollaborator.setRole(collaborator.getRole());
         currentCollaborator.setEmail(collaborator.getEmail());
         currentCollaborator.setPassword(collaborator.getPassword());
         currentCollaborator.setPhone(collaborator.getPhone());

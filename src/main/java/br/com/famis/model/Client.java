@@ -17,8 +17,8 @@ public class Client extends Person {
 	@OneToMany		
 	private List<Address> addresses = new ArrayList<Address>();
 
-	public Client(String name, String lastName, String phone, String cpf, String email, String password, Address address) {
-		super(name, lastName, phone, cpf, email, password);
+	public Client(String name, String lastName, String phone, String cpf, Address address) {
+		super(name, lastName, phone, cpf);
 		this.addresses.add(address);
 	}
 

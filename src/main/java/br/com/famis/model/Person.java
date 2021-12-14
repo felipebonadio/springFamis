@@ -32,21 +32,12 @@ public abstract class Person {
 	
 	@Column(nullable = false)
 	private String cpf;
-	
-	@Column(nullable = false)
-	private String email;
-	
-	@Column(nullable = false)
-	private String password;
 
-
-	public Person(String name, String lastName, String phone, String cpf, String email, String password) {
+	public Person(String name, String lastName, String phone, String cpf) {
 		this.name = name;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.cpf = cpf;
-		this.email = email;
-		this.password = password;
 	}
 
 	public Person() {
