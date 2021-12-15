@@ -1,7 +1,6 @@
 package br.com.famis.controller;
 
 
-import br.com.famis.model.Client;
 import br.com.famis.model.Collaborator;
 import br.com.famis.service.FamisService;
 import org.springframework.beans.factory.annotation.Autowired;
