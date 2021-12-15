@@ -25,6 +25,13 @@ public class Restaurant {
     @OneToOne
     private Address address;
 
+    public Restaurant(String name, String phone, String cpnj, Address address) {
+        this.name = name;
+        this.phone = phone;
+        this.cpnj = cpnj;
+        this.address = address;
+    }
 
-
+    public Restaurant() {
+    }
 }
