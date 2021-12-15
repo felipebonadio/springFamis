@@ -14,6 +14,9 @@ public class Collaborator extends Person {
 	@OneToOne
 	private Address address;
 
+	@OneToOne
+	private Restaurant restaurant;
+
 	@Column(nullable = false)
 	private String role;
 

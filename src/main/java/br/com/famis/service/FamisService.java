@@ -1,9 +1,6 @@
 package br.com.famis.service;
 
-import br.com.famis.model.Address;
-import br.com.famis.model.Client;
-import br.com.famis.model.Collaborator;
-import br.com.famis.model.Consumer;
+import br.com.famis.model.*;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -34,5 +31,11 @@ public interface FamisService {
     Consumer saveConsumer(Consumer consumer) throws DataAccessException;
     Consumer updateConsumer(UUID consumerId, Consumer consumer) throws DataAccessException;
     void deleteConsumer(Consumer consumer) throws DataAccessException;
+
+    Restaurant findRestaurantById(UUID id) throws DataAccessException;
+    List<Restaurant> findAllRestaurants() throws DataAccessException;
+    Restaurant saveRestaurant(Restaurant restaurant) throws DataAccessException;
+    Restaurant updateRestaurant(UUID restaurantId, Restaurant restaurant) throws DataAccessException;
+    void deleteRestaurant(Restaurant restaurant) throws DataAccessException;
 
 }

@@ -1,13 +1,7 @@
 package br.com.famis.service;
 
-import br.com.famis.model.Address;
-import br.com.famis.model.Client;
-import br.com.famis.model.Collaborator;
-import br.com.famis.model.Consumer;
-import br.com.famis.repository.AddressRepository;
-import br.com.famis.repository.ClientRepository;
-import br.com.famis.repository.CollaboratorRepository;
-import br.com.famis.repository.ConsumerRepository;
+import br.com.famis.model.*;
+import br.com.famis.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -23,18 +17,21 @@ public class FamisServiceImpl implements FamisService{
     private ClientRepository clientRepository;
     private CollaboratorRepository collaboratorRepository;
     private ConsumerRepository consumerRepository;
+    private RestaurantRepository restaurantRepository;
 
     @Autowired
     public FamisServiceImpl(
             AddressRepository addressRepository,
             ClientRepository clientRepository,
             CollaboratorRepository collaboratorRepository,
-            ConsumerRepository consumerRepository
+            ConsumerRepository consumerRepository,
+            RestaurantRepository restaurantRepository
     ){
         this.addressRepository = addressRepository;
         this.clientRepository = clientRepository;
         this.collaboratorRepository = collaboratorRepository;
         this.consumerRepository = consumerRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     @Override
@@ -147,6 +144,7 @@ public class FamisServiceImpl implements FamisService{
         currentCollaborator.setEmail(collaborator.getEmail());
         currentCollaborator.setPassword(collaborator.getPassword());
         currentCollaborator.setPhone(collaborator.getPhone());
+        currentCollaborator.setRestaurant(collaborator.getRestaurant());
         return currentCollaborator;
     }
 
@@ -187,5 +185,42 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public void deleteConsumer(Consumer consumer) throws DataAccessException {
         consumerRepository.delete(consumer);
+    }
+
+    @Override
+    public Restaurant findRestaurantById(UUID id) throws DataAccessException {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        if (restaurant.isEmpty()) {
+            return null;
+        }
+        return restaurant.get();
+    }
+
+    @Override
+    public List<Restaurant> findAllRestaurants() throws DataAccessException {
+        return (List<Restaurant>)restaurantRepository.findAll();
+    }
+
+    @Override
+    public Restaurant saveRestaurant(Restaurant restaurant) throws DataAccessException {
+        return restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public Restaurant updateRestaurant(UUID restaurantId, Restaurant restaurant) throws DataAccessException {
+        Restaurant currentRestaurant = this.findRestaurantById(restaurantId);
+        if(currentRestaurant == null){
+            return null;
+        }
+        currentRestaurant.setName(restaurant.getName());
+        currentRestaurant.setPhone(restaurant.getPhone());
+        currentRestaurant.setAddress(restaurant.getAddress());
+        currentRestaurant.setCpnj(restaurant.getCpnj());
+        return currentRestaurant;
+    }
+
+    @Override
+    public void deleteRestaurant(Restaurant restaurant) throws DataAccessException {
+        restaurantRepository.delete(restaurant);
     }
 }
