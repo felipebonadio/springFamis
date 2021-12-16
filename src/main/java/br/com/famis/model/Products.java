@@ -27,5 +27,8 @@ public class Products {
 	private String name;
 	
 	@Column(nullable = false)
-	private BigDecimal value;		
+	private BigDecimal value;
+
+	@Column(nullable = false)
+	private String category;
 }

@@ -30,7 +30,7 @@ public class FamisApplication {
 
 			Address a3 = new Address("5656565", "Rua 2"," 708" , "Vila", "Barra", "Sp");
 			famisService.saveAddress(a3);
-			Collaborator co1 = new Collaborator("Gabriel", "Lima", "1444444", "454545454", "CAIXA", "febonadio@teste.com.br", "1244", a3, r1 );
+			Collaborator co1 = new Collaborator("Luis", "Fernando", "1444444", "454545454", "CAIXA", "febonadio@teste.com.br", "1244", a3, r1 );
 			famisService.saveCollaborator(co1);
 
 			Consumer t1 = new Consumer( "1");
