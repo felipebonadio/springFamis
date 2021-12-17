@@ -214,7 +214,7 @@ public class FamisServiceImpl implements FamisService{
         }
         currentRestaurant.setName(restaurant.getName());
         currentRestaurant.setPhone(restaurant.getPhone());
-        currentRestaurant.setCpnj(restaurant.getCpnj());
+        currentRestaurant.setCnpj(restaurant.getCnpj());
         currentRestaurant.setAddress(restaurant.getAddress());
         return currentRestaurant;
     }

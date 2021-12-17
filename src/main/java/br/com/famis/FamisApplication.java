@@ -26,9 +26,6 @@ public class FamisApplication {
 
 			DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-
-			SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-
 			Address a1 = new Address("284124", "Rua 1", "500", "Vila", "Barra", "Sp");
 			famisService.saveAddress(a1);
 			Client c1 = new Client("Felipe", "Bonadio", "1444444", "454545454", a1);
@@ -46,10 +43,7 @@ public class FamisApplication {
 
 			Consumer t1 = new Consumer( "1");
 			famisService.saveConsumer(t1);
-
-
 			};
-		};
-
+		}
 	}
 
