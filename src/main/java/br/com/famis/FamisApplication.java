@@ -6,6 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @SpringBootApplication
 public class FamisApplication {
@@ -18,6 +24,11 @@ public class FamisApplication {
 	public CommandLineRunner demo(FamisService famisService) {
 		return (args) -> {
 
+			DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+
+			SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+
 			Address a1 = new Address("284124", "Rua 1", "500", "Vila", "Barra", "Sp");
 			famisService.saveAddress(a1);
 			Client c1 = new Client("Felipe", "Bonadio", "1444444", "454545454", a1);
@@ -25,7 +36,7 @@ public class FamisApplication {
 
 			Address a2 = new Address("548745", "Rua 5", "698", "Bairro", "Bonita", "Rj");
 			famisService.saveAddress(a2);
-			Restaurant r1 = new Restaurant("Restaurante", "145556974", "0001254562", a2);
+			Restaurant r1 = new Restaurant("Restaurante", "145556974", "0001254562","20", LocalTime.parse("18:00",hourFormatter), LocalTime.parse("24:00",hourFormatter), a2);
 			famisService.saveRestaurant(r1);
 
 			Address a3 = new Address("5656565", "Rua 2"," 708" , "Vila", "Barra", "Sp");
