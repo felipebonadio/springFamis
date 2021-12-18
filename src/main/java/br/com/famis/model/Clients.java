@@ -7,22 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 
 @Data
 @Entity
-public class Client extends Person {
+public class Clients extends Person {
 
 	@OneToMany		
 	private List<Address> addresses = new ArrayList<Address>();
 
-	public Client(String name, String lastName, String phone, String cpf, Address address) {
+	public Clients(String name, String lastName, String phone, String cpf, Address address) {
 		super(name, lastName, phone, cpf);
 		this.addresses.add(address);
 	}
 
-	public Client() {
+	public Clients() {
 	}
 
 	public List<Address> getAddresses() {

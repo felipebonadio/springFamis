@@ -14,11 +14,11 @@ public interface FamisService {
     Address updateAddress(UUID addressId, Address address) throws DataAccessException;
     void deleteAddress(Address address) throws DataAccessException;
 
-    Client findClientById(UUID id) throws DataAccessException;
-    List<Client> findAllClients() throws DataAccessException;
-    Client saveClient(Client client) throws DataAccessException;
-    Client updateClient(UUID clientId, Client client) throws DataAccessException;
-    void deleteClient(Client client) throws DataAccessException;
+    Clients findClientById(UUID id) throws DataAccessException;
+    List<Clients> findAllClients() throws DataAccessException;
+    Clients saveClient(Clients clients) throws DataAccessException;
+    Clients updateClient(UUID clientId, Clients clients) throws DataAccessException;
+    void deleteClient(Clients clients) throws DataAccessException;
 
     Collaborator findCollaboratorById(UUID id) throws DataAccessException;
     List<Collaborator> findAllCollaborators() throws DataAccessException;

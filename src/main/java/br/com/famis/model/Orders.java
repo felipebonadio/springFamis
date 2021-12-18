@@ -40,8 +40,8 @@ public class Orders {
 	private Collaborator collaborator;		
 
 	@ManyToOne
-	@JoinColumn(name = "client_id")		
-	private Client client;
+	@JoinColumn(name = "clients_id")
+	private Clients clients;
 
 	@ManyToOne
 	@JoinColumn(name = "consumer_id")

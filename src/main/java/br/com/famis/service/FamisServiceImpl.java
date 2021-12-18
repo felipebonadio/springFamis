@@ -74,8 +74,8 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Client findClientById(UUID id) throws DataAccessException {
-        Optional<Client> client = clientRepository.findById(id);
+    public Clients findClientById(UUID id) throws DataAccessException {
+        Optional<Clients> client = clientRepository.findById(id);
         if( client.isEmpty()){
             return null;
         }
@@ -83,32 +83,32 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public List<Client> findAllClients() throws DataAccessException {
-        return (List<Client>) clientRepository.findAll();
+    public List<Clients> findAllClients() throws DataAccessException {
+        return (List<Clients>) clientRepository.findAll();
     }
 
     @Override
-    public Client saveClient(Client client) throws DataAccessException {
-        return clientRepository.save(client);
+    public Clients saveClient(Clients clients) throws DataAccessException {
+        return clientRepository.save(clients);
     }
 
     @Override
-    public Client updateClient(UUID clientId, Client client) throws DataAccessException {
-        Client currentClient = this.findClientById(clientId);
-        if(currentClient == null){
+    public Clients updateClient(UUID clientId, Clients clients) throws DataAccessException {
+        Clients currentClients = this.findClientById(clientId);
+        if(currentClients == null){
             return null;
         }
-        currentClient.setName(client.getName());
-        currentClient.setLastName(client.getLastName());
-        currentClient.setAddresses(client.getAddresses());
-        currentClient.setCpf(client.getCpf());
-        currentClient.setPhone(client.getPhone());
-        return currentClient;
+        currentClients.setName(clients.getName());
+        currentClients.setLastName(clients.getLastName());
+        currentClients.setAddresses(clients.getAddresses());
+        currentClients.setCpf(clients.getCpf());
+        currentClients.setPhone(clients.getPhone());
+        return currentClients;
     }
 
     @Override
-    public void deleteClient(Client client) throws DataAccessException {
-        clientRepository.delete(client);
+    public void deleteClient(Clients clients) throws DataAccessException {
+        clientRepository.delete(clients);
     }
 
     @Override

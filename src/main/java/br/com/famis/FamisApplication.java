@@ -6,12 +6,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @SpringBootApplication
 public class FamisApplication {
@@ -28,7 +25,7 @@ public class FamisApplication {
 
 			Address a1 = new Address("284124", "Rua 1", "500", "Vila", "Barra", "Sp");
 			famisService.saveAddress(a1);
-			Client c1 = new Client("Felipe", "Bonadio", "1444444", "454545454", a1);
+			Clients c1 = new Clients("Felipe", "Bonadio", "1444444", "454545454", a1);
 			famisService.saveClient(c1);
 
 			Address a2 = new Address("548745", "Rua 5", "698", "Bairro", "Bonita", "Rj");
