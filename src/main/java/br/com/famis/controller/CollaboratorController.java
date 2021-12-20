@@ -1,6 +1,5 @@
 package br.com.famis.controller;
 
-
 import br.com.famis.model.Collaborator;
 import br.com.famis.service.FamisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-
 
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")

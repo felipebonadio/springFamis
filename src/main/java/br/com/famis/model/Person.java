@@ -13,7 +13,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode
 @MappedSuperclass
 public abstract class Person {
 

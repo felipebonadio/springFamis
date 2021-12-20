@@ -1,6 +1,5 @@
 package br.com.famis.controller;
 
-
 import br.com.famis.model.Restaurant;
 import br.com.famis.service.FamisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +52,11 @@ public class RestaurantController {
         if(bindingResult.hasErrors() || (restaurant == null) || (restaurant.getName() == null)){
             return new ResponseEntity<Restaurant>(restaurant, HttpStatus.BAD_REQUEST);
         }
-        Restaurant updatedRestaurant = this.famisService.updateRestaurant(restaurantId, restaurant);
-        if(updatedRestaurant == null){
+        Restaurant currentRestaurant = this.famisService.updateRestaurant(restaurantId, restaurant);
+        if(currentRestaurant == null){
             return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Restaurant>(updatedRestaurant, HttpStatus.OK);
+        return new ResponseEntity<Restaurant>(currentRestaurant, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{restaurantId}", method = RequestMethod.DELETE, produces = "application/json")

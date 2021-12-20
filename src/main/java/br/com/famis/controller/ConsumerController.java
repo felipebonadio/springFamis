@@ -19,7 +19,7 @@ public class ConsumerController {
     @Autowired
     private FamisService famisService;
 
-    @RequestMapping(value= "/consumerId", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value= "/{consumerId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Consumer> getConsumer(@PathVariable("consumerId") UUID consumerId){
         Consumer consumer = this.famisService.findConsumerById(consumerId);
         if (consumer == null){

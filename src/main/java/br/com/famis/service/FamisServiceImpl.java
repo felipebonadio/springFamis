@@ -103,7 +103,7 @@ public class FamisServiceImpl implements FamisService{
         currentClients.setAddresses(clients.getAddresses());
         currentClients.setCpf(clients.getCpf());
         currentClients.setPhone(clients.getPhone());
-        return currentClients;
+        return clientRepository.save(currentClients);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class FamisServiceImpl implements FamisService{
         currentCollaborator.setPassword(collaborator.getPassword());
         currentCollaborator.setPhone(collaborator.getPhone());
         currentCollaborator.setRestaurant(collaborator.getRestaurant());
-        return currentCollaborator;
+        return collaboratorRepository.save(currentCollaborator);
     }
 
     @Override
@@ -179,7 +179,7 @@ public class FamisServiceImpl implements FamisService{
             return null;
         }
         currentConsumer.setNumber(consumer.getNumber());
-        return currentConsumer;
+        return consumerRepository.save(currentConsumer);
     }
 
     @Override
@@ -216,7 +216,11 @@ public class FamisServiceImpl implements FamisService{
         currentRestaurant.setPhone(restaurant.getPhone());
         currentRestaurant.setCnpj(restaurant.getCnpj());
         currentRestaurant.setAddress(restaurant.getAddress());
-        return currentRestaurant;
+        currentRestaurant.setConsumer(restaurant.getConsumer());
+        currentRestaurant.setOpenTime(restaurant.getOpenTime());
+        currentRestaurant.setCloseTime(restaurant.getCloseTime());
+
+        return restaurantRepository.save(currentRestaurant);
     }
 
     @Override

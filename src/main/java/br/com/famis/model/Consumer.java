@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 @Data
-@EqualsAndHashCode
 @Entity
 public class Consumer {
 
