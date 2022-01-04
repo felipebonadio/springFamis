@@ -1,4 +1,4 @@
-package br.com.famis.Dto;
+package br.com.famis.dto;
 
 import lombok.Data;
 

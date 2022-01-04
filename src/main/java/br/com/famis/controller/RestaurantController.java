@@ -2,7 +2,6 @@ package br.com.famis.controller;
 
 import br.com.famis.model.Restaurant;
 import br.com.famis.service.FamisService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,8 +15,11 @@ import java.util.UUID;
 @RequestMapping("/restaurants")
 public class RestaurantController {
 
-    @Autowired
     private FamisService famisService;
+
+    public RestaurantController( FamisService famisService){
+        this.famisService = famisService;
+    }
 
     @RequestMapping(value = "/{restaurantId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Restaurant> getRestaurant(@PathVariable("restaurantId") UUID restaurantId) {

@@ -17,9 +17,9 @@ public class Consumer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private String number;
+    private Integer number;
 
-    public Consumer(String number) {
+    public Consumer(Integer number) {
         this.number = number;
     }
 

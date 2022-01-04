@@ -1,6 +1,6 @@
 package br.com.famis.mapper;
 
-import br.com.famis.Dto.AddressDto;
+import br.com.famis.dto.AddressDto;
 import br.com.famis.model.Address;
 
 import java.util.List;

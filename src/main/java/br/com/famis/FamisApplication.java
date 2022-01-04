@@ -30,7 +30,7 @@ public class FamisApplication {
 
 			Address a2 = new Address("548745", "Rua 5", "698", "Bairro", "Bonita", "Rj");
 			famisService.saveAddress(a2);
-			Restaurant r1 = new Restaurant("Restaurante", "145556974", "0001254562","20", LocalTime.parse("18:00",hourFormatter), LocalTime.parse("24:00",hourFormatter), a2);
+			Restaurant r1 = new Restaurant("Restaurante", "145556974", "0001254562",20, LocalTime.parse("18:00",hourFormatter), LocalTime.parse("24:00",hourFormatter), a2);
 			famisService.saveRestaurant(r1);
 
 			Address a3 = new Address("5656565", "Rua 2"," 708" , "Vila", "Barra", "Sp");
@@ -38,7 +38,7 @@ public class FamisApplication {
 			Collaborator co1 = new Collaborator("Luis", "Fernando", "1444444", "454545454", "CAIXA", "febonadio@teste.com.br", "1244", a3, r1 );
 			famisService.saveCollaborator(co1);
 
-			Consumer t1 = new Consumer( "1");
+			Consumer t1 = new Consumer( 1);
 			famisService.saveConsumer(t1);
 			};
 		}

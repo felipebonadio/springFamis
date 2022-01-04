@@ -2,7 +2,6 @@ package br.com.famis.controller;
 
 import br.com.famis.model.Collaborator;
 import br.com.famis.service.FamisService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,8 +15,11 @@ import java.util.UUID;
 @RequestMapping("/collaborators")
 public class CollaboratorController {
 
-    @Autowired
     private FamisService famisService;
+
+    public CollaboratorController( FamisService famisService){
+        this.famisService = famisService;
+    }
 
     @RequestMapping(value = "/{collaboratorId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Collaborator> getCollaborator(@PathVariable("collaboratorId") UUID collaboratorId) {

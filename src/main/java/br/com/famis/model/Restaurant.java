@@ -24,7 +24,7 @@ public class Restaurant {
     private String cnpj;
 
     @Column
-    private String consumer;
+    private Integer consumer;
 
     @Column
     private LocalTime openTime;
@@ -35,7 +35,7 @@ public class Restaurant {
     @OneToOne
     private Address address;
 
-    public Restaurant(String name, String phone, String cnpj, String consumer, LocalTime openTime, LocalTime closeTime, Address address) {
+    public Restaurant(String name, String phone, String cnpj, Integer consumer, LocalTime openTime, LocalTime closeTime, Address address) {
         this.name = name;
         this.phone = phone;
         this.cnpj = cnpj;
