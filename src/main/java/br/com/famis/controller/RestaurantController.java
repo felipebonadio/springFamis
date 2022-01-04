@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class RestaurantController {
         this.famisService = famisService;
     }
 
-    @RequestMapping(value = "/{restaurantId}", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> getRestaurant(@PathVariable("restaurantId") UUID restaurantId) {
         Restaurant restaurant = this.famisService.findRestaurantById(restaurantId);
         if (restaurant == null) {
@@ -30,7 +31,7 @@ public class RestaurantController {
         return new ResponseEntity<Restaurant>(restaurant, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping
     public ResponseEntity<List<Restaurant>> getRestaurants() {
         List<Restaurant> restaurants = this.famisService.findAllRestaurants();
         if (restaurants.isEmpty()) {
@@ -38,8 +39,9 @@ public class RestaurantController {
         }
         return new ResponseEntity<List<Restaurant>>(restaurants, HttpStatus.OK);
     }
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Restaurant> saveRestaurant(@RequestBody Restaurant restaurant, BindingResult bindingResult) {
+
+    @PostMapping
+    public ResponseEntity<Restaurant> saveRestaurant(@RequestBody @Valid Restaurant restaurant, BindingResult bindingResult) {
         if(bindingResult.hasErrors() || (restaurant == null) || (restaurant.getName() == null)){
             return new ResponseEntity<Restaurant>(restaurant, HttpStatus.BAD_REQUEST);
         }
@@ -49,7 +51,7 @@ public class RestaurantController {
         return new ResponseEntity<Restaurant>(famisService.saveRestaurant(restaurant), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{restaurantId}", method = RequestMethod.PUT, produces = "application/json")
+    @PutMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> updateRestaurant(@PathVariable("restaurantId") UUID restaurantId, @RequestBody Restaurant restaurant, BindingResult bindingResult){
         if(bindingResult.hasErrors() || (restaurant == null) || (restaurant.getName() == null)){
             return new ResponseEntity<Restaurant>(restaurant, HttpStatus.BAD_REQUEST);
@@ -61,7 +63,7 @@ public class RestaurantController {
         return new ResponseEntity<Restaurant>(currentRestaurant, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{restaurantId}", method = RequestMethod.DELETE, produces = "application/json")
+    @DeleteMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> deleteById(@PathVariable("restaurantId") UUID restaurantId) {
         Restaurant restaurant = this.famisService.findRestaurantById(restaurantId);
         famisService.deleteRestaurant(restaurant);
