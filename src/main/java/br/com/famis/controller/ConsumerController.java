@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class ConsumerController {
         this.famisService = famisService;
     }
 
-    @RequestMapping(value= "/{consumerId}", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping("/{consumerId}")
     public ResponseEntity<Consumer> getConsumer(@PathVariable("consumerId") UUID consumerId){
         Consumer consumer = this.famisService.findConsumerById(consumerId);
         if (consumer == null){
@@ -30,7 +31,7 @@ public class ConsumerController {
         return new ResponseEntity<Consumer>(consumer, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping
     public ResponseEntity<List<Consumer>> getConsumers(){
         List<Consumer> consumers = famisService.findAllConsumers();
         if(consumers.isEmpty()){
@@ -39,15 +40,15 @@ public class ConsumerController {
         return new ResponseEntity<List<Consumer>>(consumers, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Consumer> saveConsumer(@RequestBody Consumer consumer, BindingResult bindingResult) {
+    @PostMapping
+    public ResponseEntity<Consumer> saveConsumer(@RequestBody @Valid Consumer consumer, BindingResult bindingResult) {
         if(bindingResult.hasErrors() || (consumer == null) || (consumer.getNumber() == null)){
             return new ResponseEntity<Consumer>(consumer, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Consumer>(famisService.saveConsumer(consumer), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/consumerId", method = RequestMethod.PUT, produces = "application/json")
+    @PutMapping("/{consumerId}")
     public ResponseEntity<Consumer> updateConsumer(@PathVariable("consumerId") UUID consumerId, @RequestBody Consumer consumer, BindingResult bindingResult){
         if(bindingResult.hasErrors() || (consumer == null) || (consumer.getNumber() == null)){
             return new ResponseEntity<Consumer>(consumer, HttpStatus.BAD_REQUEST);
@@ -60,7 +61,7 @@ public class ConsumerController {
         return new ResponseEntity<Consumer>(updatedConsumer, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/consumerId", method = RequestMethod.DELETE, produces = "application/json")
+    @DeleteMapping("/{consumerId}")
     public ResponseEntity<Consumer> deleteById(@PathVariable("consumerId") UUID consumerId) {
         Consumer consumer = this.famisService.findConsumerById(consumerId);
         famisService.deleteConsumer(consumer);
