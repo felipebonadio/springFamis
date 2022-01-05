@@ -4,6 +4,7 @@ package br.com.famis.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -11,19 +12,24 @@ import lombok.Data;
 @Entity
 public class Collaborator extends Person {
 
+	@NotNull
 	@OneToOne
 	private Address address;
 
+	@NotNull
 	@OneToOne
 	private Restaurant restaurant;
 
-	@Column(nullable = false)
+	@NotNull
+	@Column
 	private String role;
 
-	@Column(nullable = false)
+	@NotNull
+	@Column
 	private String email;
 
-	@Column(nullable = false)
+	@NotNull
+	@Column
 	private String password;
 
 	public Collaborator(String name, String lastName, String phone, String cpf, String role, String email, String password, Address address, Restaurant restaurant) {

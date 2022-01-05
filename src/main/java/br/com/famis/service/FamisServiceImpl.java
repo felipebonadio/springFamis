@@ -1,5 +1,6 @@
 package br.com.famis.service;
 
+import br.com.famis.exceptions.IdNotFoundException;
 import br.com.famis.model.*;
 import br.com.famis.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,12 +113,8 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Collaborator findCollaboratorById(UUID id) throws DataAccessException {
-        Optional<Collaborator> collaborator = collaboratorRepository.findById(id);
-        if( collaborator.isEmpty()){
-            return null;
-        }
-        return collaborator.get();
+    public Optional<Collaborator> findCollaboratorById(UUID id) throws IdNotFoundException {
+      return collaboratorRepository.findById(id);
     }
 
     @Override
@@ -132,20 +129,20 @@ public class FamisServiceImpl implements FamisService{
 
     @Override
     public Collaborator updateCollaborator(UUID collaboratorId, Collaborator collaborator) throws DataAccessException {
-        Collaborator currentCollaborator = this.findCollaboratorById(collaboratorId);
-        if(currentCollaborator == null){
-            return null;
+        Optional<Collaborator> currentCollaborator = this.findCollaboratorById(collaboratorId);
+        if(currentCollaborator.isPresent()){
+                currentCollaborator.get().setName(collaborator.getName());
+                currentCollaborator.get().setLastName(collaborator.getLastName());
+                currentCollaborator.get().setAddress(collaborator.getAddress());
+                currentCollaborator.get().setCpf(collaborator.getCpf());
+                currentCollaborator.get().setRole(collaborator.getRole());
+                currentCollaborator.get().setEmail(collaborator.getEmail());
+                currentCollaborator.get().setPassword(collaborator.getPassword());
+                currentCollaborator.get().setPhone(collaborator.getPhone());
+                currentCollaborator.get().setRestaurant(collaborator.getRestaurant());
+                return collaboratorRepository.save(currentCollaborator.get());
         }
-        currentCollaborator.setName(collaborator.getName());
-        currentCollaborator.setLastName(collaborator.getLastName());
-        currentCollaborator.setAddress(collaborator.getAddress());
-        currentCollaborator.setCpf(collaborator.getCpf());
-        currentCollaborator.setRole(collaborator.getRole());
-        currentCollaborator.setEmail(collaborator.getEmail());
-        currentCollaborator.setPassword(collaborator.getPassword());
-        currentCollaborator.setPhone(collaborator.getPhone());
-        currentCollaborator.setRestaurant(collaborator.getRestaurant());
-        return collaboratorRepository.save(currentCollaborator);
+        return null;
     }
 
     @Override

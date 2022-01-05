@@ -1,5 +1,6 @@
 package br.com.famis.controller;
 
+import br.com.famis.exceptions.IdNotFoundException;
 import br.com.famis.model.Collaborator;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -16,60 +18,60 @@ import java.util.UUID;
 @RequestMapping("/collaborators")
 public class CollaboratorController {
 
-    private FamisService famisService;
+    private final FamisService famisService;
 
-    public CollaboratorController( FamisService famisService){
+    public CollaboratorController(FamisService famisService){
         this.famisService = famisService;
     }
 
     @GetMapping("/{collaboratorId}")
-    public ResponseEntity<Collaborator> getCollaborator(@PathVariable("collaboratorId") UUID collaboratorId) {
-        Collaborator collaborator = this.famisService.findCollaboratorById(collaboratorId);
-        if (collaborator == null) {
-            return new ResponseEntity<Collaborator>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Collaborator> getCollaborator(@PathVariable UUID collaboratorId) throws IdNotFoundException {
+        Optional<Collaborator> collaborator = famisService.findCollaboratorById(collaboratorId);
+        if (collaborator.isPresent()) {
+            return new ResponseEntity<>(collaborator.get(), HttpStatus.OK);
         }
-        return new ResponseEntity<Collaborator>(collaborator, HttpStatus.OK);
+        throw new IdNotFoundException("Id não encontrada");
     }
 
     @GetMapping
     public ResponseEntity<List<Collaborator>> getCollaborators() {
         List<Collaborator> collaborators = this.famisService.findAllCollaborators();
         if (collaborators.isEmpty()) {
-            return new ResponseEntity<List<Collaborator>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Collaborator>>(collaborators, HttpStatus.OK);
+        return new ResponseEntity<>(collaborators, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Collaborator> saveCollaborator(@RequestBody @Valid Collaborator collaborator, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (collaborator == null) || (collaborator.getName() == null)){
-            return new ResponseEntity<Collaborator>(collaborator, HttpStatus.BAD_REQUEST);
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(collaborator, HttpStatus.BAD_REQUEST);
         }
         if(collaborator.getAddress() != null){
             famisService.saveAddress(collaborator.getAddress());
         }
-        return new ResponseEntity<Collaborator>(famisService.saveCollaborator(collaborator), HttpStatus.CREATED);
+        return new ResponseEntity<>(famisService.saveCollaborator(collaborator), HttpStatus.CREATED);
     }
 
     @PutMapping("/{collaboratorId}")
-    public ResponseEntity<Collaborator> updateCollaborator(@PathVariable("collaboratorId") UUID collaboratorId, @RequestBody Collaborator collaborator, BindingResult bindingResult){
+    public ResponseEntity<Collaborator> updateCollaborator(@PathVariable UUID collaboratorId, @RequestBody Collaborator collaborator, BindingResult bindingResult){
         if(bindingResult.hasErrors() || (collaborator == null) || (collaborator.getName() == null)){
-            return new ResponseEntity<Collaborator>(collaborator, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(collaborator, HttpStatus.BAD_REQUEST);
         }
         Collaborator updatedCollaborator = this.famisService.updateCollaborator(collaboratorId, collaborator);
         if(updatedCollaborator == null){
-            return new ResponseEntity<Collaborator>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Collaborator>(updatedCollaborator, HttpStatus.OK);
+        return new ResponseEntity<>(updatedCollaborator, HttpStatus.OK);
     }
 
     @DeleteMapping("/{collaboratorId}")
-    public ResponseEntity<Collaborator> deleteById(@PathVariable("collaboratorId") UUID collaboratorId) {
-        Collaborator collaborator = this.famisService.findCollaboratorById(collaboratorId);
-        famisService.deleteCollaborator(collaborator);
-        if (collaborator == null) {
-            return new ResponseEntity<Collaborator>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Collaborator> deleteById(@PathVariable UUID collaboratorId) {
+        Optional<Collaborator> collaborator = this.famisService.findCollaboratorById(collaboratorId);
+        if (collaborator.isPresent()) {
+            famisService.deleteCollaborator(collaborator.get());
+            return new ResponseEntity<>(collaborator.get(), HttpStatus.OK);
         }
-        return new ResponseEntity<Collaborator>(collaborator, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

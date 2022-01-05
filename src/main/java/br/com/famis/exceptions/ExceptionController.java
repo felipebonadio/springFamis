@@ -11,8 +11,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(IdNotFound.class)
-    public ResponseEntity<Object> handleAnyException(IdNotFound e, WebRequest request){
+    @ExceptionHandler(IdNotFoundException.class)
+    public ResponseEntity<Object> handleAnyException(IdNotFoundException e, WebRequest request){
         String message = "Id não encontrado";
         return handleExceptionInternal(e, message, HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request);
     }
