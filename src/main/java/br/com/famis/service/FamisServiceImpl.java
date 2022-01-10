@@ -1,6 +1,5 @@
 package br.com.famis.service;
 
-import br.com.famis.exceptions.IdNotFoundException;
 import br.com.famis.model.*;
 import br.com.famis.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +112,7 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Optional<Collaborator> findCollaboratorById(UUID id) throws IdNotFoundException {
+    public Optional<Collaborator> findCollaboratorById(UUID id){
       return collaboratorRepository.findById(id);
     }
 
@@ -128,8 +127,8 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Collaborator updateCollaborator(UUID collaboratorId, Collaborator collaborator) throws DataAccessException {
-        Optional<Collaborator> currentCollaborator = this.findCollaboratorById(collaboratorId);
+    public Collaborator updateCollaborator(Collaborator collaborator) throws DataAccessException {
+        Optional<Collaborator> currentCollaborator = this.findCollaboratorById(collaborator.getId());
         if(currentCollaborator.isPresent()){
                 currentCollaborator.get().setName(collaborator.getName());
                 currentCollaborator.get().setLastName(collaborator.getLastName());

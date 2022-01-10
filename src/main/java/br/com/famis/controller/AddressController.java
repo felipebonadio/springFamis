@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/addresses")
 public class AddressController {
 
-    private FamisService famisService;
+    private final FamisService famisService;
 
     public AddressController (FamisService famisService){
         this.famisService = famisService;
@@ -26,7 +26,7 @@ public class AddressController {
     public ResponseEntity<Address> getAdress(@PathVariable("addressId") UUID addressId){
         Address address = this.famisService.findAddressById(addressId);
         if(address == null){
-            return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
+           return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<Address>(address, HttpStatus.OK);
     }

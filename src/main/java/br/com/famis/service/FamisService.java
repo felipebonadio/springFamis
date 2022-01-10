@@ -24,7 +24,7 @@ public interface FamisService {
     Optional<Collaborator> findCollaboratorById(UUID id) throws DataAccessException;
     List<Collaborator> findAllCollaborators() throws DataAccessException;
     Collaborator saveCollaborator(Collaborator collaborator) throws DataAccessException;
-    Collaborator updateCollaborator(UUID collaboratorId, Collaborator collaborator) throws DataAccessException;
+    Collaborator updateCollaborator(Collaborator collaborator) throws DataAccessException;
     void deleteCollaborator(Collaborator collaborator) throws DataAccessException;
 
     Consumer findConsumerById(UUID id) throws DataAccessException;
