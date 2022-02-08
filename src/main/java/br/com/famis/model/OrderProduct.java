@@ -10,14 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class OrderProduct {
 	
 	@Id
@@ -26,7 +23,7 @@ public class OrderProduct {
 	
 	@ManyToOne
     @JoinColumn(name = "products_id")	
-	private Products products;
+	private Product product;
 	
 	@ManyToOne
 	@JoinColumn(name = "order_id")
@@ -34,4 +31,12 @@ public class OrderProduct {
 
 	@Column(nullable = false)
 	private Integer quantity;
+
+	public OrderProduct(Product product, Orders order, Integer quantity){
+		this.product = product;
+		this.order = order;
+		this.quantity = quantity;
+	}
+
+	public OrderProduct(){}
 }

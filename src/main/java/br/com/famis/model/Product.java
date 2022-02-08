@@ -1,6 +1,5 @@
 package br.com.famis.model;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -9,15 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Products {
+public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,8 +22,17 @@ public class Products {
 	private String name;
 	
 	@Column(nullable = false)
-	private BigDecimal value;
+	private Double value;
 
 	@Column(nullable = false)
 	private String category;
+
+	public Product(String name, Double value, String category){
+		this.name = name;
+		this.value = value;
+		this.category = category;
+	}
+
+	public Product(){
+	}
 }

@@ -10,7 +10,6 @@ import javax.persistence.MappedSuperclass;
 
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @MappedSuperclass

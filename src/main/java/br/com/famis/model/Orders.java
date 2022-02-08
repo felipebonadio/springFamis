@@ -1,7 +1,6 @@
 package br.com.famis.model;
 
 import java.util.UUID;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -12,14 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class Orders {
 
 	@Id
@@ -33,7 +30,7 @@ public class Orders {
 	private Status status;
 	
 	@Column(nullable = false)
-	private BigDecimal discount;
+	private Double discount;
 	
 	@ManyToOne
     @JoinColumn(name = "collaborator_id")	
@@ -41,9 +38,22 @@ public class Orders {
 
 	@ManyToOne
 	@JoinColumn(name = "clients_id")
-	private Clients clients;
+	private Clients client;
 
 	@ManyToOne
 	@JoinColumn(name = "consumer_id")
 	private Consumer consumer;
+
+	public Orders(LocalDateTime date, Status status, Double discount, Collaborator collaborator, Clients client, Consumer consumer){
+		this.date = date;
+		this.status = status;
+		this.discount = discount;
+		this.collaborator = collaborator;
+		this.client = client;
+		this.consumer = consumer;
+	}
+
+	public Orders(){
+
+	}
 }
