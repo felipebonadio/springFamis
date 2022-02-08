@@ -1,5 +1,6 @@
 package br.com.famis.controller;
 
+import br.com.famis.model.Clients;
 import br.com.famis.model.Restaurant;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -16,7 +18,7 @@ import java.util.UUID;
 @RequestMapping("/restaurants")
 public class RestaurantController {
 
-    private FamisService famisService;
+    private final FamisService famisService;
 
     public RestaurantController( FamisService famisService){
         this.famisService = famisService;
@@ -24,53 +26,49 @@ public class RestaurantController {
 
     @GetMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> getRestaurant(@PathVariable("restaurantId") UUID restaurantId) {
-        Restaurant restaurant = this.famisService.findRestaurantById(restaurantId);
-        if (restaurant == null) {
-            return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Restaurant>(restaurant, HttpStatus.OK);
+        Optional<Restaurant> restaurant = this.famisService.findRestaurantById(restaurantId);
+        return restaurant.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<Restaurant>> getRestaurants() {
         List<Restaurant> restaurants = this.famisService.findAllRestaurants();
         if (restaurants.isEmpty()) {
-            return new ResponseEntity<List<Restaurant>>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<List<Restaurant>>(restaurants, HttpStatus.OK);
+        return ResponseEntity.ok(restaurants);
     }
 
     @PostMapping
     public ResponseEntity<Restaurant> saveRestaurant(@RequestBody @Valid Restaurant restaurant, BindingResult bindingResult) {
         if(bindingResult.hasErrors() || (restaurant == null) || (restaurant.getName() == null)){
-            return new ResponseEntity<Restaurant>(restaurant, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
         if(restaurant.getAddress() != null){
             famisService.saveAddress(restaurant.getAddress());
         }
-        return new ResponseEntity<Restaurant>(famisService.saveRestaurant(restaurant), HttpStatus.CREATED);
+        return new ResponseEntity<>(famisService.saveRestaurant(restaurant), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{restaurantId}")
-    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable("restaurantId") UUID restaurantId, @RequestBody Restaurant restaurant, BindingResult bindingResult){
+    @PutMapping
+    public ResponseEntity<Restaurant> updateRestaurant(@RequestBody Restaurant restaurant, BindingResult bindingResult){
         if(bindingResult.hasErrors() || (restaurant == null) || (restaurant.getName() == null)){
-            return new ResponseEntity<Restaurant>(restaurant, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
-        Restaurant currentRestaurant = this.famisService.updateRestaurant(restaurantId, restaurant);
-        if(currentRestaurant == null){
-            return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Restaurant>(currentRestaurant, HttpStatus.OK);
+        Optional<Restaurant> updatedRestaurant = this.famisService.updateRestaurant(restaurant);
+        return updatedRestaurant.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/{restaurantId}")
-    public ResponseEntity<Restaurant> deleteById(@PathVariable("restaurantId") UUID restaurantId) {
-        Restaurant restaurant = this.famisService.findRestaurantById(restaurantId);
-        famisService.deleteRestaurant(restaurant);
-        if (restaurantId == null) {
-            return new ResponseEntity<Restaurant>(HttpStatus.NOT_FOUND);
+    @DeleteMapping
+    public ResponseEntity<Restaurant> deleteById(Restaurant restaurant) {
+        Optional<Restaurant> deletedRestaurant = this.famisService.findRestaurantById(restaurant.getId());
+        if (deletedRestaurant.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<Restaurant>(restaurant, HttpStatus.OK);
+        famisService.deleteRestaurant(restaurant);
+        return ResponseEntity.ok(deletedRestaurant.get());
     }
 }
 

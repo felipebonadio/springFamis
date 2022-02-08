@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -24,50 +25,46 @@ public class AddressController {
 
     @GetMapping("/{addressId}")
     public ResponseEntity<Address> getAdress(@PathVariable("addressId") UUID addressId){
-        Address address = this.famisService.findAddressById(addressId);
-        if(address == null){
-           return ResponseEntity.notFound().build();
-        }
-        return new ResponseEntity<Address>(address, HttpStatus.OK);
+        Optional<Address> address = this.famisService.findAddressById(addressId);
+        return address.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<Address>> getAddresses(){
         List<Address> addresses = this.famisService.findAllAddresses();
         if(addresses.isEmpty()){
-            return new ResponseEntity<List<Address>>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<List<Address>>(addresses, HttpStatus.OK);
+        return ResponseEntity.ok(addresses);
     }
 
     @PostMapping
     public ResponseEntity<Address> saveAddress(@RequestBody @Valid  Address address, BindingResult bindingResult) {
         if(bindingResult.hasErrors() || (address == null) || (address.getCep() == null)){
-            return new ResponseEntity<Address>(address, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<Address>(famisService.saveAddress(address), HttpStatus.CREATED);
+        return new ResponseEntity<>(famisService.saveAddress(address), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{addressId}")
-    public ResponseEntity<Address> updateAddress(@PathVariable("addressId") UUID addressId, @RequestBody Address address, BindingResult bindingResult){
+    @PutMapping
+    public ResponseEntity<Address> updateAddress(@RequestBody Address address, BindingResult bindingResult){
         if(bindingResult.hasErrors() || (address == null) || (address.getCep() == null)){
-            return new ResponseEntity<Address>(address, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
-        Address updatedAddress = this.famisService.updateAddress(addressId, address);
-
-        if(updatedAddress == null){
-            return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Address>(updatedAddress, HttpStatus.OK);
+        Optional<Address> updatedAddress = this.famisService.updateAddress(address);
+        return updatedAddress.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/{addressId}")
-    public ResponseEntity<Address> deleteById(@PathVariable("addressId") UUID addressId) {
-        Address address = this.famisService.findAddressById(addressId);
-        famisService.deleteAddress(address);
-        if (address == null) {
-            return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
+    @DeleteMapping
+    public ResponseEntity<Address> deleteById(Address address) {
+        Optional<Address> deletedAddress = this.famisService.findAddressById(address.getId());
+        if (deletedAddress.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<Address>(address, HttpStatus.OK);
+        famisService.deleteAddress(deletedAddress.get());
+        return ResponseEntity.ok(deletedAddress.get());
+
     }
 }

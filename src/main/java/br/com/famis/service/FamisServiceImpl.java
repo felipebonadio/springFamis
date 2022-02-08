@@ -18,6 +18,7 @@ public class FamisServiceImpl implements FamisService{
     private CollaboratorRepository collaboratorRepository;
     private ConsumerRepository consumerRepository;
     private RestaurantRepository restaurantRepository;
+    private ProductRepository productRepository;
 
     @Autowired
     public FamisServiceImpl(
@@ -25,22 +26,20 @@ public class FamisServiceImpl implements FamisService{
             ClientRepository clientRepository,
             CollaboratorRepository collaboratorRepository,
             ConsumerRepository consumerRepository,
-            RestaurantRepository restaurantRepository
+            RestaurantRepository restaurantRepository,
+            ProductRepository productRepository
     ){
         this.addressRepository = addressRepository;
         this.clientRepository = clientRepository;
         this.collaboratorRepository = collaboratorRepository;
         this.consumerRepository = consumerRepository;
         this.restaurantRepository = restaurantRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
-    public Address findAddressById(UUID id) throws DataAccessException {
-        Optional<Address> adress = addressRepository.findById(id);
-        if (adress.isEmpty()) {
-            return null;
-        }
-        return adress.get();
+    public Optional<Address> findAddressById(UUID id) throws DataAccessException {
+        return addressRepository.findById(id);
     }
 
     @Override
@@ -54,18 +53,18 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Address updateAddress(UUID addressId, Address address) throws DataAccessException {
-       Address currentAddress = new Address();
-       if (currentAddress == null){
-           return null;
+    public Optional<Address> updateAddress(Address address) throws DataAccessException {
+       Optional<Address> currentAddress = addressRepository.findById(address.getId());
+       if (currentAddress.isPresent()){
+           currentAddress.get().setCep(address.getCep());
+           currentAddress.get().setPlace(address.getPlace());
+           currentAddress.get().setNumber(address.getNumber());
+           currentAddress.get().setDistrict(address.getDistrict());
+           currentAddress.get().setCity(address.getCity());
+           currentAddress.get().setState(address.getState());
+           return Optional.of(addressRepository.save(currentAddress.get()));
        }
-       currentAddress.setCep(address.getCep());
-       currentAddress.setPlace(address.getPlace());
-       currentAddress.setNumber(address.getNumber());
-       currentAddress.setDistrict(address.getDistrict());
-       currentAddress.setCity(address.getCity());
-       currentAddress.setState(address.getState());
-       return addressRepository.save(currentAddress);
+        return Optional.empty();
     }
 
     @Override
@@ -74,12 +73,9 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Clients findClientById(UUID id) throws DataAccessException {
-        Optional<Clients> client = clientRepository.findById(id);
-        if( client.isEmpty()){
-            return null;
-        }
-        return client.get();
+    public Optional<Clients> findClientById(UUID id) throws DataAccessException {
+        return clientRepository.findById(id);
+
     }
 
     @Override
@@ -93,17 +89,17 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Clients updateClient(UUID clientId, Clients clients) throws DataAccessException {
-        Clients currentClients = this.findClientById(clientId);
-        if(currentClients == null){
-            return null;
+    public Optional<Clients> updateClient(Clients clients) throws DataAccessException {
+        Optional<Clients> currentClients = this.findClientById(clients.getId());
+        if(currentClients.isPresent()){
+            currentClients.get().setName(clients.getName());
+            currentClients.get().setLastName(clients.getLastName());
+            currentClients.get().setAddresses(clients.getAddresses());
+            currentClients.get().setCpf(clients.getCpf());
+            currentClients.get().setPhone(clients.getPhone());
+            return Optional.of(clientRepository.save(currentClients.get()));
         }
-        currentClients.setName(clients.getName());
-        currentClients.setLastName(clients.getLastName());
-        currentClients.setAddresses(clients.getAddresses());
-        currentClients.setCpf(clients.getCpf());
-        currentClients.setPhone(clients.getPhone());
-        return clientRepository.save(currentClients);
+        return Optional.empty();
     }
 
     @Override
@@ -127,7 +123,7 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Collaborator updateCollaborator(Collaborator collaborator) throws DataAccessException {
+    public Optional<Collaborator> updateCollaborator(Collaborator collaborator) throws DataAccessException {
         Optional<Collaborator> currentCollaborator = this.findCollaboratorById(collaborator.getId());
         if(currentCollaborator.isPresent()){
                 currentCollaborator.get().setName(collaborator.getName());
@@ -139,9 +135,9 @@ public class FamisServiceImpl implements FamisService{
                 currentCollaborator.get().setPassword(collaborator.getPassword());
                 currentCollaborator.get().setPhone(collaborator.getPhone());
                 currentCollaborator.get().setRestaurant(collaborator.getRestaurant());
-                return collaboratorRepository.save(currentCollaborator.get());
+            return Optional.of(collaboratorRepository.save(currentCollaborator.get()));
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -150,12 +146,8 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Consumer findConsumerById(UUID id) throws DataAccessException {
-        Optional<Consumer> consumer = consumerRepository.findById(id);
-        if(consumer.isEmpty()){
-            return null;
-        }
-        return consumer.get();
+    public Optional<Consumer> findConsumerById(UUID id) throws DataAccessException {
+        return consumerRepository.findById(id);
     }
 
     @Override
@@ -169,13 +161,13 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Consumer updateConsumer(UUID consumerId, Consumer consumer) throws DataAccessException {
-        Consumer currentConsumer = new Consumer();
-        if(currentConsumer == null){
-            return null;
+    public Optional<Consumer> updateConsumer(Consumer consumer) throws DataAccessException {
+        Optional<Consumer> currentConsumer = consumerRepository.findById(consumer.getId());
+        if(currentConsumer.isPresent()){
+            currentConsumer.get().setNumber(consumer.getNumber());
+            return Optional.of(consumerRepository.save(currentConsumer.get()));
         }
-        currentConsumer.setNumber(consumer.getNumber());
-        return consumerRepository.save(currentConsumer);
+        return Optional.empty();
     }
 
     @Override
@@ -184,12 +176,8 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Restaurant findRestaurantById(UUID id) throws DataAccessException {
-        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-        if (restaurant.isEmpty()) {
-            return null;
-        }
-        return restaurant.get();
+    public Optional<Restaurant> findRestaurantById(UUID id) throws DataAccessException {
+        return restaurantRepository.findById(id);
     }
 
     @Override
@@ -203,24 +191,55 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Restaurant updateRestaurant(UUID restaurantId, Restaurant restaurant) throws DataAccessException {
-        Restaurant currentRestaurant = this.findRestaurantById(restaurantId);
-        if(currentRestaurant == null){
-            return null;
+    public Optional<Restaurant> updateRestaurant(Restaurant restaurant) throws DataAccessException {
+        Optional<Restaurant> currentRestaurant = this.findRestaurantById(restaurant.getId());
+        if(currentRestaurant.isPresent()){
+            currentRestaurant.get().setName(restaurant.getName());
+            currentRestaurant.get().setPhone(restaurant.getPhone());
+            currentRestaurant.get().setCnpj(restaurant.getCnpj());
+            currentRestaurant.get().setAddress(restaurant.getAddress());
+            currentRestaurant.get().setConsumer(restaurant.getConsumer());
+            currentRestaurant.get().setOpenTime(restaurant.getOpenTime());
+            currentRestaurant.get().setCloseTime(restaurant.getCloseTime());
+            return Optional.of(restaurantRepository.save(currentRestaurant.get()));
         }
-        currentRestaurant.setName(restaurant.getName());
-        currentRestaurant.setPhone(restaurant.getPhone());
-        currentRestaurant.setCnpj(restaurant.getCnpj());
-        currentRestaurant.setAddress(restaurant.getAddress());
-        currentRestaurant.setConsumer(restaurant.getConsumer());
-        currentRestaurant.setOpenTime(restaurant.getOpenTime());
-        currentRestaurant.setCloseTime(restaurant.getCloseTime());
-
-        return restaurantRepository.save(currentRestaurant);
+        return Optional.empty();
     }
 
     @Override
     public void deleteRestaurant(Restaurant restaurant) throws DataAccessException {
         restaurantRepository.delete(restaurant);
+    }
+
+    @Override
+    public Optional<Product> findProductById(UUID id) throws DataAccessException {
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public List<Product> findAllProducts() throws DataAccessException {
+        return (List<Product>) productRepository.findAll();
+    }
+
+    @Override
+    public Product saveProduct(Product product) throws DataAccessException {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Optional<Product> updateProduct(Product product) throws DataAccessException {
+        Optional<Product> currentProduct = productRepository.findById(product.getId());
+        if(currentProduct.isPresent()) {
+            currentProduct.get().setName(product.getName());
+            currentProduct.get().setCategory(product.getCategory());
+            currentProduct.get().setValue(product.getValue());
+            return Optional.of(productRepository.save(currentProduct.get()));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteProduct(Product product) throws DataAccessException {
+        productRepository.delete(product);
     }
 }

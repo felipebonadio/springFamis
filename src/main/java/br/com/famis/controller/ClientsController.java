@@ -1,6 +1,7 @@
 package br.com.famis.controller;
 
 import br.com.famis.model.Clients;
+import br.com.famis.model.Consumer;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -16,58 +18,53 @@ import java.util.UUID;
 @RequestMapping("/clients")
 public class ClientsController {
 
-    private FamisService famisService;
+    private final FamisService famisService;
 
-    public ClientsController( FamisService famisService){
+    public ClientsController(FamisService famisService) {
         this.famisService = famisService;
     }
 
     @GetMapping("/{clientsId}")
-    public ResponseEntity<Clients> getClient(@PathVariable("clientsId") UUID clientId){
-        Clients clients = this.famisService.findClientById(clientId);
-        if(clients == null){
-            return new ResponseEntity<Clients>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Clients>(clients, HttpStatus.OK);
+    public ResponseEntity<Clients> getClient(@PathVariable("clientsId") UUID clientId) {
+        Optional<Clients> client = this.famisService.findClientById(clientId);
+        return client.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Clients>> getClients(){
+    public ResponseEntity<List<Clients>> getClients() {
         List<Clients> clients = this.famisService.findAllClients();
-        if(clients.isEmpty()){
-            return new ResponseEntity<List<Clients>>(HttpStatus.NOT_FOUND);
+        if (clients.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<List<Clients>>(clients, HttpStatus.OK);
+        return ResponseEntity.ok(clients);
     }
 
     @PostMapping
     public ResponseEntity<Clients> saveClient(@RequestBody @Valid Clients clients, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (clients == null) || (clients.getName() == null)){
-            return new ResponseEntity<Clients>(clients, HttpStatus.BAD_REQUEST);
+        if (bindingResult.hasErrors() || (clients == null) || (clients.getName() == null)) {
+            return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<Clients>(famisService.saveClient(clients), HttpStatus.CREATED);
+        return new ResponseEntity<>(famisService.saveClient(clients), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{clientId}")
-    public ResponseEntity<Clients> updateClient(@PathVariable("clientId") UUID clientId, @RequestBody Clients clients, BindingResult bindingResult){
-        if(bindingResult.hasErrors() || (clients == null) || (clients.getName() == null)){
-            return new ResponseEntity<Clients>(clients, HttpStatus.BAD_REQUEST);
+    @PutMapping
+    public ResponseEntity<Clients> updateClient(@RequestBody Clients client, BindingResult bindingResult) {
+        if (bindingResult.hasErrors() || (client == null) || (client.getName() == null)) {
+            return ResponseEntity.badRequest().build();
         }
-        Clients updatedClients = this.famisService.updateClient(clientId, clients);
-
-        if(updatedClients == null){
-            return new ResponseEntity<Clients>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Clients>(updatedClients, HttpStatus.OK);
+        Optional<Clients> updatedConsumer = this.famisService.updateClient(client);
+        return updatedConsumer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/{clientId}")
-    public ResponseEntity<Clients> deleteById(@PathVariable("clientId") UUID clientId) {
-        Clients clients = this.famisService.findClientById(clientId);
-        famisService.deleteClient(clients);
-        if (clients == null) {
-            return new ResponseEntity<Clients>(HttpStatus.NOT_FOUND);
+    @DeleteMapping
+    public ResponseEntity<Clients> deleteById(Clients client) {
+        Optional<Clients> deletedClient = this.famisService.findClientById(client.getId());
+        if (deletedClient.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Clients>(clients, HttpStatus.OK);
+        deletedClient.ifPresent(this.famisService::deleteClient);
+        return ResponseEntity.ok(deletedClient.get());
     }
 }

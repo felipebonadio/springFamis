@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -16,7 +17,7 @@ import java.util.UUID;
 @RequestMapping("/consumers")
 public class ConsumerController {
 
-    private FamisService famisService;
+    private final FamisService famisService;
 
     public ConsumerController( FamisService famisService){
         this.famisService = famisService;
@@ -24,50 +25,45 @@ public class ConsumerController {
 
     @GetMapping("/{consumerId}")
     public ResponseEntity<Consumer> getConsumer(@PathVariable("consumerId") UUID consumerId){
-        Consumer consumer = this.famisService.findConsumerById(consumerId);
-        if (consumer == null){
-            return new ResponseEntity<Consumer>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Consumer>(consumer, HttpStatus.OK);
+        Optional<Consumer> consumer = this.famisService.findConsumerById(consumerId);
+        return consumer.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<Consumer>> getConsumers(){
         List<Consumer> consumers = famisService.findAllConsumers();
         if(consumers.isEmpty()){
-            return new ResponseEntity<List<Consumer>>( HttpStatus.NOT_FOUND );
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<List<Consumer>>(consumers, HttpStatus.OK);
+        return ResponseEntity.ok(consumers);
     }
 
     @PostMapping
     public ResponseEntity<Consumer> saveConsumer(@RequestBody @Valid Consumer consumer, BindingResult bindingResult) {
         if(bindingResult.hasErrors() || (consumer == null) || (consumer.getNumber() == null)){
-            return new ResponseEntity<Consumer>(consumer, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<Consumer>(famisService.saveConsumer(consumer), HttpStatus.CREATED);
+        return new ResponseEntity<>(famisService.saveConsumer(consumer), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{consumerId}")
-    public ResponseEntity<Consumer> updateConsumer(@PathVariable("consumerId") UUID consumerId, @RequestBody Consumer consumer, BindingResult bindingResult){
+    @PutMapping
+    public ResponseEntity<Consumer> updateConsumer(@RequestBody Consumer consumer, BindingResult bindingResult){
         if(bindingResult.hasErrors() || (consumer == null) || (consumer.getNumber() == null)){
-            return new ResponseEntity<Consumer>(consumer, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
-        Consumer updatedConsumer = this.famisService.updateConsumer(consumerId, consumer);
-
-        if(updatedConsumer == null){
-            return new ResponseEntity<Consumer>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Consumer>(updatedConsumer, HttpStatus.OK);
+        Optional<Consumer> updatedConsumer = this.famisService.updateConsumer(consumer);
+        return updatedConsumer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/{consumerId}")
-    public ResponseEntity<Consumer> deleteById(@PathVariable("consumerId") UUID consumerId) {
-        Consumer consumer = this.famisService.findConsumerById(consumerId);
-        famisService.deleteConsumer(consumer);
-        if (consumer == null) {
-            return new ResponseEntity<Consumer>(HttpStatus.NOT_FOUND);
+    @DeleteMapping
+    public ResponseEntity<Consumer> deleteById(Consumer consumer){
+        Optional<Consumer> deletedConsumer = this.famisService.findConsumerById(consumer.getId());
+        if (deletedConsumer.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<Consumer>(consumer, HttpStatus.OK);
+        deletedConsumer.ifPresent(this.famisService::deleteConsumer);
+        return ResponseEntity.ok(deletedConsumer.get());
     }
 }
