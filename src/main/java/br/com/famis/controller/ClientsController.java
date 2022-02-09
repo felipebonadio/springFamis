@@ -54,8 +54,8 @@ public class ClientsController {
             return ResponseEntity.badRequest().build();
         }
         Optional<Clients> updatedClient = this.famisService.updateClient(client);
-        return updatedClient.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return updatedClient.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{clientId}")

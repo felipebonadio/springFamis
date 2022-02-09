@@ -58,8 +58,8 @@ public class CollaboratorController {
             return ResponseEntity.badRequest().build();
         }
         Optional<Collaborator> updatedCollaborator = this.famisService.updateCollaborator(collaborator);
-        return updatedCollaborator.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return updatedCollaborator.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
 
     }
 

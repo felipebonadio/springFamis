@@ -54,8 +54,8 @@ public class AddressController {
             return ResponseEntity.badRequest().build();
         }
         Optional<Address> updatedAddress = this.famisService.updateAddress(address);
-        return updatedAddress.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return updatedAddress.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{addressId}")

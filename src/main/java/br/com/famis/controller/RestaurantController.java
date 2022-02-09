@@ -58,8 +58,8 @@ public class RestaurantController {
             return ResponseEntity.badRequest().build();
         }
         Optional<Restaurant> updatedRestaurant = this.famisService.updateRestaurant(restaurant);
-        return updatedRestaurant.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return updatedRestaurant.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{restaurantId}")
