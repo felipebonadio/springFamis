@@ -1,5 +1,6 @@
 package br.com.famis.controller;
 
+import br.com.famis.model.Clients;
 import br.com.famis.model.Consumer;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;
@@ -57,13 +58,13 @@ public class ConsumerController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Consumer> deleteById(Consumer consumer){
-        Optional<Consumer> deletedConsumer = this.famisService.findConsumerById(consumer.getId());
-        if (deletedConsumer.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    @DeleteMapping("/{consumerId}")
+    public ResponseEntity<Consumer> deleteById(@PathVariable("consumerId") UUID consumerId) {
+        Optional<Consumer> consumer = this.famisService.findConsumerById(consumerId);
+        if(consumer.isPresent()) {
+            famisService.deleteConsumer(consumer.get());
+            return ResponseEntity.ok().build();
         }
-        deletedConsumer.ifPresent(this.famisService::deleteConsumer);
-        return ResponseEntity.ok(deletedConsumer.get());
+        return ResponseEntity.notFound().build();
     }
 }

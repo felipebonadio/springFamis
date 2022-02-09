@@ -1,6 +1,8 @@
 package br.com.famis.controller;
 
 import br.com.famis.model.Collaborator;
+import br.com.famis.model.Consumer;
+import br.com.famis.model.Restaurant;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,13 +63,13 @@ public class CollaboratorController {
 
     }
 
-    @DeleteMapping
-    public ResponseEntity<Collaborator> deleteById(Collaborator collaborator) {
-        Optional<Collaborator> deletedCollaborator = this.famisService.findCollaboratorById(collaborator.getId());
-        if (deletedCollaborator.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    @DeleteMapping("/{collaboratorId}")
+    public ResponseEntity<Collaborator> deleteById(@PathVariable("collaboratorId") UUID collaboratorId) {
+        Optional<Collaborator> collaborator = this.famisService.findCollaboratorById(collaboratorId);
+        if(collaborator.isPresent()) {
+            famisService.deleteCollaborator(collaborator.get());
+            return ResponseEntity.ok().build();
         }
-        famisService.deleteCollaborator(deletedCollaborator.get());
-        return ResponseEntity.ok(deletedCollaborator.get());
+        return ResponseEntity.notFound().build();
     }
 }

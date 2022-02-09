@@ -1,6 +1,7 @@
 package br.com.famis.controller;
 
 import br.com.famis.model.Address;
+import br.com.famis.model.Collaborator;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,14 +58,13 @@ public class AddressController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Address> deleteById(Address address) {
-        Optional<Address> deletedAddress = this.famisService.findAddressById(address.getId());
-        if (deletedAddress.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    @DeleteMapping("/{addressId}")
+    public ResponseEntity<Address> deleteById(@PathVariable("addressId") UUID addressId) {
+        Optional<Address> address = this.famisService.findAddressById(addressId);
+        if(address.isPresent()) {
+            famisService.deleteAddress(address.get());
+            return ResponseEntity.ok().build();
         }
-        famisService.deleteAddress(deletedAddress.get());
-        return ResponseEntity.ok(deletedAddress.get());
-
+        return ResponseEntity.notFound().build();
     }
 }

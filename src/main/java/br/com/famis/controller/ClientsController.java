@@ -53,18 +53,18 @@ public class ClientsController {
         if (bindingResult.hasErrors() || (client == null) || (client.getName() == null)) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<Clients> updatedConsumer = this.famisService.updateClient(client);
-        return updatedConsumer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+        Optional<Clients> updatedClient = this.famisService.updateClient(client);
+        return updatedClient.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Clients> deleteById(Clients client) {
-        Optional<Clients> deletedClient = this.famisService.findClientById(client.getId());
-        if (deletedClient.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @DeleteMapping("/{clientId}")
+    public ResponseEntity<Clients> deleteById(@PathVariable("clientId") UUID clientId) {
+        Optional<Clients> client = this.famisService.findClientById(clientId);
+        if(client.isPresent()) {
+            famisService.deleteClient(client.get());
+            return ResponseEntity.ok().build();
         }
-        deletedClient.ifPresent(this.famisService::deleteClient);
-        return ResponseEntity.ok(deletedClient.get());
+        return ResponseEntity.notFound().build();
     }
 }
