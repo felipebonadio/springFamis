@@ -1,6 +1,5 @@
 package br.com.famis.controller;
 
-import br.com.famis.model.Clients;
 import br.com.famis.model.Consumer;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;

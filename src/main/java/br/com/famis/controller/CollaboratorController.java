@@ -1,8 +1,6 @@
 package br.com.famis.controller;
 
 import br.com.famis.model.Collaborator;
-import br.com.famis.model.Consumer;
-import br.com.famis.model.Restaurant;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +50,7 @@ public class CollaboratorController {
         return new ResponseEntity<>(famisService.saveCollaborator(collaborator), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{collaboratorId}")
+    @PutMapping
     public ResponseEntity<Collaborator> updateCollaborator(@RequestBody Collaborator collaborator, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return ResponseEntity.badRequest().build();

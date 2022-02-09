@@ -13,12 +13,12 @@ import java.util.UUID;
 @Service
 public class FamisServiceImpl implements FamisService{
 
-    private AddressRepository addressRepository;
-    private ClientRepository clientRepository;
-    private CollaboratorRepository collaboratorRepository;
-    private ConsumerRepository consumerRepository;
-    private RestaurantRepository restaurantRepository;
-    private ProductRepository productRepository;
+    private final AddressRepository addressRepository;
+    private final ClientRepository clientRepository;
+    private final CollaboratorRepository collaboratorRepository;
+    private final ConsumerRepository consumerRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
     public FamisServiceImpl(
