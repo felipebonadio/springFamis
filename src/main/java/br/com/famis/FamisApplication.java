@@ -42,6 +42,9 @@ public class FamisApplication {
 
 			Consumer t1 = new Consumer( 1);
 			famisService.saveConsumer(t1);
+
+			Product p1 = new Product("Macarrão", 25.00, "Massas");
+			famisService.saveProduct(p1);
 			};
 		}
 	}
