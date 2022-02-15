@@ -53,10 +53,20 @@ public class RestaurantController {
 
     @PutMapping
     public ResponseEntity<Restaurant> updateRestaurant(@RequestBody Restaurant restaurant, BindingResult bindingResult){
-        if(bindingResult.hasErrors() || (restaurant == null) || (restaurant.getName() == null)){
+        if(bindingResult.hasErrors()){
             return ResponseEntity.badRequest().build();
         }
         Optional<Restaurant> updatedRestaurant = this.famisService.updateRestaurant(restaurant);
+        return updatedRestaurant.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/consumer")
+    public ResponseEntity<Restaurant> updateConsumerOnRestaurant(@RequestBody Restaurant restaurant, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<Restaurant> updatedRestaurant = this.famisService.updateConsumerOnRestaurant(restaurant);
         return updatedRestaurant.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
