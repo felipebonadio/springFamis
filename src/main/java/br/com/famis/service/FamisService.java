@@ -38,6 +38,7 @@ public interface FamisService {
     Restaurant saveRestaurant(Restaurant restaurant) throws DataAccessException;
     Optional<Restaurant> updateRestaurant(Restaurant restaurant) throws DataAccessException;
     Optional<Restaurant> updateConsumerOnRestaurant(Restaurant restaurant) throws DataAccessException;
+    Optional<Restaurant> updateOpenCloseTimeOnRestaurant(Restaurant restaurant) throws DataAccessException;
     void deleteRestaurant(Restaurant restaurant) throws DataAccessException;
 
     Optional<Product> findProductById(UUID id) throws DataAccessException;

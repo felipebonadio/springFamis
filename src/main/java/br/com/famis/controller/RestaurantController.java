@@ -70,6 +70,15 @@ public class RestaurantController {
         return updatedRestaurant.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @PutMapping("/time")
+    public ResponseEntity<Restaurant> updateOpenCloseTimeOnRestaurant(@RequestBody Restaurant restaurant, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<Restaurant> updatedRestaurant = this.famisService.updateOpenCloseTimeOnRestaurant(restaurant);
+        return updatedRestaurant.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     @DeleteMapping("/{restaurantId}")
     public ResponseEntity<Consumer> deleteById(@PathVariable("restaurantId") UUID restaurantId) {

@@ -217,6 +217,17 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
+    public Optional<Restaurant> updateOpenCloseTimeOnRestaurant(Restaurant restaurant) throws DataAccessException {
+        Optional<Restaurant> currentRestaurant = this.findRestaurantById(restaurant.getId());
+        if(currentRestaurant.isPresent()){
+            currentRestaurant.get().setOpenTime(restaurant.getOpenTime());
+            currentRestaurant.get().setCloseTime(restaurant.getCloseTime());
+            return Optional.of(restaurantRepository.save(currentRestaurant.get()));
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public void deleteRestaurant(Restaurant restaurant) throws DataAccessException {
         restaurantRepository.delete(restaurant);
     }
@@ -251,7 +262,5 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public void deleteProduct(Product product) throws DataAccessException {
         productRepository.delete(product);
-    }
-
-   
+    }  
 }
