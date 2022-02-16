@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import br.com.famis.model.Product;
+import br.com.famis.model.Produto;
 
-public interface ProductRepository extends CrudRepository<Product, UUID>{
+public interface ProdutoRepository extends CrudRepository<Produto, UUID>{
     
 }

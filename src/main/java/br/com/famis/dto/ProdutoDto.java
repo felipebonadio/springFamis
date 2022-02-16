@@ -1,4 +1,4 @@
 package br.com.famis.dto;
 
-public class OrdersDto {
+public class ProdutoDto {
 }

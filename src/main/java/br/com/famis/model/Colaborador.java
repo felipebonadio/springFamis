@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-public class Collaborator{
+public class Colaborador {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,11 +30,11 @@ public class Collaborator{
 
 	@NotNull
 	@OneToOne
-	private Address address;
+	private Endereco endereco;
 
 	@NotNull
 	@OneToOne
-	private Restaurant restaurant;
+	private Restaurante restaurante;
 
 	@NotNull
 	@Column
@@ -48,18 +48,18 @@ public class Collaborator{
 	@Column
 	private String password;
 
-	public Collaborator(String name, String lastName, String phone, String cpf, Address address, Restaurant restaurant, String role, String email, String password) {
+	public Colaborador(String name, String lastName, String phone, String cpf, Endereco endereco, Restaurante restaurante, String role, String email, String password) {
 		this.name = name;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.cpf = cpf;
-		this.address = address;
-		this.restaurant = restaurant;
+		this.endereco = endereco;
+		this.restaurante = restaurante;
 		this.role = role;
 		this.email = email;
 		this.password = password;
 	}
 
-	public Collaborator() {
+	public Colaborador() {
 	}
 }

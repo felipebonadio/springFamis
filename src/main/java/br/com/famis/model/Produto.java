@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Product {
+public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,12 +27,12 @@ public class Product {
 	@Column(nullable = false)
 	private String category;
 
-	public Product(String name, Double value, String category){
+	public Produto(String name, Double value, String category){
 		this.name = name;
 		this.value = value;
 		this.category = category;
 	}
 
-	public Product(){
+	public Produto(){
 	}
 }

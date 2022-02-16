@@ -3,7 +3,7 @@ package br.com.famis.dto;
 import lombok.Data;
 
 @Data
-public class AddressDto {
+public class EnderecoDto {
 
     private String cep;
 
@@ -17,7 +17,7 @@ public class AddressDto {
 
     private String state;
 
-    public AddressDto(String cep, String place, String number, String district, String city, String state) {
+    public EnderecoDto(String cep, String place, String number, String district, String city, String state) {
         this.cep = cep;
         this.place = place;
         this.number = number;
@@ -26,6 +26,6 @@ public class AddressDto {
         this.state = state;
     }
 
-    public AddressDto() {
+    public EnderecoDto() {
     }
 }

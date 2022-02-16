@@ -23,26 +23,26 @@ public class FamisApplication {
 
 			DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-			Address a1 = new Address("284124", "Rua 1", "500", "Vila", "Barra", "Sp");
-			famisService.saveAddress(a1);
+			Endereco a1 = new Endereco("284124", "Rua 1", "500", "Vila", "Barra", "Sp");
+			famisService.saveEndereco(a1);
 
-			Address a2 = new Address("548745", "Rua 5", "698", "Bairro", "Bonita", "Rj");
-			famisService.saveAddress(a2);
-			Restaurant r1 = new Restaurant("Restaurante", "145556974", "0001254562",20, LocalTime.parse("18:00",hourFormatter), LocalTime.parse("24:00",hourFormatter), a2);
-			famisService.saveRestaurant(r1);
+			Endereco a2 = new Endereco("548745", "Rua 5", "698", "Bairro", "Bonita", "Rj");
+			famisService.saveEndereco(a2);
+			Restaurante r1 = new Restaurante("Restaurante", "145556974", "0001254562",20, LocalTime.parse("18:00",hourFormatter), LocalTime.parse("24:00",hourFormatter), a2);
+			famisService.saveRestaurante(r1);
 
-			Address a3 = new Address("5656565", "Rua 2"," 708" , "Vila", "Barra", "Sp");
-			famisService.saveAddress(a3);
-			Collaborator co1 = new Collaborator("Luis", "Fernando", "1444444", "454545454", a1, r1, "CAIXA", "teste@testemail.com.br", "senha");
-			famisService.saveCollaborator(co1);
-			Collaborator co2 = new Collaborator("Luis", "Fernando", "1444444", "454545454", a1, r1, "CAIXA", "teste@testemail.com.br", "senha");
-			famisService.saveCollaborator(co2);
+			Endereco a3 = new Endereco("5656565", "Rua 2"," 708" , "Vila", "Barra", "Sp");
+			famisService.saveEndereco(a3);
+			Colaborador co1 = new Colaborador("Luis", "Fernando", "1444444", "454545454", a1, r1, "CAIXA", "teste@testemail.com.br", "senha");
+			famisService.saveColaborador(co1);
+			Colaborador co2 = new Colaborador("Luis", "Fernando", "1444444", "454545454", a1, r1, "CAIXA", "teste@testemail.com.br", "senha");
+			famisService.saveColaborador(co2);
 
-			Consumer t1 = new Consumer( 1);
-			famisService.saveConsumer(t1);
+			Mesa t1 = new Mesa( 1);
+			famisService.saveMesa(t1);
 
-			Product p1 = new Product("Macarrão", 25.00, "Massas");
-			famisService.saveProduct(p1);
+			Produto p1 = new Produto("Macarrão", 25.00, "Massas");
+			famisService.saveProduto(p1);
 			};
 		}
 	}

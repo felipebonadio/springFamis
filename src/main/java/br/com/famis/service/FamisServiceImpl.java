@@ -13,216 +13,216 @@ import java.util.UUID;
 @Service
 public class FamisServiceImpl implements FamisService{
 
-    private final AddressRepository addressRepository;
-    private final CollaboratorRepository collaboratorRepository;
-    private final ConsumerRepository consumerRepository;
-    private final RestaurantRepository restaurantRepository;
-    private final ProductRepository productRepository;
+    private final EnderecoRepository enderecoRepository;
+    private final ColaboradorRepository colaboradorRepository;
+    private final MesaRepository mesaRepository;
+    private final RestauranteRepository restauranteRepository;
+    private final ProdutoRepository produtoRepository;
 
     @Autowired
     public FamisServiceImpl(
-            AddressRepository addressRepository,
-            CollaboratorRepository collaboratorRepository,
-            ConsumerRepository consumerRepository,
-            RestaurantRepository restaurantRepository,
-            ProductRepository productRepository
+            EnderecoRepository enderecoRepository,
+            ColaboradorRepository colaboradorRepository,
+            MesaRepository mesaRepository,
+            RestauranteRepository restauranteRepository,
+            ProdutoRepository produtoRepository
     ){
-        this.addressRepository = addressRepository;
-        this.collaboratorRepository = collaboratorRepository;
-        this.consumerRepository = consumerRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.productRepository = productRepository;
+        this.enderecoRepository = enderecoRepository;
+        this.colaboradorRepository = colaboradorRepository;
+        this.mesaRepository = mesaRepository;
+        this.restauranteRepository = restauranteRepository;
+        this.produtoRepository = produtoRepository;
     }
 
     @Override
-    public Optional<Address> findAddressById(UUID id) throws DataAccessException {
-        return addressRepository.findById(id);
+    public Optional<Endereco> findEnderecoById(UUID id) throws DataAccessException {
+        return enderecoRepository.findById(id);
     }
 
     @Override
-    public List<Address> findAllAddresses() throws DataAccessException {
-        return (List<Address>) addressRepository.findAll();
+    public List<Endereco> findAllEnderecos() throws DataAccessException {
+        return (List<Endereco>) enderecoRepository.findAll();
     }
 
     @Override
-    public Address saveAddress(Address address) throws DataAccessException {
-        return addressRepository.save(address);
+    public Endereco saveEndereco(Endereco endereco) throws DataAccessException {
+        return enderecoRepository.save(endereco);
     }
 
     @Override
-    public Optional<Address> updateAddress(Address address) throws DataAccessException {
-       Optional<Address> currentAddress = addressRepository.findById(address.getId());
+    public Optional<Endereco> updateEndereco(Endereco endereco) throws DataAccessException {
+       Optional<Endereco> currentAddress = enderecoRepository.findById(endereco.getId());
        if (currentAddress.isPresent()){
-           currentAddress.get().setCep(address.getCep());
-           currentAddress.get().setPlace(address.getPlace());
-           currentAddress.get().setNumber(address.getNumber());
-           currentAddress.get().setDistrict(address.getDistrict());
-           currentAddress.get().setCity(address.getCity());
-           currentAddress.get().setState(address.getState());
-           return Optional.of(addressRepository.save(currentAddress.get()));
+           currentAddress.get().setCep(endereco.getCep());
+           currentAddress.get().setPlace(endereco.getPlace());
+           currentAddress.get().setNumber(endereco.getNumber());
+           currentAddress.get().setDistrict(endereco.getDistrict());
+           currentAddress.get().setCity(endereco.getCity());
+           currentAddress.get().setState(endereco.getState());
+           return Optional.of(enderecoRepository.save(currentAddress.get()));
        }
         return Optional.empty();
     }
 
     @Override
-    public void deleteAddress(Address address) throws DataAccessException {
-        addressRepository.delete(address);
+    public void deleteEndereco(Endereco endereco) throws DataAccessException {
+        enderecoRepository.delete(endereco);
     }
 
     @Override
-    public Optional<Collaborator> findCollaboratorById(UUID id){
-      return collaboratorRepository.findById(id);
+    public Optional<Colaborador> findColaboradorById(UUID id){
+      return colaboradorRepository.findById(id);
     }
 
     @Override
-    public List<Collaborator> findAllCollaborators() throws DataAccessException {
-       return (List<Collaborator>) collaboratorRepository.findAll();
+    public List<Colaborador> findAllColaboradores() throws DataAccessException {
+       return (List<Colaborador>) colaboradorRepository.findAll();
     }
 
     @Override
-    public Collaborator saveCollaborator(Collaborator collaborator) throws DataAccessException {
-        return collaboratorRepository.save(collaborator);
+    public Colaborador saveColaborador(Colaborador colaborador) throws DataAccessException {
+        return colaboradorRepository.save(colaborador);
     }
 
     @Override
-    public Optional<Collaborator> updateCollaborator(Collaborator collaborator) throws DataAccessException {
-        Optional<Collaborator> currentCollaborator = this.findCollaboratorById(collaborator.getId());
+    public Optional<Colaborador> updateColaborador(Colaborador colaborador) throws DataAccessException {
+        Optional<Colaborador> currentCollaborator = this.findColaboradorById(colaborador.getId());
         if(currentCollaborator.isPresent()){
-                currentCollaborator.get().setName(collaborator.getName());
-                currentCollaborator.get().setLastName(collaborator.getLastName());
-                currentCollaborator.get().setAddress(collaborator.getAddress());
-                currentCollaborator.get().setCpf(collaborator.getCpf());
-                currentCollaborator.get().setRole(collaborator.getRole());
-                currentCollaborator.get().setEmail(collaborator.getEmail());
-                currentCollaborator.get().setPassword(collaborator.getPassword());
-                currentCollaborator.get().setPhone(collaborator.getPhone());
-                currentCollaborator.get().setRestaurant(collaborator.getRestaurant());
-            return Optional.of(collaboratorRepository.save(currentCollaborator.get()));
+                currentCollaborator.get().setName(colaborador.getName());
+                currentCollaborator.get().setLastName(colaborador.getLastName());
+                currentCollaborator.get().setEndereco(colaborador.getEndereco());
+                currentCollaborator.get().setCpf(colaborador.getCpf());
+                currentCollaborator.get().setRole(colaborador.getRole());
+                currentCollaborator.get().setEmail(colaborador.getEmail());
+                currentCollaborator.get().setPassword(colaborador.getPassword());
+                currentCollaborator.get().setPhone(colaborador.getPhone());
+                currentCollaborator.get().setRestaurante(colaborador.getRestaurante());
+            return Optional.of(colaboradorRepository.save(currentCollaborator.get()));
         }
         return Optional.empty();
     }
 
     @Override
-    public void deleteCollaborator(Collaborator collaborator) throws DataAccessException {
-        collaboratorRepository.delete(collaborator);
+    public void deleteColaborador(Colaborador colaborador) throws DataAccessException {
+        colaboradorRepository.delete(colaborador);
     }
 
     @Override
-    public Optional<Consumer> findConsumerById(UUID id) throws DataAccessException {
-        return consumerRepository.findById(id);
+    public Optional<Mesa> findMesaById(UUID id) throws DataAccessException {
+        return mesaRepository.findById(id);
     }
 
     @Override
-    public List<Consumer> findAllConsumers() throws DataAccessException {
-        return (List<Consumer>) consumerRepository.findAll();
+    public List<Mesa> findAllMesas() throws DataAccessException {
+        return (List<Mesa>) mesaRepository.findAll();
     }
 
     @Override
-    public Consumer saveConsumer(Consumer consumer) throws DataAccessException {
-        return consumerRepository.save(consumer);
+    public Mesa saveMesa(Mesa mesa) throws DataAccessException {
+        return mesaRepository.save(mesa);
     }
 
     @Override
-    public Optional<Consumer> updateConsumer(Consumer consumer) throws DataAccessException {
-        Optional<Consumer> currentConsumer = consumerRepository.findById(consumer.getId());
+    public Optional<Mesa> updateMesa(Mesa mesa) throws DataAccessException {
+        Optional<Mesa> currentConsumer = mesaRepository.findById(mesa.getId());
         if(currentConsumer.isPresent()){
-            currentConsumer.get().setNumber(consumer.getNumber());
-            return Optional.of(consumerRepository.save(currentConsumer.get()));
+            currentConsumer.get().setNumber(mesa.getNumber());
+            return Optional.of(mesaRepository.save(currentConsumer.get()));
         }
         return Optional.empty();
     }
 
     @Override
-    public void deleteConsumer(Consumer consumer) throws DataAccessException {
-        consumerRepository.delete(consumer);
+    public void deleteMesa(Mesa mesa) throws DataAccessException {
+        mesaRepository.delete(mesa);
     }
 
     @Override
-    public Optional<Restaurant> findRestaurantById(UUID id) throws DataAccessException {
-        return restaurantRepository.findById(id);
+    public Optional<Restaurante> findRestauranteById(UUID id) throws DataAccessException {
+        return restauranteRepository.findById(id);
     }
 
     @Override
-    public List<Restaurant> findAllRestaurants() throws DataAccessException {
-        return (List<Restaurant>)restaurantRepository.findAll();
+    public List<Restaurante> findAllRestaurantes() throws DataAccessException {
+        return (List<Restaurante>) restauranteRepository.findAll();
     }
 
     @Override
-    public Restaurant saveRestaurant(Restaurant restaurant) throws DataAccessException {
-        return restaurantRepository.save(restaurant);
+    public Restaurante saveRestaurante(Restaurante restaurante) throws DataAccessException {
+        return restauranteRepository.save(restaurante);
     }
 
     @Override
-    public Optional<Restaurant> updateRestaurant(Restaurant restaurant) throws DataAccessException {
-        Optional<Restaurant> currentRestaurant = this.findRestaurantById(restaurant.getId());
+    public Optional<Restaurante> updateRestaurante(Restaurante restaurante) throws DataAccessException {
+        Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
         if(currentRestaurant.isPresent()){
-            currentRestaurant.get().setName(restaurant.getName());
-            currentRestaurant.get().setPhone(restaurant.getPhone());
-            currentRestaurant.get().setCnpj(restaurant.getCnpj());
-            currentRestaurant.get().setAddress(restaurant.getAddress());
-            currentRestaurant.get().setConsumer(restaurant.getConsumer());
-            currentRestaurant.get().setOpenTime(restaurant.getOpenTime());
-            currentRestaurant.get().setCloseTime(restaurant.getCloseTime());
-            return Optional.of(restaurantRepository.save(currentRestaurant.get()));
+            currentRestaurant.get().setName(restaurante.getName());
+            currentRestaurant.get().setPhone(restaurante.getPhone());
+            currentRestaurant.get().setCnpj(restaurante.getCnpj());
+            currentRestaurant.get().setEndereco(restaurante.getEndereco());
+            currentRestaurant.get().setConsumer(restaurante.getConsumer());
+            currentRestaurant.get().setOpenTime(restaurante.getOpenTime());
+            currentRestaurant.get().setCloseTime(restaurante.getCloseTime());
+            return Optional.of(restauranteRepository.save(currentRestaurant.get()));
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<Restaurant> updateConsumerOnRestaurant(Restaurant restaurant) throws DataAccessException {
-        Optional<Restaurant> currentRestaurant = this.findRestaurantById(restaurant.getId());
+    public Optional<Restaurante> updateMesaOnRestaurante(Restaurante restaurante) throws DataAccessException {
+        Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
         if(currentRestaurant.isPresent()){
-            currentRestaurant.get().setConsumer(restaurant.getConsumer());
-            return Optional.of(restaurantRepository.save(currentRestaurant.get()));
+            currentRestaurant.get().setConsumer(restaurante.getConsumer());
+            return Optional.of(restauranteRepository.save(currentRestaurant.get()));
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<Restaurant> updateOpenCloseTimeOnRestaurant(Restaurant restaurant) throws DataAccessException {
-        Optional<Restaurant> currentRestaurant = this.findRestaurantById(restaurant.getId());
+    public Optional<Restaurante> updateHorarioOnRestaurante(Restaurante restaurante) throws DataAccessException {
+        Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
         if(currentRestaurant.isPresent()){
-            currentRestaurant.get().setOpenTime(restaurant.getOpenTime());
-            currentRestaurant.get().setCloseTime(restaurant.getCloseTime());
-            return Optional.of(restaurantRepository.save(currentRestaurant.get()));
+            currentRestaurant.get().setOpenTime(restaurante.getOpenTime());
+            currentRestaurant.get().setCloseTime(restaurante.getCloseTime());
+            return Optional.of(restauranteRepository.save(currentRestaurant.get()));
         }
         return Optional.empty();
     }
 
     @Override
-    public void deleteRestaurant(Restaurant restaurant) throws DataAccessException {
-        restaurantRepository.delete(restaurant);
+    public void deleteRestaurante(Restaurante restaurante) throws DataAccessException {
+        restauranteRepository.delete(restaurante);
     }
 
     @Override
-    public Optional<Product> findProductById(UUID id) throws DataAccessException {
-        return productRepository.findById(id);
+    public Optional<Produto> findProdutoById(UUID id) throws DataAccessException {
+        return produtoRepository.findById(id);
     }
 
     @Override
-    public List<Product> findAllProducts() throws DataAccessException {
-        return (List<Product>) productRepository.findAll();
+    public List<Produto> findAllProduto() throws DataAccessException {
+        return (List<Produto>) produtoRepository.findAll();
     }
 
     @Override
-    public Product saveProduct(Product product) throws DataAccessException {
-        return productRepository.save(product);
+    public Produto saveProduto(Produto produto) throws DataAccessException {
+        return produtoRepository.save(produto);
     }
 
     @Override
-    public Optional<Product> updateProduct(Product product) throws DataAccessException {
-        Optional<Product> currentProduct = productRepository.findById(product.getId());
+    public Optional<Produto> updateProduto(Produto produto) throws DataAccessException {
+        Optional<Produto> currentProduct = produtoRepository.findById(produto.getId());
         if(currentProduct.isPresent()) {
-            currentProduct.get().setName(product.getName());
-            currentProduct.get().setCategory(product.getCategory());
-            currentProduct.get().setValue(product.getValue());
-            return Optional.of(productRepository.save(currentProduct.get()));
+            currentProduct.get().setName(produto.getName());
+            currentProduct.get().setCategory(produto.getCategory());
+            currentProduct.get().setValue(produto.getValue());
+            return Optional.of(produtoRepository.save(currentProduct.get()));
         }
         return Optional.empty();
     }
 
     @Override
-    public void deleteProduct(Product product) throws DataAccessException {
-        productRepository.delete(product);
+    public void deleteProduto(Produto produto) throws DataAccessException {
+        produtoRepository.delete(produto);
     }  
 }

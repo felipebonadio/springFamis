@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-public class Consumer {
+public class Mesa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,11 +18,11 @@ public class Consumer {
 
     private Integer number;
 
-    public Consumer(Integer number) {
+    public Mesa(Integer number) {
         this.number = number;
     }
 
-    public Consumer() {
+    public Mesa() {
     }
 
 

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-public class Restaurant {
+public class Restaurante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,18 +33,18 @@ public class Restaurant {
     private LocalTime closeTime;
 
     @OneToOne
-    private Address address;
+    private Endereco endereco;
 
-    public Restaurant(String name, String phone, String cnpj, Integer consumer, LocalTime openTime, LocalTime closeTime, Address address) {
+    public Restaurante(String name, String phone, String cnpj, Integer consumer, LocalTime openTime, LocalTime closeTime, Endereco endereco) {
         this.name = name;
         this.phone = phone;
         this.cnpj = cnpj;
         this.consumer = consumer;
         this.openTime = openTime;
         this.closeTime = closeTime;
-        this.address = address;
+        this.endereco = endereco;
     }
 
-    public Restaurant() {
+    public Restaurante() {
     }
 }

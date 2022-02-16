@@ -13,7 +13,7 @@ import lombok.Data;
 @Entity
 @Data
 
-public class Orders {
+public class Pedido {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,25 +29,25 @@ public class Orders {
 	private Double discount;
 
 	@OneToMany
-	private List<Product> products = new ArrayList<>();
+	private List<Produto> produtos = new ArrayList<>();
 	
 	@ManyToOne
     @JoinColumn(name = "collaborator_id")	
-	private Collaborator collaborator;		
+	private Colaborador colaborador;
 
 	@ManyToOne
 	@JoinColumn(name = "consumer_id")
-	private Consumer consumer;
+	private Mesa mesa;
 
-	public Orders(UUID id, LocalDateTime date, Status status, Double discount, Collaborator collaborator, Consumer consumer) {
+	public Pedido(UUID id, LocalDateTime date, Status status, Double discount, Colaborador colaborador, Mesa mesa) {
 		this.id = id;
 		this.date = date;
 		this.status = status;
 		this.discount = discount;
-		this.collaborator = collaborator;
-		this.consumer = consumer;
+		this.colaborador = colaborador;
+		this.mesa = mesa;
 	}
 
-	public Orders() {
+	public Pedido() {
 	}
 }

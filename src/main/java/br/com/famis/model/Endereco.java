@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Address {
+public class Endereco {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +36,7 @@ public class Address {
 	private String state;	
 
 
-	public Address(String cep, String place, String number, String district, String city, String state) {
+	public Endereco(String cep, String place, String number, String district, String city, String state) {
 		this.cep = cep;
 		this.place = place;
 		this.number = number;
@@ -45,6 +45,6 @@ public class Address {
 		this.state = state;
 	}
 
-	public Address() {
+	public Endereco() {
 	}
 }

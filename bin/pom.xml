@@ -12,7 +12,7 @@
 	<artifactId>famis</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>famis</name>
-	<description>Project of a restaurant manager</description>
+	<description>Project of a restaurante manager</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
