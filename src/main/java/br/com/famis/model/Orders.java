@@ -1,15 +1,11 @@
 package br.com.famis.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -23,37 +19,35 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	
-	@Column(nullable = false)
+	@Column
 	private LocalDateTime date;
 
-	@Column(nullable = false)
+	@Column
 	private Status status;
 	
-	@Column(nullable = false)
+	@Column
 	private Double discount;
+
+	@OneToMany
+	private List<Product> products = new ArrayList<>();
 	
 	@ManyToOne
     @JoinColumn(name = "collaborator_id")	
 	private Collaborator collaborator;		
 
 	@ManyToOne
-	@JoinColumn(name = "clients_id")
-	private Clients client;
-
-	@ManyToOne
 	@JoinColumn(name = "consumer_id")
 	private Consumer consumer;
 
-	public Orders(LocalDateTime date, Status status, Double discount, Collaborator collaborator, Clients client, Consumer consumer){
+	public Orders(UUID id, LocalDateTime date, Status status, Double discount, Collaborator collaborator, Consumer consumer) {
+		this.id = id;
 		this.date = date;
 		this.status = status;
 		this.discount = discount;
 		this.collaborator = collaborator;
-		this.client = client;
 		this.consumer = consumer;
 	}
 
-	public Orders(){
-
+	public Orders() {
 	}
 }

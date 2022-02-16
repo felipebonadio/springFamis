@@ -14,7 +14,6 @@ import java.util.UUID;
 public class FamisServiceImpl implements FamisService{
 
     private final AddressRepository addressRepository;
-    private final ClientRepository clientRepository;
     private final CollaboratorRepository collaboratorRepository;
     private final ConsumerRepository consumerRepository;
     private final RestaurantRepository restaurantRepository;
@@ -23,14 +22,12 @@ public class FamisServiceImpl implements FamisService{
     @Autowired
     public FamisServiceImpl(
             AddressRepository addressRepository,
-            ClientRepository clientRepository,
             CollaboratorRepository collaboratorRepository,
             ConsumerRepository consumerRepository,
             RestaurantRepository restaurantRepository,
             ProductRepository productRepository
     ){
         this.addressRepository = addressRepository;
-        this.clientRepository = clientRepository;
         this.collaboratorRepository = collaboratorRepository;
         this.consumerRepository = consumerRepository;
         this.restaurantRepository = restaurantRepository;
@@ -70,41 +67,6 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public void deleteAddress(Address address) throws DataAccessException {
         addressRepository.delete(address);
-    }
-
-    @Override
-    public Optional<Clients> findClientById(UUID id) throws DataAccessException {
-        return clientRepository.findById(id);
-
-    }
-
-    @Override
-    public List<Clients> findAllClients() throws DataAccessException {
-        return (List<Clients>) clientRepository.findAll();
-    }
-
-    @Override
-    public Clients saveClient(Clients clients) throws DataAccessException {
-        return clientRepository.save(clients);
-    }
-
-    @Override
-    public Optional<Clients> updateClient(Clients clients) throws DataAccessException {
-        Optional<Clients> currentClients = this.findClientById(clients.getId());
-        if(currentClients.isPresent()){
-            currentClients.get().setName(clients.getName());
-            currentClients.get().setLastName(clients.getLastName());
-            currentClients.get().setAddresses(clients.getAddresses());
-            currentClients.get().setCpf(clients.getCpf());
-            currentClients.get().setPhone(clients.getPhone());
-            return Optional.of(clientRepository.save(currentClients.get()));
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public void deleteClient(Clients clients) throws DataAccessException {
-        clientRepository.delete(clients);
     }
 
     @Override

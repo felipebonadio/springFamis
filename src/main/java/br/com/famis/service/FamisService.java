@@ -15,12 +15,6 @@ public interface FamisService {
     Optional<Address> updateAddress(Address address) throws DataAccessException;
     void deleteAddress(Address address) throws DataAccessException;
 
-    Optional<Clients> findClientById(UUID id) throws DataAccessException;
-    List<Clients> findAllClients() throws DataAccessException;
-    Clients saveClient(Clients clients) throws DataAccessException;
-    Optional<Clients> updateClient(Clients clients) throws DataAccessException;
-    void deleteClient(Clients clients) throws DataAccessException;
-
     Optional<Collaborator> findCollaboratorById(UUID id) throws DataAccessException;
     List<Collaborator> findAllCollaborators() throws DataAccessException;
     Collaborator saveCollaborator(Collaborator collaborator) throws DataAccessException;
