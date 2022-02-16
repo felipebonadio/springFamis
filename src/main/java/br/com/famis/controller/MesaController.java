@@ -41,7 +41,7 @@ public class MesaController {
 
     @PostMapping
     public ResponseEntity<Mesa> saveMesa(@RequestBody @Valid Mesa mesa, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (mesa == null) || (mesa.getNumber() == null)){
+        if(bindingResult.hasErrors() || (mesa == null) || (mesa.getNumero() == null)){
             return ResponseEntity.badRequest().build();
         }
         return new ResponseEntity<>(famisService.saveMesa(mesa), HttpStatus.CREATED);
@@ -49,7 +49,7 @@ public class MesaController {
 
     @PutMapping
     public ResponseEntity<Mesa> updateMesa(@RequestBody Mesa mesa, BindingResult bindingResult){
-        if(bindingResult.hasErrors() || (mesa == null) || (mesa.getNumber() == null)){
+        if(bindingResult.hasErrors() || (mesa == null) || (mesa.getNumero() == null)){
             return ResponseEntity.badRequest().build();
         }
         Optional<Mesa> updatedMesa = this.famisService.updateMesa(mesa);

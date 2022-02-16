@@ -19,18 +19,18 @@ public class Produto {
 	private UUID id;
 	
 	@Column(nullable = false)
-	private String name;
+	private String nome;
 	
 	@Column(nullable = false)
-	private Double value;
+	private Double valor;
 
 	@Column(nullable = false)
-	private String category;
+	private String categoria;
 
-	public Produto(String name, Double value, String category){
-		this.name = name;
-		this.value = value;
-		this.category = category;
+	public Produto(String nome, Double valor, String categoria){
+		this.nome = nome;
+		this.valor = valor;
+		this.categoria = categoria;
 	}
 
 	public Produto(){

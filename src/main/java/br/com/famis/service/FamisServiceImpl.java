@@ -54,11 +54,11 @@ public class FamisServiceImpl implements FamisService{
        Optional<Endereco> currentAddress = enderecoRepository.findById(endereco.getId());
        if (currentAddress.isPresent()){
            currentAddress.get().setCep(endereco.getCep());
-           currentAddress.get().setPlace(endereco.getPlace());
-           currentAddress.get().setNumber(endereco.getNumber());
-           currentAddress.get().setDistrict(endereco.getDistrict());
-           currentAddress.get().setCity(endereco.getCity());
-           currentAddress.get().setState(endereco.getState());
+           currentAddress.get().setLogradouro(endereco.getLogradouro());
+           currentAddress.get().setNumero(endereco.getNumero());
+           currentAddress.get().setBairro(endereco.getBairro());
+           currentAddress.get().setLocalidade(endereco.getLocalidade());
+           currentAddress.get().setUf(endereco.getUf());
            return Optional.of(enderecoRepository.save(currentAddress.get()));
        }
         return Optional.empty();
@@ -88,14 +88,14 @@ public class FamisServiceImpl implements FamisService{
     public Optional<Colaborador> updateColaborador(Colaborador colaborador) throws DataAccessException {
         Optional<Colaborador> currentCollaborator = this.findColaboradorById(colaborador.getId());
         if(currentCollaborator.isPresent()){
-                currentCollaborator.get().setName(colaborador.getName());
-                currentCollaborator.get().setLastName(colaborador.getLastName());
+                currentCollaborator.get().setNome(colaborador.getNome());
+                currentCollaborator.get().setSobrenome(colaborador.getSobrenome());
                 currentCollaborator.get().setEndereco(colaborador.getEndereco());
                 currentCollaborator.get().setCpf(colaborador.getCpf());
-                currentCollaborator.get().setRole(colaborador.getRole());
+                currentCollaborator.get().setFuncao(colaborador.getFuncao());
                 currentCollaborator.get().setEmail(colaborador.getEmail());
-                currentCollaborator.get().setPassword(colaborador.getPassword());
-                currentCollaborator.get().setPhone(colaborador.getPhone());
+                currentCollaborator.get().setSenha(colaborador.getSenha());
+                currentCollaborator.get().setTelefone(colaborador.getTelefone());
                 currentCollaborator.get().setRestaurante(colaborador.getRestaurante());
             return Optional.of(colaboradorRepository.save(currentCollaborator.get()));
         }
@@ -126,7 +126,7 @@ public class FamisServiceImpl implements FamisService{
     public Optional<Mesa> updateMesa(Mesa mesa) throws DataAccessException {
         Optional<Mesa> currentConsumer = mesaRepository.findById(mesa.getId());
         if(currentConsumer.isPresent()){
-            currentConsumer.get().setNumber(mesa.getNumber());
+            currentConsumer.get().setNumero(mesa.getNumero());
             return Optional.of(mesaRepository.save(currentConsumer.get()));
         }
         return Optional.empty();
@@ -156,13 +156,13 @@ public class FamisServiceImpl implements FamisService{
     public Optional<Restaurante> updateRestaurante(Restaurante restaurante) throws DataAccessException {
         Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
         if(currentRestaurant.isPresent()){
-            currentRestaurant.get().setName(restaurante.getName());
-            currentRestaurant.get().setPhone(restaurante.getPhone());
+            currentRestaurant.get().setNome(restaurante.getNome());
+            currentRestaurant.get().setTelefone(restaurante.getTelefone());
             currentRestaurant.get().setCnpj(restaurante.getCnpj());
             currentRestaurant.get().setEndereco(restaurante.getEndereco());
-            currentRestaurant.get().setConsumer(restaurante.getConsumer());
-            currentRestaurant.get().setOpenTime(restaurante.getOpenTime());
-            currentRestaurant.get().setCloseTime(restaurante.getCloseTime());
+            currentRestaurant.get().setMesa(restaurante.getMesa());
+            currentRestaurant.get().setHorarioAbertura(restaurante.getHorarioAbertura());
+            currentRestaurant.get().setHorarioEncerramento(restaurante.getHorarioEncerramento());
             return Optional.of(restauranteRepository.save(currentRestaurant.get()));
         }
         return Optional.empty();
@@ -172,7 +172,7 @@ public class FamisServiceImpl implements FamisService{
     public Optional<Restaurante> updateMesaOnRestaurante(Restaurante restaurante) throws DataAccessException {
         Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
         if(currentRestaurant.isPresent()){
-            currentRestaurant.get().setConsumer(restaurante.getConsumer());
+            currentRestaurant.get().setMesa(restaurante.getMesa());
             return Optional.of(restauranteRepository.save(currentRestaurant.get()));
         }
         return Optional.empty();
@@ -182,8 +182,8 @@ public class FamisServiceImpl implements FamisService{
     public Optional<Restaurante> updateHorarioOnRestaurante(Restaurante restaurante) throws DataAccessException {
         Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
         if(currentRestaurant.isPresent()){
-            currentRestaurant.get().setOpenTime(restaurante.getOpenTime());
-            currentRestaurant.get().setCloseTime(restaurante.getCloseTime());
+            currentRestaurant.get().setHorarioAbertura(restaurante.getHorarioAbertura());
+            currentRestaurant.get().setHorarioEncerramento(restaurante.getHorarioEncerramento());
             return Optional.of(restauranteRepository.save(currentRestaurant.get()));
         }
         return Optional.empty();
@@ -213,9 +213,9 @@ public class FamisServiceImpl implements FamisService{
     public Optional<Produto> updateProduto(Produto produto) throws DataAccessException {
         Optional<Produto> currentProduct = produtoRepository.findById(produto.getId());
         if(currentProduct.isPresent()) {
-            currentProduct.get().setName(produto.getName());
-            currentProduct.get().setCategory(produto.getCategory());
-            currentProduct.get().setValue(produto.getValue());
+            currentProduct.get().setNome(produto.getNome());
+            currentProduct.get().setCategoria(produto.getCategoria());
+            currentProduct.get().setValor(produto.getValor());
             return Optional.of(produtoRepository.save(currentProduct.get()));
         }
         return Optional.empty();

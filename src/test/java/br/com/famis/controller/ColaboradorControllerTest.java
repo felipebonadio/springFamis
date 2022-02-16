@@ -61,53 +61,53 @@ class ColaboradorControllerTest {
 
         endereco.setId(UUID.fromString("32b5fd62-2e38-4561-a97d-4ff8fc1da29a"));
         endereco.setCep("17340170");
-        endereco.setPlace("Rua de lá");
-        endereco.setDistrict("Vila de cá");
-        endereco.setNumber("1111");
-        endereco.setCity("Fim do mundo");
-        endereco.setState("Botas");
+        endereco.setLogradouro("Rua de lá");
+        endereco.setBairro("Vila de cá");
+        endereco.setNumero("1111");
+        endereco.setLocalidade("Fim do mundo");
+        endereco.setUf("Botas");
 
         restaurante.setId(UUID.fromString("7602afd1-6de6-4924-ba32-696fa19d886b"));
-        restaurante.setName("Restaurante");
+        restaurante.setNome("Restaurante");
         restaurante.setCnpj("145631346");
-        restaurante.setPhone("1454878484");
-        restaurante.setOpenTime(LocalTime.parse("18:00",hourFormatter));
-        restaurante.setCloseTime(LocalTime.parse("24:00",hourFormatter));
-        restaurante.setConsumer(20);
+        restaurante.setTelefone("1454878484");
+        restaurante.setHorarioAbertura(LocalTime.parse("18:00",hourFormatter));
+        restaurante.setHorarioEncerramento(LocalTime.parse("24:00",hourFormatter));
+        restaurante.setMesa(20);
         restaurante.setEndereco(endereco);
 
         colaborador.setId(UUID.fromString("e554cd0f-a050-4fac-8acc-8b33c5a7b00c"));
-        colaborador.setName("Felipe");
-        colaborador.setLastName("Bonadio");
+        colaborador.setNome("Felipe");
+        colaborador.setSobrenome("Bonadio");
         colaborador.setCpf("54545454");
-        colaborador.setRole("Qualquer");
-        colaborador.setPhone("151515151");
+        colaborador.setFuncao("Qualquer");
+        colaborador.setTelefone("151515151");
         colaborador.setRestaurante(restaurante);
         colaborador.setEndereco(endereco);
         colaborador.setEmail("Email");
-        colaborador.setPassword("Password");
+        colaborador.setSenha("Password");
 
         savedColaborador.setId(UUID.fromString("f562f82d-16b3-4c9f-810e-362fbd4a8f80"));
-        savedColaborador.setName("Felipe");
-        savedColaborador.setLastName("Bonadio");
+        savedColaborador.setNome("Felipe");
+        savedColaborador.setSobrenome("Bonadio");
         savedColaborador.setCpf("54545454");
-        savedColaborador.setRole("Qualquer");
-        savedColaborador.setPhone("151515151");
+        savedColaborador.setFuncao("Qualquer");
+        savedColaborador.setTelefone("151515151");
         savedColaborador.setRestaurante(restaurante);
         savedColaborador.setEndereco(endereco);
         savedColaborador.setEmail("Email");
-        savedColaborador.setPassword("Password");
+        savedColaborador.setSenha("Password");
 
         updatedColaborador.setId(UUID.fromString("e554cd0f-a050-4fac-8acc-8b33c5a7b00c"));
-        updatedColaborador.setName("Guilherme");
-        updatedColaborador.setLastName("Bonadio");
+        updatedColaborador.setNome("Guilherme");
+        updatedColaborador.setSobrenome("Bonadio");
         updatedColaborador.setCpf("54545454");
-        updatedColaborador.setRole("Qualquer");
-        updatedColaborador.setPhone("151515151");
+        updatedColaborador.setFuncao("Qualquer");
+        updatedColaborador.setTelefone("151515151");
         updatedColaborador.setRestaurante(restaurante);
         updatedColaborador.setEndereco(endereco);
         updatedColaborador.setEmail("Email");
-        updatedColaborador.setPassword("Password");
+        updatedColaborador.setSenha("Password");
 
         colaboradors.add(colaborador);
     }

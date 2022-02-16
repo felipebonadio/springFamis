@@ -41,7 +41,7 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Produto> saveProduto(@RequestBody @Valid Produto produto, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (produto == null) || (produto.getName() == null)){
+        if(bindingResult.hasErrors() || (produto == null) || (produto.getNome() == null)){
             return ResponseEntity.badRequest().build();
         }
         return new ResponseEntity<>(famisService.saveProduto(produto), HttpStatus.CREATED);
@@ -49,7 +49,7 @@ public class ProdutoController {
 
     @PutMapping
     public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto, BindingResult bindingResult){
-        if(bindingResult.hasErrors() || (produto == null) || (produto.getName() == null)){
+        if(bindingResult.hasErrors() || (produto == null) || (produto.getNome() == null)){
             return ResponseEntity.badRequest().build();
         }
         Optional<Produto> updatedProduto = this.famisService.updateProduto(produto);

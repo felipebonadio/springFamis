@@ -16,10 +16,10 @@ public class Mesa {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private Integer number;
+    private Integer numero;
 
-    public Mesa(Integer number) {
-        this.number = number;
+    public Mesa(Integer numero) {
+        this.numero = numero;
     }
 
     public Mesa() {

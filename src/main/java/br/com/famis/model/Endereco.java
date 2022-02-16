@@ -21,28 +21,28 @@ public class Endereco {
 	private String cep;
 	
 	@Column(nullable = false)
-	private String place ;
+	private String logradouro;
 
 	@Column(nullable = false)
-	private String number ;
-
-	@Column(nullable = false)
-	private String district;
+	private String bairro;
 	
 	@Column(nullable = false)
-	private String city;
+	private String localidade;
 	
 	@Column(nullable = false)
-	private String state;	
+	private String uf;
+
+	@Column(nullable = false)
+	private String numero;
 
 
-	public Endereco(String cep, String place, String number, String district, String city, String state) {
+	public Endereco(String cep, String logradouro, String numero, String bairro, String localidade, String uf) {
 		this.cep = cep;
-		this.place = place;
-		this.number = number;
-		this.district = district;
-		this.city = city;
-		this.state = state;
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.bairro = bairro;
+		this.localidade = localidade;
+		this.uf = uf;
 	}
 
 	public Endereco() {

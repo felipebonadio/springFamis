@@ -20,30 +20,26 @@ public class Pedido {
 	private UUID id;
 	
 	@Column
-	private LocalDateTime date;
+	private LocalDateTime data;
 
 	@Column
 	private Status status;
 	
-	@Column
-	private Double discount;
-
 	@OneToMany
 	private List<Produto> produtos = new ArrayList<>();
 	
 	@ManyToOne
-    @JoinColumn(name = "collaborator_id")	
+    @JoinColumn(name = "colaborador_id")
 	private Colaborador colaborador;
 
 	@ManyToOne
-	@JoinColumn(name = "consumer_id")
+	@JoinColumn(name = "mesa_id")
 	private Mesa mesa;
 
-	public Pedido(UUID id, LocalDateTime date, Status status, Double discount, Colaborador colaborador, Mesa mesa) {
+	public Pedido(UUID id, LocalDateTime data, Status status, Colaborador colaborador, Mesa mesa) {
 		this.id = id;
-		this.date = date;
+		this.data = data;
 		this.status = status;
-		this.discount = discount;
 		this.colaborador = colaborador;
 		this.mesa = mesa;
 	}

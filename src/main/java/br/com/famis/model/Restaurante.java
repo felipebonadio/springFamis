@@ -15,33 +15,33 @@ public class Restaurante {
     private UUID id;
 
     @Column
-    private String name;
+    private String nome;
 
     @Column
-    private String phone;
+    private String telefone;
 
     @Column
     private String cnpj;
 
     @Column
-    private Integer consumer;
+    private Integer mesa;
 
     @Column
-    private LocalTime openTime;
+    private LocalTime horarioAbertura;
 
     @Column
-    private LocalTime closeTime;
+    private LocalTime horarioEncerramento;
 
     @OneToOne
     private Endereco endereco;
 
-    public Restaurante(String name, String phone, String cnpj, Integer consumer, LocalTime openTime, LocalTime closeTime, Endereco endereco) {
-        this.name = name;
-        this.phone = phone;
+    public Restaurante(String nome, String telefone, String cnpj, Integer mesa, LocalTime horarioAbertura, LocalTime horarioEncerramento, Endereco endereco) {
+        this.nome = nome;
+        this.telefone = telefone;
         this.cnpj = cnpj;
-        this.consumer = consumer;
-        this.openTime = openTime;
-        this.closeTime = closeTime;
+        this.mesa = mesa;
+        this.horarioAbertura = horarioAbertura;
+        this.horarioEncerramento = horarioEncerramento;
         this.endereco = endereco;
     }
 

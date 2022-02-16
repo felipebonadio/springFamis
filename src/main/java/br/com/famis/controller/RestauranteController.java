@@ -42,7 +42,7 @@ public class RestauranteController {
 
     @PostMapping
     public ResponseEntity<Restaurante> saveRestaurante(@RequestBody @Valid Restaurante restaurante, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (restaurante == null) || (restaurante.getName() == null)){
+        if(bindingResult.hasErrors() || (restaurante == null) || (restaurante.getNome() == null)){
             return ResponseEntity.badRequest().build();
         }
         if(restaurante.getEndereco() != null){

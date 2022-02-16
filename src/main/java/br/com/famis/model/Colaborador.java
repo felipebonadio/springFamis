@@ -2,7 +2,6 @@ package br.com.famis.model;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -16,48 +15,43 @@ public class Colaborador {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	@Column(nullable = false)
-	private String name;
+	@Column
+	private String nome;
 
-	@Column(nullable = false)
-	private String lastName;
+	@Column
+	private String sobrenome;
 
-	@Column(nullable = false)
-	private String phone;
+	@Column
+	private String telefone;
 
-	@Column(nullable = false)
+	@Column
 	private String cpf;
 
-	@NotNull
 	@OneToOne
 	private Endereco endereco;
 
-	@NotNull
 	@OneToOne
 	private Restaurante restaurante;
 
-	@NotNull
 	@Column
-	private String role;
+	private String funcao;
 
-	@NotNull
 	@Column
 	private String email;
 
-	@NotNull
 	@Column
-	private String password;
+	private String senha;
 
-	public Colaborador(String name, String lastName, String phone, String cpf, Endereco endereco, Restaurante restaurante, String role, String email, String password) {
-		this.name = name;
-		this.lastName = lastName;
-		this.phone = phone;
+	public Colaborador(String nome, String sobrenome, String telefone, String cpf, Endereco endereco, Restaurante restaurante, String funcao, String email, String senha) {
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.telefone = telefone;
 		this.cpf = cpf;
 		this.endereco = endereco;
 		this.restaurante = restaurante;
-		this.role = role;
+		this.funcao = funcao;
 		this.email = email;
-		this.password = password;
+		this.senha = senha;
 	}
 
 	public Colaborador() {
