@@ -62,7 +62,7 @@ public class ClientsController {
         Optional<Clients> client = this.famisService.findClientById(clientId);
         if(client.isPresent()) {
             famisService.deleteClient(client.get());
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }

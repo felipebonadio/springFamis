@@ -85,7 +85,7 @@ public class RestaurantController {
         Optional<Restaurant> restaurant = this.famisService.findRestaurantById(restaurantId);
         if(restaurant.isPresent()) {
             famisService.deleteRestaurant(restaurant.get());
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }

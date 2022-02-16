@@ -62,7 +62,7 @@ public class ProductController {
         Optional<Product> product = this.famisService.findProductById(productId);
         if(product.isPresent()) {
             famisService.deleteProduct(product.get());
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }

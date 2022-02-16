@@ -66,7 +66,7 @@ public class CollaboratorController {
         Optional<Collaborator> collaborator = this.famisService.findCollaboratorById(collaboratorId);
         if(collaborator.isPresent()) {
             famisService.deleteCollaborator(collaborator.get());
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }

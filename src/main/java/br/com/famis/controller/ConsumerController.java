@@ -62,7 +62,7 @@ public class ConsumerController {
         Optional<Consumer> consumer = this.famisService.findConsumerById(consumerId);
         if(consumer.isPresent()) {
             famisService.deleteConsumer(consumer.get());
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
