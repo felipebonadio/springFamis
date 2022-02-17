@@ -1,8 +1,7 @@
 package br.com.famis.controller;
 
-import br.com.famis.dto.request.MesaRequest;
+
 import br.com.famis.dto.response.MesaResponse;
-import br.com.famis.model.Colaborador;
 import br.com.famis.model.Mesa;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;

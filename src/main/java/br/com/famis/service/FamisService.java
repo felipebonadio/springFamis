@@ -1,6 +1,5 @@
 package br.com.famis.service;
 
-import br.com.famis.dto.request.MesaRequest;
 import br.com.famis.model.*;
 import org.springframework.dao.DataAccessException;
 
