@@ -1,5 +1,6 @@
 package br.com.famis.service;
 
+import br.com.famis.dto.request.MesaRequest;
 import br.com.famis.model.*;
 import org.springframework.dao.DataAccessException;
 
@@ -39,11 +40,5 @@ public interface FamisService {
     List<Produto> findAllProduto() throws DataAccessException;
     Produto saveProduto(Produto produto) throws DataAccessException;
     Optional<Produto> updateProduto(Produto produto) throws DataAccessException;
-    void deleteProduto(Produto produto) throws DataAccessException;
-
-    Optional<Pedido> findPedidoById(UUID id) throws DataAccessException;
-    List<Pedido> findAllPedidos() throws DataAccessException;
-    Pedido savePedido(Pedido pedido) throws DataAccessException;
-    Optional<Pedido> updatePedido(Pedido pedido) throws DataAccessException;
-    void deletePedido(Pedido pedido) throws DataAccessException;
+    void deleteProduto(Produto produto) throws DataAccessException;   
 }

@@ -7,10 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @SpringBootApplication
 public class FamisApplication {
@@ -40,15 +38,13 @@ public class FamisApplication {
 			Colaborador colaborador2 = new Colaborador("Luis", "Fernando", "1444444", "454545454", endereco3, r1, "CAIXA", "teste@testemail.com.br", "senha");
 			famisService.saveColaborador(colaborador2);
 
-			Mesa mesa1 = new Mesa( 1);
-			famisService.saveMesa(mesa1);
-
 			Produto produto1 = new Produto("Macarrão", 25.00, "Massas");
 			famisService.saveProduto(produto1);
 
-			Pedido pedido1 = new Pedido(LocalTime.parse("18:00",formatarHora), Status.PREPARANDO, colaborador1, mesa1);
-			pedido1.adicionarProduto(produto1);
-			famisService.savePedido(pedido1);
+			Mesa mesa1 = new Mesa(1, colaborador1);
+			mesa1.adicionarProduto(produto1);
+			famisService.saveMesa(mesa1);
+			
 			};
 		}
 	}

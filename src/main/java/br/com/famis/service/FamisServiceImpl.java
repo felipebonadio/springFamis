@@ -1,5 +1,7 @@
 package br.com.famis.service;
 
+import br.com.famis.dto.request.MesaRequest;
+import br.com.famis.dto.response.MesaResponse;
 import br.com.famis.model.*;
 import br.com.famis.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,7 @@ public class FamisServiceImpl implements FamisService{
     private final ColaboradorRepository colaboradorRepository;
     private final MesaRepository mesaRepository;
     private final RestauranteRepository restauranteRepository;
-    private final ProdutoRepository produtoRepository;
-    private final PedidoRepository pedidoRepository;
+    private final ProdutoRepository produtoRepository;  
 
     @Autowired
     public FamisServiceImpl(
@@ -26,15 +27,13 @@ public class FamisServiceImpl implements FamisService{
             ColaboradorRepository colaboradorRepository,
             MesaRepository mesaRepository,
             RestauranteRepository restauranteRepository,
-            ProdutoRepository produtoRepository,
-            PedidoRepository pedidoRepository
+            ProdutoRepository produtoRepository           
     ){
         this.enderecoRepository = enderecoRepository;
         this.colaboradorRepository = colaboradorRepository;
         this.mesaRepository = mesaRepository;
         this.restauranteRepository = restauranteRepository;
-        this.produtoRepository = produtoRepository;
-        this.pedidoRepository = pedidoRepository;
+        this.produtoRepository = produtoRepository;        
     }
 
     @Override
@@ -226,40 +225,8 @@ public class FamisServiceImpl implements FamisService{
 
     @Override
     public void deleteProduto(Produto produto) throws DataAccessException {
-        produtoRepository.delete(produto);
-    }
+        produtoRepository.delete(produto);  }
 
-    @Override
-    public Optional<Pedido> findPedidoById(UUID id) throws DataAccessException {
-        return pedidoRepository.findById(id);
-    }
-
-    @Override
-    public List<Pedido> findAllPedidos() throws DataAccessException {
-        return (List<Pedido>) pedidoRepository.findAll();
-    }
-
-    @Override
-    public Pedido savePedido(Pedido pedido) throws DataAccessException {
-        return pedidoRepository.save(pedido);
-    }
-
-    @Override
-    public Optional<Pedido> updatePedido(Pedido pedido) throws DataAccessException {
-        Optional<Pedido> currentPedido = pedidoRepository.findById(pedido.getId());
-        if(currentPedido.isPresent()) {
-            currentPedido.get().setData(pedido.getData());
-            currentPedido.get().setColaborador(pedido.getColaborador());
-            currentPedido.get().setMesa(pedido.getMesa());
-            currentPedido.get().setProdutos(pedido.getProdutos());
-            currentPedido.get().setStatus(pedido.getStatus());
-            return Optional.of(pedidoRepository.save(currentPedido.get()));
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public void deletePedido(Pedido pedido) throws DataAccessException {
-        pedidoRepository.delete(pedido);
-    }
+  
+    
 }

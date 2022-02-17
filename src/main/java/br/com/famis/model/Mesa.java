@@ -6,6 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -18,12 +24,27 @@ public class Mesa {
 
     private Integer numero;
 
-    public Mesa(Integer numero) {
+    @ManyToOne
+    @JoinColumn(name = "colaborador_id")
+    private Colaborador colaborador;
+
+    @OneToMany
+    private List<Produto> produtos = new ArrayList<>();
+
+    public void adicionarProduto(Produto produto) {
+        this.produtos.add(produto);
+    }
+
+    public void removerProduto(Produto produto) {
+        this.produtos.remove(produto);
+    }
+
+    public Mesa(Integer numero, Colaborador colaborador) {
         this.numero = numero;
+        this.colaborador = colaborador;
     }
 
     public Mesa() {
     }
-
 
 }

@@ -1,5 +1,8 @@
 package br.com.famis.controller;
 
+import br.com.famis.dto.request.MesaRequest;
+import br.com.famis.dto.response.MesaResponse;
+import br.com.famis.model.Colaborador;
 import br.com.famis.model.Mesa;
 import br.com.famis.service.FamisService;
 import org.springframework.http.HttpStatus;
@@ -11,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
@@ -19,37 +23,36 @@ public class MesaController {
 
     private final FamisService famisService;
 
-    public MesaController(FamisService famisService){
+    public MesaController(FamisService famisService) {
         this.famisService = famisService;
     }
 
     @GetMapping("/{mesaId}")
-    public ResponseEntity<Mesa> getMesa(@PathVariable("mesaId") UUID mesaId){
-        Optional<Mesa> mesa = this.famisService.findMesaById(mesaId);
-        return mesa.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<MesaResponse> getMesa(@PathVariable UUID mesaId) {
+        Optional<MesaResponse> mesa = this.famisService.findMesaById(mesaId).map(MesaResponse::converterParaDto);
+        return mesa.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Mesa>> getMesas(){
+    public ResponseEntity<List<MesaResponse>> getMesas() {
         List<Mesa> mesas = famisService.findAllMesas();
-        if(mesas.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(mesas);
+        List<MesaResponse> mesasResponse = mesas.stream().map((Mesa mesa) -> MesaResponse.converterParaDto(mesa))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(mesasResponse);
     }
 
     @PostMapping
-    public ResponseEntity<Mesa> saveMesa(@RequestBody @Valid Mesa mesa, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (mesa == null) || (mesa.getNumero() == null)){
+    public ResponseEntity<Mesa> criarMesa(@RequestBody @Valid Mesa mesa, BindingResult bindingResult) {
+        if (bindingResult.hasErrors() || (mesa == null)) {
             return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<>(famisService.saveMesa(mesa), HttpStatus.CREATED);
+        return new ResponseEntity<Mesa>(famisService.saveMesa(mesa), HttpStatus.CREATED);
     }
 
+
     @PutMapping
-    public ResponseEntity<Mesa> updateMesa(@RequestBody Mesa mesa, BindingResult bindingResult){
-        if(bindingResult.hasErrors() || (mesa == null) || (mesa.getNumero() == null)){
+    public ResponseEntity<Mesa> updateMesa(@RequestBody Mesa mesa, BindingResult bindingResult) {
+        if (bindingResult.hasErrors() || (mesa == null) || (mesa.getNumero() == null)) {
             return ResponseEntity.badRequest().build();
         }
         Optional<Mesa> updatedMesa = this.famisService.updateMesa(mesa);
@@ -60,7 +63,7 @@ public class MesaController {
     @DeleteMapping("/{mesaId}")
     public ResponseEntity<Mesa> deleteById(@PathVariable("mesaId") UUID mesaId) {
         Optional<Mesa> mesa = this.famisService.findMesaById(mesaId);
-        if(mesa.isPresent()) {
+        if (mesa.isPresent()) {
             famisService.deleteMesa(mesa.get());
             return ResponseEntity.noContent().build();
         }
