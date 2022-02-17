@@ -2,7 +2,6 @@ package br.com.famis.model;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.UUID;
@@ -27,11 +26,9 @@ public class Colaborador {
 	@Column
 	private String cpf;
 
-	@JsonIgnore
 	@OneToOne
 	private Endereco endereco;
 
-	@JsonIgnore
 	@OneToOne
 	private Restaurante restaurante;
 
