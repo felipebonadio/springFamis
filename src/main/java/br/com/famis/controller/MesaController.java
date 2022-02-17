@@ -1,6 +1,5 @@
 package br.com.famis.controller;
 
-
 import br.com.famis.dto.response.MesaResponse;
 import br.com.famis.model.Mesa;
 import br.com.famis.service.FamisService;
@@ -47,7 +46,6 @@ public class MesaController {
         }
         return new ResponseEntity<Mesa>(famisService.saveMesa(mesa), HttpStatus.CREATED);
     }
-
 
     @PutMapping
     public ResponseEntity<Mesa> updateMesa(@RequestBody Mesa mesa, BindingResult bindingResult) {

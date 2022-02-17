@@ -19,21 +19,21 @@ public class EnderecoController {
 
     private final FamisService famisService;
 
-    public EnderecoController(FamisService famisService){
+    public EnderecoController(FamisService famisService) {
         this.famisService = famisService;
     }
 
     @GetMapping("/{enderecoId}")
-    public ResponseEntity<Endereco> getEndereco(@PathVariable("enderecoId") UUID enderecoId){
+    public ResponseEntity<Endereco> getEndereco(@PathVariable("enderecoId") UUID enderecoId) {
         Optional<Endereco> endereco = this.famisService.findEnderecoById(enderecoId);
         return endereco.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Endereco>> getEnderecos(){
+    public ResponseEntity<List<Endereco>> getEnderecos() {
         List<Endereco> enderecos = this.famisService.findAllEnderecos();
-        if(enderecos.isEmpty()){
+        if (enderecos.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(enderecos);
@@ -41,15 +41,15 @@ public class EnderecoController {
 
     @PostMapping
     public ResponseEntity<Endereco> saveEndereco(@RequestBody @Valid Endereco endereco, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (endereco == null) || (endereco.getCep() == null)){
+        if (bindingResult.hasErrors() || (endereco == null) || (endereco.getCep() == null)) {
             return ResponseEntity.badRequest().build();
         }
         return new ResponseEntity<>(famisService.saveEndereco(endereco), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco, BindingResult bindingResult){
-        if(bindingResult.hasErrors() || (endereco == null) || (endereco.getCep() == null)){
+    public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco, BindingResult bindingResult) {
+        if (bindingResult.hasErrors() || (endereco == null) || (endereco.getCep() == null)) {
             return ResponseEntity.badRequest().build();
         }
         Optional<Endereco> updatedEndereco = this.famisService.updateEndereco(endereco);
@@ -60,7 +60,7 @@ public class EnderecoController {
     @DeleteMapping("/{enderecoId}")
     public ResponseEntity<Endereco> deleteById(@PathVariable("enderecoId") UUID enderecoId) {
         Optional<Endereco> endereco = this.famisService.findEnderecoById(enderecoId);
-        if(endereco.isPresent()) {
+        if (endereco.isPresent()) {
             famisService.deleteEndereco(endereco.get());
             return ResponseEntity.noContent().build();
         }

@@ -12,9 +12,9 @@ public class MesaRequest {
     public MesaRequest(int numero, Colaborador colaborador) {
         this.numero = numero;
         this.colaborador = colaborador;
-    } 
-    
-    public MesaRequest(){
-        
+    }
+
+    public MesaRequest() {
+
     }
 }

@@ -19,21 +19,21 @@ public class ProdutoController {
 
     private final FamisService famisService;
 
-    public ProdutoController(FamisService famisService){
+    public ProdutoController(FamisService famisService) {
         this.famisService = famisService;
     }
 
     @GetMapping("/{produtoId}")
-    public ResponseEntity<Produto> getProduct(@PathVariable("produtoId") UUID produtoId){
+    public ResponseEntity<Produto> getProduct(@PathVariable("produtoId") UUID produtoId) {
         Optional<Produto> produto = this.famisService.findProdutoById(produtoId);
         return produto.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> getProdutos(){
+    public ResponseEntity<List<Produto>> getProdutos() {
         List<Produto> produtos = famisService.findAllProduto();
-        if(produtos.isEmpty()){
+        if (produtos.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(produtos);
@@ -41,15 +41,15 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Produto> saveProduto(@RequestBody @Valid Produto produto, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (produto == null) || (produto.getNome() == null)){
+        if (bindingResult.hasErrors() || (produto == null) || (produto.getNome() == null)) {
             return ResponseEntity.badRequest().build();
         }
         return new ResponseEntity<>(famisService.saveProduto(produto), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto, BindingResult bindingResult){
-        if(bindingResult.hasErrors() || (produto == null) || (produto.getNome() == null)){
+    public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors() || (produto == null) || (produto.getNome() == null)) {
             return ResponseEntity.badRequest().build();
         }
         Optional<Produto> updatedProduto = this.famisService.updateProduto(produto);
@@ -60,7 +60,7 @@ public class ProdutoController {
     @DeleteMapping("/{produtoId}")
     public ResponseEntity<Produto> deleteById(@PathVariable("produtoId") UUID produtoId) {
         Optional<Produto> produto = this.famisService.findProdutoById(produtoId);
-        if(produto.isPresent()) {
+        if (produto.isPresent()) {
             famisService.deleteProduto(produto.get());
             return ResponseEntity.noContent().build();
         }

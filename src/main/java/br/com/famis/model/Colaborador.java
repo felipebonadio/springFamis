@@ -1,6 +1,5 @@
 package br.com.famis.model;
 
-
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,7 +44,8 @@ public class Colaborador {
 	@Column
 	private String senha;
 
-	public Colaborador(String nome, String sobrenome, String telefone, String cpf, Endereco endereco, Restaurante restaurante, String funcao, String email, String senha) {
+	public Colaborador(String nome, String sobrenome, String telefone, String cpf, Endereco endereco,
+			Restaurante restaurante, String funcao, String email, String senha) {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.telefone = telefone;

@@ -19,7 +19,7 @@ public class ColaboradorController {
 
     private final FamisService famisService;
 
-    public ColaboradorController(FamisService famisService){
+    public ColaboradorController(FamisService famisService) {
         this.famisService = famisService;
     }
 
@@ -40,19 +40,21 @@ public class ColaboradorController {
     }
 
     @PostMapping
-    public ResponseEntity<Colaborador> saveColaborador(@RequestBody @Valid Colaborador colaborador, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+    public ResponseEntity<Colaborador> saveColaborador(@RequestBody @Valid Colaborador colaborador,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        if(colaborador.getEndereco() != null){
+        if (colaborador.getEndereco() != null) {
             famisService.saveEndereco(colaborador.getEndereco());
         }
         return new ResponseEntity<>(famisService.saveColaborador(colaborador), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Colaborador> updateColaborador(@RequestBody Colaborador colaborador, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ResponseEntity<Colaborador> updateColaborador(@RequestBody Colaborador colaborador,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
         Optional<Colaborador> updatedColaborador = this.famisService.updateColaborador(colaborador);
@@ -64,7 +66,7 @@ public class ColaboradorController {
     @DeleteMapping("/{colaboradorId}")
     public ResponseEntity<Colaborador> deleteById(@PathVariable("colaboradorId") UUID colaboradorId) {
         Optional<Colaborador> colaborador = this.famisService.findColaboradorById(colaboradorId);
-        if(colaborador.isPresent()) {
+        if (colaborador.isPresent()) {
             famisService.deleteColaborador(colaborador.get());
             return ResponseEntity.noContent().build();
         }

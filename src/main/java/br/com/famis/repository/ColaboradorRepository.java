@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import br.com.famis.model.Colaborador;
 
-public interface ColaboradorRepository extends CrudRepository<Colaborador, UUID>{
+public interface ColaboradorRepository extends CrudRepository<Colaborador, UUID> {
 
 }

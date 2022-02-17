@@ -11,13 +11,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class FamisServiceImpl implements FamisService{
+public class FamisServiceImpl implements FamisService {
 
     private final EnderecoRepository enderecoRepository;
     private final ColaboradorRepository colaboradorRepository;
     private final MesaRepository mesaRepository;
     private final RestauranteRepository restauranteRepository;
-    private final ProdutoRepository produtoRepository;  
+    private final ProdutoRepository produtoRepository;
 
     @Autowired
     public FamisServiceImpl(
@@ -25,13 +25,12 @@ public class FamisServiceImpl implements FamisService{
             ColaboradorRepository colaboradorRepository,
             MesaRepository mesaRepository,
             RestauranteRepository restauranteRepository,
-            ProdutoRepository produtoRepository           
-    ){
+            ProdutoRepository produtoRepository) {
         this.enderecoRepository = enderecoRepository;
         this.colaboradorRepository = colaboradorRepository;
         this.mesaRepository = mesaRepository;
         this.restauranteRepository = restauranteRepository;
-        this.produtoRepository = produtoRepository;        
+        this.produtoRepository = produtoRepository;
     }
 
     @Override
@@ -51,16 +50,16 @@ public class FamisServiceImpl implements FamisService{
 
     @Override
     public Optional<Endereco> updateEndereco(Endereco endereco) throws DataAccessException {
-       Optional<Endereco> currentAddress = enderecoRepository.findById(endereco.getId());
-       if (currentAddress.isPresent()){
-           currentAddress.get().setCep(endereco.getCep());
-           currentAddress.get().setLogradouro(endereco.getLogradouro());
-           currentAddress.get().setNumero(endereco.getNumero());
-           currentAddress.get().setBairro(endereco.getBairro());
-           currentAddress.get().setLocalidade(endereco.getLocalidade());
-           currentAddress.get().setUf(endereco.getUf());
-           return Optional.of(enderecoRepository.save(currentAddress.get()));
-       }
+        Optional<Endereco> currentAddress = enderecoRepository.findById(endereco.getId());
+        if (currentAddress.isPresent()) {
+            currentAddress.get().setCep(endereco.getCep());
+            currentAddress.get().setLogradouro(endereco.getLogradouro());
+            currentAddress.get().setNumero(endereco.getNumero());
+            currentAddress.get().setBairro(endereco.getBairro());
+            currentAddress.get().setLocalidade(endereco.getLocalidade());
+            currentAddress.get().setUf(endereco.getUf());
+            return Optional.of(enderecoRepository.save(currentAddress.get()));
+        }
         return Optional.empty();
     }
 
@@ -70,13 +69,13 @@ public class FamisServiceImpl implements FamisService{
     }
 
     @Override
-    public Optional<Colaborador> findColaboradorById(UUID id){
-      return colaboradorRepository.findById(id);
+    public Optional<Colaborador> findColaboradorById(UUID id) {
+        return colaboradorRepository.findById(id);
     }
 
     @Override
     public List<Colaborador> findAllColaboradores() throws DataAccessException {
-       return (List<Colaborador>) colaboradorRepository.findAll();
+        return (List<Colaborador>) colaboradorRepository.findAll();
     }
 
     @Override
@@ -87,16 +86,16 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public Optional<Colaborador> updateColaborador(Colaborador colaborador) throws DataAccessException {
         Optional<Colaborador> currentCollaborator = this.findColaboradorById(colaborador.getId());
-        if(currentCollaborator.isPresent()){
-                currentCollaborator.get().setNome(colaborador.getNome());
-                currentCollaborator.get().setSobrenome(colaborador.getSobrenome());
-                currentCollaborator.get().setEndereco(colaborador.getEndereco());
-                currentCollaborator.get().setCpf(colaborador.getCpf());
-                currentCollaborator.get().setFuncao(colaborador.getFuncao());
-                currentCollaborator.get().setEmail(colaborador.getEmail());
-                currentCollaborator.get().setSenha(colaborador.getSenha());
-                currentCollaborator.get().setTelefone(colaborador.getTelefone());
-                currentCollaborator.get().setRestaurante(colaborador.getRestaurante());
+        if (currentCollaborator.isPresent()) {
+            currentCollaborator.get().setNome(colaborador.getNome());
+            currentCollaborator.get().setSobrenome(colaborador.getSobrenome());
+            currentCollaborator.get().setEndereco(colaborador.getEndereco());
+            currentCollaborator.get().setCpf(colaborador.getCpf());
+            currentCollaborator.get().setFuncao(colaborador.getFuncao());
+            currentCollaborator.get().setEmail(colaborador.getEmail());
+            currentCollaborator.get().setSenha(colaborador.getSenha());
+            currentCollaborator.get().setTelefone(colaborador.getTelefone());
+            currentCollaborator.get().setRestaurante(colaborador.getRestaurante());
             return Optional.of(colaboradorRepository.save(currentCollaborator.get()));
         }
         return Optional.empty();
@@ -125,7 +124,7 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public Optional<Mesa> updateMesa(Mesa mesa) throws DataAccessException {
         Optional<Mesa> currentConsumer = mesaRepository.findById(mesa.getId());
-        if(currentConsumer.isPresent()){
+        if (currentConsumer.isPresent()) {
             currentConsumer.get().setNumero(mesa.getNumero());
             return Optional.of(mesaRepository.save(currentConsumer.get()));
         }
@@ -155,7 +154,7 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public Optional<Restaurante> updateRestaurante(Restaurante restaurante) throws DataAccessException {
         Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
-        if(currentRestaurant.isPresent()){
+        if (currentRestaurant.isPresent()) {
             currentRestaurant.get().setNome(restaurante.getNome());
             currentRestaurant.get().setTelefone(restaurante.getTelefone());
             currentRestaurant.get().setCnpj(restaurante.getCnpj());
@@ -171,7 +170,7 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public Optional<Restaurante> updateMesaOnRestaurante(Restaurante restaurante) throws DataAccessException {
         Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
-        if(currentRestaurant.isPresent()){
+        if (currentRestaurant.isPresent()) {
             currentRestaurant.get().setMesa(restaurante.getMesa());
             return Optional.of(restauranteRepository.save(currentRestaurant.get()));
         }
@@ -181,7 +180,7 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public Optional<Restaurante> updateHorarioOnRestaurante(Restaurante restaurante) throws DataAccessException {
         Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
-        if(currentRestaurant.isPresent()){
+        if (currentRestaurant.isPresent()) {
             currentRestaurant.get().setHorarioAbertura(restaurante.getHorarioAbertura());
             currentRestaurant.get().setHorarioEncerramento(restaurante.getHorarioEncerramento());
             return Optional.of(restauranteRepository.save(currentRestaurant.get()));
@@ -212,7 +211,7 @@ public class FamisServiceImpl implements FamisService{
     @Override
     public Optional<Produto> updateProduto(Produto produto) throws DataAccessException {
         Optional<Produto> currentProduct = produtoRepository.findById(produto.getId());
-        if(currentProduct.isPresent()) {
+        if (currentProduct.isPresent()) {
             currentProduct.get().setNome(produto.getNome());
             currentProduct.get().setCategoria(produto.getCategoria());
             currentProduct.get().setValor(produto.getValor());
@@ -223,8 +222,7 @@ public class FamisServiceImpl implements FamisService{
 
     @Override
     public void deleteProduto(Produto produto) throws DataAccessException {
-        produtoRepository.delete(produto);  }
+        produtoRepository.delete(produto);
+    }
 
-  
-    
 }

@@ -35,7 +35,8 @@ public class Restaurante {
     @OneToOne
     private Endereco endereco;
 
-    public Restaurante(String nome, String telefone, String cnpj, Integer mesa, LocalTime horarioAbertura, LocalTime horarioEncerramento, Endereco endereco) {
+    public Restaurante(String nome, String telefone, String cnpj, Integer mesa, LocalTime horarioAbertura,
+            LocalTime horarioEncerramento, Endereco endereco) {
         this.nome = nome;
         this.telefone = telefone;
         this.cnpj = cnpj;

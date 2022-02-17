@@ -20,7 +20,7 @@ public class RestauranteController {
 
     private final FamisService famisService;
 
-    public RestauranteController(FamisService famisService){
+    public RestauranteController(FamisService famisService) {
         this.famisService = famisService;
     }
 
@@ -41,19 +41,21 @@ public class RestauranteController {
     }
 
     @PostMapping
-    public ResponseEntity<Restaurante> saveRestaurante(@RequestBody @Valid Restaurante restaurante, BindingResult bindingResult) {
-        if(bindingResult.hasErrors() || (restaurante == null) || (restaurante.getNome() == null)){
+    public ResponseEntity<Restaurante> saveRestaurante(@RequestBody @Valid Restaurante restaurante,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors() || (restaurante == null) || (restaurante.getNome() == null)) {
             return ResponseEntity.badRequest().build();
         }
-        if(restaurante.getEndereco() != null){
+        if (restaurante.getEndereco() != null) {
             famisService.saveEndereco(restaurante.getEndereco());
         }
         return new ResponseEntity<>(famisService.saveRestaurante(restaurante), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Restaurante> updateRestaurante(@RequestBody Restaurante restaurante, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ResponseEntity<Restaurante> updateRestaurante(@RequestBody Restaurante restaurante,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
         Optional<Restaurante> updatedRestaurante = this.famisService.updateRestaurante(restaurante);
@@ -62,17 +64,20 @@ public class RestauranteController {
     }
 
     @PutMapping("/mesa")
-    public ResponseEntity<Restaurante> updateMesaOnRestaurante(@RequestBody Restaurante restaurante, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ResponseEntity<Restaurante> updateMesaOnRestaurante(@RequestBody Restaurante restaurante,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
         Optional<Restaurante> updatedRestaurante = this.famisService.updateMesaOnRestaurante(restaurante);
         return updatedRestaurante.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @PutMapping("/horario")
-    public ResponseEntity<Restaurante> updateHorarioOnRestaurante(@RequestBody Restaurante restaurante, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ResponseEntity<Restaurante> updateHorarioOnRestaurante(@RequestBody Restaurante restaurante,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
         Optional<Restaurante> updatedRestaurant = this.famisService.updateHorarioOnRestaurante(restaurante);
@@ -83,11 +88,10 @@ public class RestauranteController {
     @DeleteMapping("/{restauranteId}")
     public ResponseEntity<Mesa> deleteById(@PathVariable("restauranteId") UUID restauranteId) {
         Optional<Restaurante> restaurante = this.famisService.findRestauranteById(restauranteId);
-        if(restaurante.isPresent()) {
+        if (restaurante.isPresent()) {
             famisService.deleteRestaurante(restaurante.get());
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
 }
-
