@@ -1,5 +1,6 @@
 package br.com.famis.model;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class Pedido {
 	private UUID id;
 	
 	@Column
-	private LocalDateTime data;
+	private LocalTime data;
 
 	@Column
 	private Status status;
@@ -36,8 +37,15 @@ public class Pedido {
 	@JoinColumn(name = "mesa_id")
 	private Mesa mesa;
 
-	public Pedido(UUID id, LocalDateTime data, Status status, Colaborador colaborador, Mesa mesa) {
-		this.id = id;
+	public void adicionarProduto(Produto produto){
+		this.produtos.add(produto);
+	}
+
+	public void removerProduto(Produto produto){
+		this.produtos.remove(produto);
+	}
+
+	public Pedido(LocalTime data, Status status, Colaborador colaborador, Mesa mesa) {
 		this.data = data;
 		this.status = status;
 		this.colaborador = colaborador;

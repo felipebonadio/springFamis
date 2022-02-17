@@ -41,4 +41,9 @@ public interface FamisService {
     Optional<Produto> updateProduto(Produto produto) throws DataAccessException;
     void deleteProduto(Produto produto) throws DataAccessException;
 
+    Optional<Pedido> findPedidoById(UUID id) throws DataAccessException;
+    List<Pedido> findAllPedidos() throws DataAccessException;
+    Pedido savePedido(Pedido pedido) throws DataAccessException;
+    Optional<Pedido> updatePedido(Pedido pedido) throws DataAccessException;
+    void deletePedido(Pedido pedido) throws DataAccessException;
 }
