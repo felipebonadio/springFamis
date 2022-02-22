@@ -34,7 +34,7 @@ public class MesaController {
     @GetMapping
     public ResponseEntity<List<MesaResponse>> getMesas() {
         List<Mesa> mesas = famisService.findAllMesas();
-        List<MesaResponse> mesasResponse = mesas.stream().map((Mesa mesa) -> MesaResponse.converterParaDto(mesa))
+        List<MesaResponse> mesasResponse = mesas.stream().map(MesaResponse::converterParaDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(mesasResponse);
     }
