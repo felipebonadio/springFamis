@@ -23,22 +23,15 @@ public class FamisApplication {
 
 			DateTimeFormatter formatarHora = DateTimeFormatter.ofPattern("HH:mm");
 
-			Endereco endereco1 = new Endereco("284124", "Rua 1", "500", "Vila", "Barra", "Sp");
-			famisService.saveEndereco(endereco1);
-
-			Endereco endereco2 = new Endereco("548745", "Rua 5", "698", "Bairro", "Bonita", "Rj");
-			famisService.saveEndereco(endereco2);
 			Restaurante r1 = new Restaurante("Restaurante", "145556974", "0001254562", 20,
-					LocalTime.parse("18:00", formatarHora), LocalTime.parse("24:00", formatarHora), endereco1);
+					LocalTime.parse("18:00", formatarHora), LocalTime.parse("24:00", formatarHora));
 			famisService.saveRestaurante(r1);
 
-			Endereco endereco3 = new Endereco("5656565", "Rua 2", " 708", "Vila", "Barra", "Sp");
-			famisService.saveEndereco(endereco3);
-			Colaborador colaborador1 = new Colaborador("Luis", "Fernando", "1444444", "454545454", endereco2, r1,
-					"CAIXA", "teste@testemail.com.br", "senha");
+			Colaborador colaborador1 = new Colaborador("Luis", "Fernando", "1444444", "454545454", r1,
+					"CAIXA");
 			famisService.saveColaborador(colaborador1);
-			Colaborador colaborador2 = new Colaborador("Luis", "Fernando", "1444444", "454545454", endereco3, r1,
-					"CAIXA", "teste@testemail.com.br", "senha");
+			Colaborador colaborador2 = new Colaborador("Luis", "Fernando", "1444444", "454545454", r1,
+					"CAIXA");
 			famisService.saveColaborador(colaborador2);
 
 			Produto produto1 = new Produto("Macarrão", 25.00, "Massas");
@@ -47,7 +40,6 @@ public class FamisApplication {
 			Mesa mesa1 = new Mesa(1, colaborador1);
 			mesa1.adicionarProduto(produto1);
 			famisService.saveMesa(mesa1);
-
 		};
 	}
 }

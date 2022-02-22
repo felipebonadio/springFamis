@@ -22,12 +22,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.famis.controller.ColaboradorController;
 import br.com.famis.model.Colaborador;
-import br.com.famis.model.Endereco;
 import br.com.famis.model.Restaurante;
 import br.com.famis.service.FamisService;
 
 @WebMvcTest(ColaboradorController.class)
-public class ColaboradorControlladorTeste {
+public class ColaboradorControllerTeste {
 
     @Autowired
     MockMvc mockMvc;
@@ -38,7 +37,6 @@ public class ColaboradorControlladorTeste {
     DateTimeFormatter formatarHora = DateTimeFormatter.ofPattern("HH:mm");
 
     Colaborador colab = new Colaborador();
-    Endereco endereco = new Endereco();
     Restaurante restaurante = new Restaurante();
 
     @BeforeEach
@@ -47,28 +45,14 @@ public class ColaboradorControlladorTeste {
         colab.setCpf("cpf");
         colab.setNome("Teste");
         colab.setSobrenome("Integracao");
-        colab.setEmail("email");
-        colab.setSenha("senha");
         colab.setFuncao("funcao");
-        colab.setEndereco(endereco);
         colab.setRestaurante(restaurante);
         colab.setTelefone("telefone");
 
-        endereco.setId(UUID.fromString("be047c42-2b46-4963-8a5c-97a692c7c36d"));
-        endereco.setBairro("bairro");
-        endereco.setCep("cep");
-        endereco.setLocalidade("localidade");
-        endereco.setLogradouro("logradouro");
-        endereco.setNumero("numero");
-        endereco.setUf("uf");
-
         restaurante.setId(UUID.fromString("0966177e-e405-4c20-9c44-84ae1004de05"));
         restaurante.setCnpj("cnpj");
-        restaurante.setEndereco(endereco);
-        restaurante.setMesa(2);
         restaurante.setNome("nome");
         restaurante.setTelefone("telefone");
-
     }
 
     @Test

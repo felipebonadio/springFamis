@@ -9,12 +9,6 @@ import java.util.UUID;
 
 public interface FamisService {
 
-    Optional<Endereco> findEnderecoById(UUID id) throws DataAccessException;
-    List<Endereco> findAllEnderecos() throws DataAccessException;
-    Endereco saveEndereco(Endereco endereco) throws DataAccessException;
-    Optional<Endereco> updateEndereco(Endereco endereco) throws DataAccessException;
-    void deleteEndereco(Endereco endereco) throws DataAccessException;
-
     Optional<Colaborador> findColaboradorById(UUID id) throws DataAccessException;
     List<Colaborador> findAllColaboradores() throws DataAccessException;
     Colaborador saveColaborador(Colaborador colaborador) throws DataAccessException;

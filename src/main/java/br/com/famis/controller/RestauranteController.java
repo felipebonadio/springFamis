@@ -46,9 +46,6 @@ public class RestauranteController {
         if (bindingResult.hasErrors() || (restaurante == null) || (restaurante.getNome() == null)) {
             return ResponseEntity.badRequest().build();
         }
-        if (restaurante.getEndereco() != null) {
-            famisService.saveEndereco(restaurante.getEndereco());
-        }
         return new ResponseEntity<>(famisService.saveRestaurante(restaurante), HttpStatus.CREATED);
     }
 

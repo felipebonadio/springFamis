@@ -45,9 +45,6 @@ public class ColaboradorController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        if (colaborador.getEndereco() != null) {
-            famisService.saveEndereco(colaborador.getEndereco());
-        }
         return new ResponseEntity<>(famisService.saveColaborador(colaborador), HttpStatus.CREATED);
     }
 
