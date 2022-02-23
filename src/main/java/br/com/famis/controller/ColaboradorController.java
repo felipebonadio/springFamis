@@ -1,13 +1,12 @@
 package br.com.famis.controller;
 
 import br.com.famis.model.Colaborador;
-import br.com.famis.service.FamisService;
+import br.com.famis.service.ColaboradorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,22 +16,22 @@ import java.util.UUID;
 @RequestMapping("/colaboradores")
 public class ColaboradorController {
 
-    private final FamisService famisService;
+    private final ColaboradorService colaboradorService;
 
-    public ColaboradorController(FamisService famisService) {
-        this.famisService = famisService;
+    public ColaboradorController(ColaboradorService colaboradorService) {
+        this.colaboradorService = colaboradorService;
     }
 
     @GetMapping("/{colaboradorId}")
     public ResponseEntity<Colaborador> getColaborador(@PathVariable UUID colaboradorId) {
-        Optional<Colaborador> colaborador = famisService.findColaboradorById(colaboradorId);
+        Optional<Colaborador> colaborador = colaboradorService.findColaboradorById(colaboradorId);
         return colaborador.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<Colaborador>> getColaboradores() {
-        List<Colaborador> colaboradores = this.famisService.findAllColaboradores();
+        List<Colaborador> colaboradores = this.colaboradorService.findAllColaboradores();
         if (colaboradores.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -40,12 +39,11 @@ public class ColaboradorController {
     }
 
     @PostMapping
-    public ResponseEntity<Colaborador> saveColaborador(@RequestBody @Valid Colaborador colaborador,
-            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public ResponseEntity<Colaborador> saveColaborador(@RequestBody Colaborador colaborador) {
+        if (colaborador.getNome() == null) {
             return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<>(famisService.saveColaborador(colaborador), HttpStatus.CREATED);
+        return new ResponseEntity<>(colaboradorService.saveColaborador(colaborador), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -54,17 +52,17 @@ public class ColaboradorController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<Colaborador> updatedColaborador = this.famisService.updateColaborador(colaborador);
+        Optional<Colaborador> updatedColaborador = this.colaboradorService.updateColaborador(colaborador);
         return updatedColaborador.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
 
     }
 
     @DeleteMapping("/{colaboradorId}")
-    public ResponseEntity<Colaborador> deleteById(@PathVariable("colaboradorId") UUID colaboradorId) {
-        Optional<Colaborador> colaborador = this.famisService.findColaboradorById(colaboradorId);
+    public ResponseEntity<Colaborador> deleteById(@PathVariable UUID colaboradorId) {
+        Optional<Colaborador> colaborador = this.colaboradorService.findColaboradorById(colaboradorId);
         if (colaborador.isPresent()) {
-            famisService.deleteColaborador(colaborador.get());
+            colaboradorService.deleteColaborador(colaborador.get());
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

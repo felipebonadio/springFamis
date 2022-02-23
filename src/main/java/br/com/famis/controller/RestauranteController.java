@@ -2,7 +2,7 @@ package br.com.famis.controller;
 
 import br.com.famis.model.Mesa;
 import br.com.famis.model.Restaurante;
-import br.com.famis.service.FamisService;
+import br.com.famis.service.RestauranteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,22 +18,22 @@ import java.util.UUID;
 @RequestMapping("/restaurantes")
 public class RestauranteController {
 
-    private final FamisService famisService;
+    private final RestauranteService restauranteService;
 
-    public RestauranteController(FamisService famisService) {
-        this.famisService = famisService;
+    public RestauranteController(RestauranteService restauranteService) {
+        this.restauranteService = restauranteService;
     }
 
     @GetMapping("/{restauranteId}")
     public ResponseEntity<Restaurante> getRestaurante(@PathVariable("restauranteId") UUID restauranteId) {
-        Optional<Restaurante> restaurante = this.famisService.findRestauranteById(restauranteId);
+        Optional<Restaurante> restaurante = this.restauranteService.findRestauranteById(restauranteId);
         return restaurante.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<Restaurante>> getRestaurantes() {
-        List<Restaurante> restaurantes = this.famisService.findAllRestaurantes();
+        List<Restaurante> restaurantes = this.restauranteService.findAllRestaurantes();
         if (restaurantes.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -46,7 +46,7 @@ public class RestauranteController {
         if (bindingResult.hasErrors() || (restaurante == null) || (restaurante.getNome() == null)) {
             return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<>(famisService.saveRestaurante(restaurante), HttpStatus.CREATED);
+        return new ResponseEntity<>(restauranteService.saveRestaurante(restaurante), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -55,7 +55,7 @@ public class RestauranteController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<Restaurante> updatedRestaurante = this.famisService.updateRestaurante(restaurante);
+        Optional<Restaurante> updatedRestaurante = this.restauranteService.updateRestaurante(restaurante);
         return updatedRestaurante.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -66,7 +66,7 @@ public class RestauranteController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<Restaurante> updatedRestaurante = this.famisService.updateMesaOnRestaurante(restaurante);
+        Optional<Restaurante> updatedRestaurante = this.restauranteService.updateMesaOnRestaurante(restaurante);
         return updatedRestaurante.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -77,16 +77,16 @@ public class RestauranteController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<Restaurante> updatedRestaurant = this.famisService.updateHorarioOnRestaurante(restaurante);
+        Optional<Restaurante> updatedRestaurant = this.restauranteService.updateHorarioOnRestaurante(restaurante);
         return updatedRestaurant.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{restauranteId}")
     public ResponseEntity<Mesa> deleteById(@PathVariable("restauranteId") UUID restauranteId) {
-        Optional<Restaurante> restaurante = this.famisService.findRestauranteById(restauranteId);
+        Optional<Restaurante> restaurante = this.restauranteService.findRestauranteById(restauranteId);
         if (restaurante.isPresent()) {
-            famisService.deleteRestaurante(restaurante.get());
+            restauranteService.deleteRestaurante(restaurante.get());
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

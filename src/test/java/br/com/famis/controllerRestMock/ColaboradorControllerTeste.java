@@ -7,23 +7,26 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
+import br.com.famis.service.ColaboradorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.famis.controller.ColaboradorController;
 import br.com.famis.model.Colaborador;
 import br.com.famis.model.Restaurante;
-import br.com.famis.service.FamisService;
 
 @WebMvcTest(ColaboradorController.class)
 public class ColaboradorControllerTeste {
@@ -32,7 +35,7 @@ public class ColaboradorControllerTeste {
     MockMvc mockMvc;
 
     @MockBean
-    private FamisService famisService;
+    private ColaboradorService colaboradorService;
 
     DateTimeFormatter formatarHora = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -59,7 +62,7 @@ public class ColaboradorControllerTeste {
     @DisplayName("Teste do encontrar colaborador por ID")
     void deveRetornarUmColaboradorPorId() throws Exception {
 
-        when(famisService.findColaboradorById(UUID.fromString("da9d8cc7-9b92-45f6-baed-454f7ec826f8")))
+        when(colaboradorService.findColaboradorById(UUID.fromString("da9d8cc7-9b92-45f6-baed-454f7ec826f8")))
                 .thenReturn(Optional.of(colab));
 
         ObjectMapper mapper = new ObjectMapper();
@@ -74,10 +77,41 @@ public class ColaboradorControllerTeste {
     @DisplayName("Deve retornar um Not Found ao procurar colaborador por ID")
     void deveRetornarUmNotFoundColaboradorPorId() throws Exception {
 
-        when(famisService.findColaboradorById(UUID.fromString("f9592bc4-a883-43be-bd2e-e8af53e3126c")))
-                .thenReturn(Optional.of(colab));
+        when(colaboradorService.findColaboradorById(UUID.fromString("f9592bc4-a883-43be-bd2e-e8af53e3126c")))
+                .thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/colaboradores/" + colab.getId()))
+        mockMvc.perform(get("/colaboradores/f9592bc4-a883-43be-bd2e-e8af53e3126c"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Teste de salvar um colaborador")
+    void deveSalvarUmColaborador() throws Exception{
+        when(colaboradorService.saveColaborador(colab)).thenAnswer((i)-> i.getArgument(0));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String salvarColaborador = mapper.writeValueAsString(colab);
+
+        mockMvc.perform(post("/colaboradores")
+                .content(salvarColaborador)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(salvarColaborador))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("Deve retornar um BadRequest ao salvar com parametros errados")
+    void deveRetornarBadRequestAoSalvarUmColaborador() throws Exception{
+
+        when(colaboradorService.saveColaborador(colab)).thenAnswer((i)-> i.getArgument(0));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String salvarColabVazio= mapper.writeValueAsString(colab);
+
+        mockMvc.perform(post("/colaboradores")
+                .content(salvarColabVazio)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(salvarColabVazio))
+                .andExpect(status().isBadRequest());
     }
 }
