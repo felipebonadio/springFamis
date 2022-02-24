@@ -23,12 +23,7 @@ public class ColaboradorService {
     }
 
     public Optional<Colaborador> findColaboradorById(UUID id) throws NotFoundException {
-        Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
-        if(colaborador.isPresent()){
-            return colaborador;
-        }else{
-            throw new NotFoundException("Colaborador com id: " +id+" não existe!");
-        }
+        return colaboradorRepository.findById(id);
     }
 
     public List<Colaborador> findAllColaboradores() throws DataAccessException {
@@ -36,7 +31,6 @@ public class ColaboradorService {
     }
 
     public Colaborador saveColaborador(Colaborador colaborador) throws BadRequestException {
-
         return colaboradorRepository.save(colaborador);
     }
 

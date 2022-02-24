@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
+import br.com.famis.exception.BadRequestException;
 import br.com.famis.service.ColaboradorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -74,7 +75,7 @@ public class ColaboradorControllerTeste {
     }
 
     @Test
-    @DisplayName("Deve retornar um Not Found ao procurar colaborador por ID")
+    @DisplayName("Deve retornar um Not Found ao procurar colaborador por ID inexistente")
     void deveRetornarUmNotFoundColaboradorPorId() throws Exception {
 
         when(colaboradorService.findColaboradorById(UUID.fromString("f9592bc4-a883-43be-bd2e-e8af53e3126c")))
@@ -101,17 +102,17 @@ public class ColaboradorControllerTeste {
 
     @Test
     @DisplayName("Deve retornar um BadRequest ao salvar com parametros errados")
-    void deveRetornarBadRequestAoSalvarUmColaborador() throws Exception{
+    void deveRetornarBadRequestAoSalvarUmColaboradorVazio() throws Exception{
+        Colaborador newColab = new Colaborador();
 
-        when(colaboradorService.saveColaborador(colab)).thenAnswer((i)-> i.getArgument(0));
+        when(colaboradorService.saveColaborador(newColab)).thenAnswer((i)-> i.getArgument(0));
 
         ObjectMapper mapper = new ObjectMapper();
-        String salvarColabVazio= mapper.writeValueAsString(colab);
+        String salvarColabVazio= mapper.writeValueAsString(newColab);
 
         mockMvc.perform(post("/colaboradores")
                 .content(salvarColabVazio)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(salvarColabVazio))
                 .andExpect(status().isBadRequest());
     }
 }

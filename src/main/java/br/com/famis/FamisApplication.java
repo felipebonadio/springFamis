@@ -23,30 +23,30 @@ public class FamisApplication {
         SpringApplication.run(FamisApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner demo(ColaboradorService colaboradorService,
-                                  MesaService mesaService,
-                                  RestauranteService restauranteService,
-                                  ProdutoService produtoService) {
-        return (args) -> {
-
-            DateTimeFormatter formatarHora = DateTimeFormatter.ofPattern("HH:mm");
-
-            Restaurante r1 = new Restaurante("Restaurante", "145556974", "0001254562", 20, LocalTime.parse("18:00", formatarHora), LocalTime.parse("24:00", formatarHora));
-            restauranteService.saveRestaurante(r1);
-
-            Colaborador colaborador1 = new Colaborador("Luis", "Fernando", "1444444", "454545454", r1, "CAIXA");
-
-            colaboradorService.saveColaborador(colaborador1);
-            Colaborador colaborador2 = new Colaborador("Luis", "Fernando", "1444444", "454545454", r1, "CAIXA");
-            colaboradorService.saveColaborador(colaborador2);
-
-            Produto produto1 = new Produto("Macarrão", 25.00, "Massas");
-            produtoService.saveProduto(produto1);
-
-            Mesa mesa1 = new Mesa(1, colaborador1);
-            mesa1.adicionarProduto(produto1);
-            mesaService.saveMesa(mesa1);
-        };
-    }
+//    @Bean
+//    public CommandLineRunner demo(ColaboradorService colaboradorService,
+//                                  MesaService mesaService,
+//                                  RestauranteService restauranteService,
+//                                  ProdutoService produtoService) {
+//        return (args) -> {
+//
+//            DateTimeFormatter formatarHora = DateTimeFormatter.ofPattern("HH:mm");
+//
+//            Restaurante r1 = new Restaurante("Restaurante", "145556974", "0001254562", 20, LocalTime.parse("18:00", formatarHora), LocalTime.parse("24:00", formatarHora));
+//            restauranteService.saveRestaurante(r1);
+//
+//            Colaborador colaborador1 = new Colaborador("Luis", "Fernando", "1444444", "454545454", r1, "CAIXA");
+//
+//            colaboradorService.saveColaborador(colaborador1);
+//            Colaborador colaborador2 = new Colaborador("Luis", "Fernando", "1444444", "454545454", r1, "CAIXA");
+//            colaboradorService.saveColaborador(colaborador2);
+//
+//            Produto produto1 = new Produto("Macarrão", 25.00, "Massas");
+//            produtoService.saveProduto(produto1);
+//
+//            Mesa mesa1 = new Mesa(1, colaborador1);
+//            mesa1.adicionarProduto(produto1);
+//            mesaService.saveMesa(mesa1);
+//        };
+//    }
 }
