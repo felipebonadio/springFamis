@@ -1,13 +1,13 @@
 package br.com.famis.controllerRestMock;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
-import br.com.famis.exception.BadRequestException;
 import br.com.famis.service.ColaboradorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -114,5 +114,30 @@ public class ColaboradorControllerTeste {
                 .content(salvarColabVazio)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Teste de criar um colaborador e depois apaga-lo")
+    void deveCriarUmColaboradorEDepoisApagar() throws Exception {
+
+        when(colaboradorService.saveColaborador(colab)).thenAnswer((i)-> i.getArgument(0));
+        when(colaboradorService.findColaboradorById(colab.getId())).thenReturn(Optional.ofNullable(colab));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String salvarColaborador = mapper.writeValueAsString(colab);
+
+        mockMvc.perform(post("/colaboradores")
+                .content(salvarColaborador)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(salvarColaborador))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(get("/colaboradores/"+colab.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        mockMvc.perform(delete("/colaboradores/" + colab.getId()))
+                .andExpect(status().isNoContent());
     }
 }
