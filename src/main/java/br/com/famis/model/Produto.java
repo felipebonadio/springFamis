@@ -8,15 +8,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Builder
 @Entity
-@Data
 public class Produto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	private Long id;
 
 	@Column(nullable = false)
 	private String nome;
@@ -34,5 +39,9 @@ public class Produto {
 	}
 
 	public Produto() {
+	}
+
+	public Produto(Long id) {
+		this.id = id;
 	}
 }

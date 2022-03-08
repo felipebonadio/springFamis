@@ -2,17 +2,22 @@ package br.com.famis.model;
 
 import javax.persistence.*;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.UUID;
-
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Builder
 @Entity
 public class Colaborador {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	private Long id;
 
 	@Column
 	private String nome;
@@ -31,6 +36,10 @@ public class Colaborador {
 
 	@Column
 	private String funcao;
+
+	public Colaborador(String nome) {
+		this.nome = nome;
+	}
 
 	public Colaborador(String nome, String sobrenome, String telefone, String cpf, Restaurante restaurante, String funcao) {
 		this.nome = nome;

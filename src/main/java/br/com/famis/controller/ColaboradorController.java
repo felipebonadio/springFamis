@@ -25,7 +25,7 @@ public class ColaboradorController {
     }
 
     @GetMapping("/{colaboradorId}")
-    public ResponseEntity<Optional<Colaborador>> getColaborador(@PathVariable UUID colaboradorId) throws NotFoundException {
+    public ResponseEntity<Optional<Colaborador>> getColaborador(@PathVariable Long colaboradorId) throws NotFoundException {
         Optional<Colaborador> colaborador = colaboradorService.findColaboradorById(colaboradorId);
         if(colaborador.isPresent()) {
             return ResponseEntity.ok(colaborador);
@@ -62,7 +62,7 @@ public class ColaboradorController {
     }
 
     @DeleteMapping("/{colaboradorId}")
-    public ResponseEntity<Colaborador> deleteById(@PathVariable UUID colaboradorId) throws NotFoundException{
+    public ResponseEntity<Colaborador> deleteById(@PathVariable Long colaboradorId) throws NotFoundException{
         Optional<Colaborador> colaborador = this.colaboradorService.findColaboradorById(colaboradorId);
         if (colaborador.isPresent()) {
             colaboradorService.deleteColaborador(colaborador.get());

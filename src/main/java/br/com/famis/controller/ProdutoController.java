@@ -1,5 +1,6 @@
 package br.com.famis.controller;
 
+import br.com.famis.dto.ProdutoDto;
 import br.com.famis.model.Produto;
 import br.com.famis.service.ProdutoService;
 import org.springframework.http.HttpStatus;
@@ -24,46 +25,31 @@ public class ProdutoController {
     }
 
     @GetMapping("/{produtoId}")
-    public ResponseEntity<Produto> getProduct(@PathVariable("produtoId") UUID produtoId) {
-        Optional<Produto> produto = this.produtoService.findProdutoById(produtoId);
-        return produto.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ProdutoDto> getProduct(@PathVariable Long produtoId) {
+        Optional<ProdutoDto> produtoParaEncontrar = this.produtoService.findProdutoById(produtoId);
+        return ResponseEntity.ok(produtoParaEncontrar.get());
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> getProdutos() {
-        List<Produto> produtos = produtoService.findAllProduto();
-        if (produtos.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<ProdutoDto>> getProdutos() {
+        List<ProdutoDto> produtos = produtoService.findAllProduto();
         return ResponseEntity.ok(produtos);
     }
 
     @PostMapping
-    public ResponseEntity<Produto> saveProduto(@RequestBody @Valid Produto produto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors() || (produto == null) || (produto.getNome() == null)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return new ResponseEntity<>(produtoService.saveProduto(produto), HttpStatus.CREATED);
+    public ResponseEntity<ProdutoDto> saveProduto(@RequestBody ProdutoDto produtoDto) {
+        return new ResponseEntity<>(produtoService.saveProduto(produtoDto), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors() || (produto == null) || (produto.getNome() == null)) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<Produto> updatedProduto = this.produtoService.updateProduto(produto);
-        return updatedProduto.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ProdutoDto> updateProduto(@RequestBody ProdutoDto produtoDto) {
+        Optional<ProdutoDto> produtoParaAtualizar = this.produtoService.updateProduto(produtoDto);
+        return ResponseEntity.ok(produtoParaAtualizar.get());
     }
 
     @DeleteMapping("/{produtoId}")
-    public ResponseEntity<Produto> deleteById(@PathVariable("produtoId") UUID produtoId) {
-        Optional<Produto> produto = this.produtoService.findProdutoById(produtoId);
-        if (produto.isPresent()) {
-            produtoService.deleteProduto(produto.get());
-            return ResponseEntity.noContent().build();
-        }
+    public ResponseEntity<Produto> deleteById(@PathVariable("produtoId") Long produtoId) {
+        produtoService.deleteProduto(produtoId);
         return ResponseEntity.notFound().build();
     }
 }

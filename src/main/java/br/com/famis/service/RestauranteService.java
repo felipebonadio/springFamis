@@ -18,7 +18,7 @@ public class RestauranteService {
         this.restauranteRepository = restauranteRepository;
     }
 
-    public Optional<Restaurante> findRestauranteById(UUID id) throws DataAccessException {
+    public Optional<Restaurante> findRestauranteById(Long id) throws DataAccessException {
         return restauranteRepository.findById(id);
     }
 

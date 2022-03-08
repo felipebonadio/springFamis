@@ -12,7 +12,7 @@ public class Restaurante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column
     private String nome;

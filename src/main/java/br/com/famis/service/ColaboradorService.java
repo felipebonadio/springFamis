@@ -22,7 +22,7 @@ public class ColaboradorService {
         this.colaboradorRepository = colaboradorRepository;
     }
 
-    public Optional<Colaborador> findColaboradorById(UUID id) throws NotFoundException {
+    public Optional<Colaborador> findColaboradorById(Long id) throws NotFoundException {
         return colaboradorRepository.findById(id);
     }
 

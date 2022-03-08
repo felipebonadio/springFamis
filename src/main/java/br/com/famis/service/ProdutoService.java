@@ -1,5 +1,9 @@
 package br.com.famis.service;
 
+import br.com.famis.dto.ProdutoDto;
+import br.com.famis.exception.BadRequestException;
+import br.com.famis.exception.NotFoundException;
+import br.com.famis.mapper.ProdutoMapper;
 import br.com.famis.model.Produto;
 import br.com.famis.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,35 +19,44 @@ public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
 
-    @Autowired
     public ProdutoService(ProdutoRepository produtoRepository){
         this.produtoRepository = produtoRepository;
     }
 
-    public Optional<Produto> findProdutoById(UUID id) throws DataAccessException {
-        return produtoRepository.findById(id);
-    }
-
-    public List<Produto> findAllProduto() throws DataAccessException {
-        return (List<Produto>) produtoRepository.findAll();
-    }
-
-    public Produto saveProduto(Produto produto) throws DataAccessException {
-        return produtoRepository.save(produto);
-    }
-
-    public Optional<Produto> updateProduto(Produto produto) throws DataAccessException {
-        Optional<Produto> currentProduct = produtoRepository.findById(produto.getId());
-        if (currentProduct.isPresent()) {
-            currentProduct.get().setNome(produto.getNome());
-            currentProduct.get().setCategoria(produto.getCategoria());
-            currentProduct.get().setValor(produto.getValor());
-            return Optional.of(produtoRepository.save(currentProduct.get()));
+    public Optional<ProdutoDto> findProdutoById(Long id) {
+        Optional<ProdutoDto> produtoParaEncontrar = produtoRepository.findById(id).map(ProdutoMapper::produtoToDto);
+        if(produtoParaEncontrar.isEmpty()){
+            throw new NotFoundException("Não foi possível encontrar o produto com id: " + id);
         }
-        return Optional.empty();
+        return produtoParaEncontrar;
     }
 
-    public void deleteProduto(Produto produto) throws DataAccessException {
-        produtoRepository.delete(produto);
+    public List<ProdutoDto> findAllProduto() {
+        return produtoRepository.findAll().stream().map(ProdutoMapper::produtoToDto).toList();
+    }
+
+    public ProdutoDto saveProduto(ProdutoDto produtoDto) {
+        if(produtoDto.getNome() == null){
+            throw new BadRequestException("Não é possível salvar um produto sem o nome");
+        }
+        Produto produto = ProdutoMapper.dtoToProduto(produtoDto);
+        produto.setId(null);
+        return ProdutoMapper.produtoToDto(produtoRepository.save(produto));
+    }
+
+    public Optional<ProdutoDto> updateProduto(ProdutoDto produtoDto)  {
+        Optional<Produto> produtoParaAtualizar = produtoRepository.findById(produtoDto.getId());
+        if (produtoParaAtualizar.isPresent()) {
+            produtoParaAtualizar.get().setNome(produtoDto.getNome());
+            produtoParaAtualizar.get().setCategoria(produtoDto.getCategoria());
+            produtoParaAtualizar.get().setValor(produtoDto.getValor());
+            return Optional.of(produtoRepository.save(produtoParaAtualizar.get())).map(ProdutoMapper::produtoToDto);
+        }
+        throw new NotFoundException("Nçao foi possível localizar o produto com ID: " + produtoDto.getId());
+    }
+
+    public void deleteProduto(Long produtoId) {
+        Optional<Produto> produtoParaApagar = produtoRepository.findById(produtoId);
+        produtoRepository.delete(produtoParaApagar.get());
     }
 }

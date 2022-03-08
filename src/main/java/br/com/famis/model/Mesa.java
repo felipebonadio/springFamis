@@ -1,6 +1,6 @@
 package br.com.famis.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,13 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Builder
 @Entity
 public class Mesa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     private Integer numero;
 
@@ -43,8 +49,4 @@ public class Mesa {
         this.numero = numero;
         this.colaborador = colaborador;
     }
-
-    public Mesa() {
-    }
-
 }
