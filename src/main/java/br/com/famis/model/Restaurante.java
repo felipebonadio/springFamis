@@ -1,12 +1,19 @@
 package br.com.famis.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Builder
 @Entity
 public class Restaurante {
 
@@ -27,9 +34,11 @@ public class Restaurante {
     private int quantidadeMesa;
 
     @Column
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalTime horarioAbertura;
 
     @Column
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalTime horarioEncerramento;
 
     public Restaurante(String nome, String telefone, String cnpj, int quantidadeMesa, LocalTime horarioAbertura,
@@ -40,6 +49,10 @@ public class Restaurante {
         this.quantidadeMesa = quantidadeMesa;
         this.horarioAbertura = horarioAbertura;
         this.horarioEncerramento = horarioEncerramento;
+    }
+
+    public Restaurante(Long id) {
+        this.id = id;
     }
 
     public Restaurante() {

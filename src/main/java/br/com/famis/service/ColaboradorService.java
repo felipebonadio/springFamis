@@ -1,7 +1,9 @@
 package br.com.famis.service;
 
+import br.com.famis.dto.ColaboradorDto;
 import br.com.famis.exception.BadRequestException;
 import br.com.famis.exception.NotFoundException;
+import br.com.famis.mapper.ColaboradorMapper;
 import br.com.famis.model.Colaborador;
 import br.com.famis.repository.ColaboradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,45 +19,51 @@ public class ColaboradorService {
 
     private final ColaboradorRepository colaboradorRepository;
 
-    @Autowired
     public ColaboradorService(ColaboradorRepository colaboradorRepository){
         this.colaboradorRepository = colaboradorRepository;
     }
 
-    public Optional<Colaborador> findColaboradorById(Long id) throws NotFoundException {
-        return colaboradorRepository.findById(id);
-    }
-
-    public List<Colaborador> findAllColaboradores() throws DataAccessException {
-        return (List<Colaborador>) colaboradorRepository.findAll();
-    }
-
-    public Colaborador saveColaborador(Colaborador colaborador) throws BadRequestException {
-        return colaboradorRepository.save(colaborador);
-    }
-
-    public Optional<Colaborador> updateColaborador(Colaborador colaborador) throws DataAccessException {
-        Optional<Colaborador> currentCollaborator = this.findColaboradorById(colaborador.getId());
-        if (currentCollaborator.isPresent()) {
-            currentCollaborator.get().setNome(colaborador.getNome());
-            currentCollaborator.get().setSobrenome(colaborador.getSobrenome());
-            currentCollaborator.get().setCpf(colaborador.getCpf());
-            currentCollaborator.get().setFuncao(colaborador.getFuncao());
-            currentCollaborator.get().setTelefone(colaborador.getTelefone());
-            currentCollaborator.get().setRestaurante(colaborador.getRestaurante());
-            return Optional.of(colaboradorRepository.save(currentCollaborator.get()));
-        }else {
-            throw new BadRequestException("Erro ao atualizar o colaborador, por favor confira os dados!");
+    public Optional<ColaboradorDto> findColaboradorById(Long id){
+        Optional<ColaboradorDto> colaboradorParaProcurar = this.colaboradorRepository.findById(id).map(ColaboradorMapper::colaboradorToDto);
+        if(colaboradorParaProcurar.isEmpty()){
+            throw new NotFoundException("Não foi possível encontrar o colaborador com id "+ id +".");
         }
+        return colaboradorParaProcurar;
     }
 
-    public void deleteColaborador(Colaborador colaborador) throws DataAccessException {
-        Optional<Colaborador> colaboradorDeletar = colaboradorRepository.findById(colaborador.getId());
-        if(colaboradorDeletar.isPresent()){
-        colaboradorRepository.delete(colaborador);}
-        else {
-            throw new NotFoundException("Colaborador com o id "+ colaborador.getId()+ " não existe!");
+    public List<ColaboradorDto> findAllColaboradores() {
+        return colaboradorRepository.findAll().stream().map(ColaboradorMapper::colaboradorToDto).toList();
+    }
+
+    public ColaboradorDto saveColaborador(ColaboradorDto colaboradorDto) {
+        if(colaboradorDto.getNome() == null){
+            throw new BadRequestException("Não é possível salvar um colaborador sem nome");
         }
+        Colaborador colaborador = ColaboradorMapper.dtoToColaborador(colaboradorDto);
+        colaborador.setId(null);
+        return ColaboradorMapper.colaboradorToDto(colaboradorRepository.save(colaborador));
+    }
+
+    public Optional<ColaboradorDto> updateColaborador(ColaboradorDto colaboradorDto) {
+        Optional<Colaborador> colaboradorParaAtualizar = this.colaboradorRepository.findById(colaboradorDto.getId());
+        if(colaboradorParaAtualizar.isEmpty()){
+            throw new BadRequestException("Não foi possível encontrar o colaborador com id "+ colaboradorDto.getId() +".");
+        }
+            colaboradorParaAtualizar.get().setNome(colaboradorDto.getNome());
+            colaboradorParaAtualizar.get().setSobrenome(colaboradorDto.getSobrenome());
+            colaboradorParaAtualizar.get().setCpf(colaboradorDto.getCpf());
+            colaboradorParaAtualizar.get().setFuncao(colaboradorDto.getFuncao());
+            colaboradorParaAtualizar.get().setTelefone(colaboradorDto.getTelefone());
+            return Optional.of(colaboradorRepository.save(colaboradorParaAtualizar.get())).map(ColaboradorMapper::colaboradorToDto);
+
+    }
+
+    public void deleteColaborador(Long colaboradorId) {
+        Optional<Colaborador> colaboradorDeletar = colaboradorRepository.findById(colaboradorId);
+        if(colaboradorDeletar.isEmpty()){
+            throw new NotFoundException("Colaborador com o id "+ colaboradorId+ " não existe!");
+        }
+        colaboradorRepository.delete(colaboradorDeletar.get());
     }
 
 }

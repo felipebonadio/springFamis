@@ -48,11 +48,11 @@ public class MesaService {
         Optional<Mesa> mesaParaAtualizar = mesaRepository.findById(mesaDto.getId());
         if(mesaDto.getNumero() == null){
             throw new BadRequestException("Não foi possível atualizar o número da mesa");
-        }else if (mesaParaAtualizar.isPresent()) {
-            mesaParaAtualizar.get().setNumero(mesaParaAtualizar.get().getNumero());
-            return Optional.of(mesaRepository.save(mesaParaAtualizar.get())).map(MesaMapper::mesaToDto);
+        }else if (mesaParaAtualizar.isEmpty()) {
+            throw new NotFoundException("Não foi localizar a mesa com o ID " + mesaParaAtualizar.get().getId());
         }
-        throw new NotFoundException("Não foi localizar a mesa com o ID " + mesaParaAtualizar.get().getId());
+        mesaParaAtualizar.get().setNumero(mesaParaAtualizar.get().getNumero());
+        return Optional.of(mesaRepository.save(mesaParaAtualizar.get())).map(MesaMapper::mesaToDto);
     }
 
     public void deleteMesa(Long mesaId) throws DataAccessException {

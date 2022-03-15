@@ -1,5 +1,9 @@
 package br.com.famis.service;
 
+import br.com.famis.dto.RestauranteDto;
+import br.com.famis.exception.BadRequestException;
+import br.com.famis.exception.NotFoundException;
+import br.com.famis.mapper.RestauranteMapper;
 import br.com.famis.model.Restaurante;
 import br.com.famis.repository.RestauranteRepository;
 import org.springframework.dao.DataAccessException;
@@ -18,52 +22,65 @@ public class RestauranteService {
         this.restauranteRepository = restauranteRepository;
     }
 
-    public Optional<Restaurante> findRestauranteById(Long id) throws DataAccessException {
-        return restauranteRepository.findById(id);
-    }
-
-    public List<Restaurante> findAllRestaurantes() throws DataAccessException {
-        return (List<Restaurante>) restauranteRepository.findAll();
-    }
-
-    public Restaurante saveRestaurante(Restaurante restaurante) throws DataAccessException {
-        return restauranteRepository.save(restaurante);
-    }
-
-    public Optional<Restaurante> updateRestaurante(Restaurante restaurante) throws DataAccessException {
-        Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
-        if (currentRestaurant.isPresent()) {
-            currentRestaurant.get().setNome(restaurante.getNome());
-            currentRestaurant.get().setTelefone(restaurante.getTelefone());
-            currentRestaurant.get().setCnpj(restaurante.getCnpj());
-            currentRestaurant.get().setQuantidadeMesa(restaurante.getQuantidadeMesa());
-            currentRestaurant.get().setHorarioAbertura(restaurante.getHorarioAbertura());
-            currentRestaurant.get().setHorarioEncerramento(restaurante.getHorarioEncerramento());
-            return Optional.of(restauranteRepository.save(currentRestaurant.get()));
+    public RestauranteDto findRestauranteById(Long id) {
+        Optional<RestauranteDto> restauranteParaProcurar = restauranteRepository.findById(id).map(RestauranteMapper::restauranteToDto);
+        if(restauranteParaProcurar.isEmpty()){
+            throw new NotFoundException("Não foi possível localizar o restaurante com Id " + id);
         }
-        return Optional.empty();
+        return restauranteParaProcurar.get();
     }
 
-    public Optional<Restaurante> updateMesaOnRestaurante(Restaurante restaurante) throws DataAccessException {
-        Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
-        if (currentRestaurant.isPresent()) {
-            currentRestaurant.get().setQuantidadeMesa(restaurante.getQuantidadeMesa());
-            return Optional.of(restauranteRepository.save(currentRestaurant.get()));
+    public List<RestauranteDto> findAllRestaurantes() throws DataAccessException {
+        return restauranteRepository.findAll().stream().map(RestauranteMapper::restauranteToDto).toList();
+    }
+
+    public RestauranteDto saveRestaurante(RestauranteDto restauranteDto) throws DataAccessException {
+        if(restauranteDto.getNome() == null){
+            throw new BadRequestException("Não é possível salvar o restaurante sem nome");
         }
-        return Optional.empty();
+        Restaurante restaurante = RestauranteMapper.dtoToRestaurante(restauranteDto);
+        restaurante.setId(null);
+        return RestauranteMapper.restauranteToDto(restauranteRepository.save(restaurante));
     }
 
-    public Optional<Restaurante> updateHorarioOnRestaurante(Restaurante restaurante) throws DataAccessException {
-        Optional<Restaurante> currentRestaurant = this.findRestauranteById(restaurante.getId());
-        if (currentRestaurant.isPresent()) {
-            currentRestaurant.get().setHorarioAbertura(restaurante.getHorarioAbertura());
-            currentRestaurant.get().setHorarioEncerramento(restaurante.getHorarioEncerramento());
-            return Optional.of(restauranteRepository.save(currentRestaurant.get()));
+    public Optional<RestauranteDto> updateRestaurante(RestauranteDto restauranteDto) throws DataAccessException {
+        Optional<Restaurante> restauranteParaAtualizar = this.restauranteRepository.findById(restauranteDto.getId());
+        if(restauranteParaAtualizar.isEmpty()){
+            throw new NotFoundException("Não foiu possível localizar o restaurante com o id " + restauranteDto.getId())
         }
-        return Optional.empty();
+            restauranteParaAtualizar.get().setNome(restauranteDto.getNome());
+            restauranteParaAtualizar.get().setTelefone(restauranteDto.getTelefone());
+            restauranteParaAtualizar.get().setCnpj(restauranteDto.getCnpj());
+            restauranteParaAtualizar.get().setQuantidadeMesa(restauranteDto.getQuantidadeMesa());
+            restauranteParaAtualizar.get().setHorarioAbertura(restauranteDto.getHorarioAbertura());
+            restauranteParaAtualizar.get().setHorarioEncerramento(restauranteDto.getHorarioEncerramento());
+            return Optional.of(restauranteRepository.save(restauranteParaAtualizar.get())).map(RestauranteMapper::restauranteToDto);
     }
 
-    public void deleteRestaurante(Restaurante restaurante) throws DataAccessException {
-        restauranteRepository.delete(restaurante);
+    public Optional<RestauranteDto> updateMesaOnRestaurante(Restaurante restaurante) throws DataAccessException {
+        Optional<Restaurante> restauranteParaAtualizar = this.restauranteRepository.findById(restaurante.getId());
+        if(restauranteParaAtualizar.isEmpty()){
+            throw new NotFoundException("Não foi possível encontrar o restaurante para atualizar");
+        }
+            restauranteParaAtualizar.get().setQuantidadeMesa(restaurante.getQuantidadeMesa());
+        return Optional.of(restauranteRepository.save(restauranteParaAtualizar.get())).map(RestauranteMapper::restauranteToDto);
+    }
+
+    public Optional<RestauranteDto> updateHorarioOnRestaurante(Restaurante restaurante) throws DataAccessException {
+        Optional<Restaurante> restauranteParaAtualizar = this.restauranteRepository.findById(restaurante.getId());
+        if (restauranteParaAtualizar.isEmpty()) {
+            throw new NotFoundException("Não foi possível encontrar o restaurante para atualizar");
+        }
+        restauranteParaAtualizar.get().setHorarioAbertura(restaurante.getHorarioAbertura());
+        restauranteParaAtualizar.get().setHorarioEncerramento(restaurante.getHorarioEncerramento());
+        return Optional.of(restauranteRepository.save(restauranteParaAtualizar.get())).map(RestauranteMapper::restauranteToDto);
+    }
+
+    public void deleteRestaurante(Long id) throws DataAccessException {
+        Optional<Restaurante> restauranteParaProcurar = restauranteRepository.findById(id);
+        if(restauranteParaProcurar.isEmpty()){
+            throw new NotFoundException("Não foi possível encontrar o restaurante para atualizar");
+        }
+        restauranteRepository.delete(restauranteParaProcurar.get());
     }
 }

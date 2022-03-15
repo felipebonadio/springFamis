@@ -25,7 +25,7 @@ public class RestauranteController {
     }
 
     @GetMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> getRestaurante(@PathVariable("restauranteId") UUID restauranteId) {
+    public ResponseEntity<Restaurante> getRestaurante(@PathVariable Long restauranteId) {
         Optional<Restaurante> restaurante = this.restauranteService.findRestauranteById(restauranteId);
         return restaurante.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -83,7 +83,7 @@ public class RestauranteController {
     }
 
     @DeleteMapping("/{restauranteId}")
-    public ResponseEntity<Mesa> deleteById(@PathVariable("restauranteId") UUID restauranteId) {
+    public ResponseEntity<Mesa> deleteById(@PathVariable Long restauranteId) {
         Optional<Restaurante> restaurante = this.restauranteService.findRestauranteById(restauranteId);
         if (restaurante.isPresent()) {
             restauranteService.deleteRestaurante(restaurante.get());

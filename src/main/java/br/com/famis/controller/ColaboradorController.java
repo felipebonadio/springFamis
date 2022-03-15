@@ -1,5 +1,6 @@
 package br.com.famis.controller;
 
+import br.com.famis.dto.ColaboradorDto;
 import br.com.famis.exception.BadRequestException;
 import br.com.famis.exception.NotFoundException;
 import br.com.famis.model.Colaborador;
@@ -25,49 +26,31 @@ public class ColaboradorController {
     }
 
     @GetMapping("/{colaboradorId}")
-    public ResponseEntity<Optional<Colaborador>> getColaborador(@PathVariable Long colaboradorId) throws NotFoundException {
-        Optional<Colaborador> colaborador = colaboradorService.findColaboradorById(colaboradorId);
-        if(colaborador.isPresent()) {
-            return ResponseEntity.ok(colaborador);
-        }
-        throw new NotFoundException("Colaborador com o ID :"+ colaboradorId+ " não existe!");
+    public ResponseEntity<ColaboradorDto> getColaborador(@PathVariable Long colaboradorId) throws NotFoundException {
+        Optional<ColaboradorDto> colaborador = colaboradorService.findColaboradorById(colaboradorId);
+        return ResponseEntity.ok(colaborador.get());
     }
 
     @GetMapping
-    public ResponseEntity<List<Colaborador>> getColaboradores() {
-        List<Colaborador> colaboradores = this.colaboradorService.findAllColaboradores();
-        if (colaboradores.isEmpty()) {
-            throw new NotFoundException("Não foi possível encontrar a lista de colaboradores");
-        }
+    public ResponseEntity<List<ColaboradorDto>> getColaboradores() {
+        List<ColaboradorDto> colaboradores = this.colaboradorService.findAllColaboradores();
         return ResponseEntity.ok(colaboradores);
     }
 
     @PostMapping
-    public ResponseEntity<Colaborador> saveColaborador(@RequestBody Colaborador colaborador) {
-        if (colaborador.getNome() == null) {
-            throw new BadRequestException("Dados inválidos, por favor confira as informações");
-        }
-        return new ResponseEntity<>(colaboradorService.saveColaborador(colaborador), HttpStatus.CREATED);
+    public ResponseEntity<ColaboradorDto> saveColaborador(@RequestBody ColaboradorDto colaboradorDto) {
+        return new ResponseEntity<>(colaboradorService.saveColaborador(colaboradorDto), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Optional<Colaborador>> updateColaborador(@RequestBody Colaborador colaborador) throws NotFoundException, BadRequestException {
-        Optional<Colaborador> updatedColaborador = this.colaboradorService.findColaboradorById(colaborador.getId());
-        if(updatedColaborador.isEmpty()){
-            throw new NotFoundException("Colaborador com o id :" + colaborador.getId()+ " não foi encontrado!");
-        }else if(colaborador.getNome() == null){
-            throw new BadRequestException("Dados inválidos, por favor confira!");
-        }
-        return ResponseEntity.ok(this.colaboradorService.updateColaborador(colaborador));
+    public ResponseEntity<ColaboradorDto> updateColaborador(@RequestBody ColaboradorDto colaboradorDto) {
+        Optional<ColaboradorDto> colaboradorParaAtualizar = this.colaboradorService.updateColaborador(colaboradorDto);
+        return ResponseEntity.ok(colaboradorParaAtualizar.get());
     }
 
     @DeleteMapping("/{colaboradorId}")
     public ResponseEntity<Colaborador> deleteById(@PathVariable Long colaboradorId) throws NotFoundException{
-        Optional<Colaborador> colaborador = this.colaboradorService.findColaboradorById(colaboradorId);
-        if (colaborador.isPresent()) {
-            colaboradorService.deleteColaborador(colaborador.get());
-            return ResponseEntity.noContent().build();
-        }
-        throw new NotFoundException("Colaborador com o ID :"+ colaboradorId+ " não existe!");
+        colaboradorService.deleteColaborador(colaboradorId);
+        return ResponseEntity.noContent().build();
     }
 }
