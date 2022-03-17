@@ -1,5 +1,6 @@
 package br.com.famis.controller;
 
+import br.com.famis.dto.RestauranteDto;
 import br.com.famis.model.Mesa;
 import br.com.famis.model.Restaurante;
 import br.com.famis.service.RestauranteService;
@@ -25,70 +26,43 @@ public class RestauranteController {
     }
 
     @GetMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> getRestaurante(@PathVariable Long restauranteId) {
-        Optional<Restaurante> restaurante = this.restauranteService.findRestauranteById(restauranteId);
-        return restaurante.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<RestauranteDto> getRestaurante(@PathVariable Long restauranteId) {
+        Optional<RestauranteDto> restaurante = this.restauranteService.findRestauranteById(restauranteId);
+        return ResponseEntity.ok(restaurante.get());
     }
 
     @GetMapping
-    public ResponseEntity<List<Restaurante>> getRestaurantes() {
-        List<Restaurante> restaurantes = this.restauranteService.findAllRestaurantes();
-        if (restaurantes.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<RestauranteDto>> getRestaurantes() {
+        List<RestauranteDto> restaurantes = this.restauranteService.findAllRestaurantes();
         return ResponseEntity.ok(restaurantes);
     }
 
     @PostMapping
-    public ResponseEntity<Restaurante> saveRestaurante(@RequestBody @Valid Restaurante restaurante,
-            BindingResult bindingResult) {
-        if (bindingResult.hasErrors() || (restaurante == null) || (restaurante.getNome() == null)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return new ResponseEntity<>(restauranteService.saveRestaurante(restaurante), HttpStatus.CREATED);
+    public ResponseEntity<RestauranteDto> saveRestaurante(@RequestBody @Valid RestauranteDto restauranteDto) {
+        return new ResponseEntity<>(restauranteService.saveRestaurante(restauranteDto), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Restaurante> updateRestaurante(@RequestBody Restaurante restaurante,
-            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<Restaurante> updatedRestaurante = this.restauranteService.updateRestaurante(restaurante);
-        return updatedRestaurante.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<RestauranteDto> updateRestaurante(@RequestBody RestauranteDto restauranteDto){
+        Optional<RestauranteDto> restauranteParaAtualizar = this.restauranteService.updateRestaurante(restauranteDto);
+        return ResponseEntity.ok(restauranteParaAtualizar.get());
     }
 
     @PutMapping("/mesa")
-    public ResponseEntity<Restaurante> updateMesaOnRestaurante(@RequestBody Restaurante restaurante,
-            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<Restaurante> updatedRestaurante = this.restauranteService.updateMesaOnRestaurante(restaurante);
-        return updatedRestaurante.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<RestauranteDto> updateMesaOnRestaurante(@RequestBody RestauranteDto restauranteDto) {
+        Optional<RestauranteDto> restauranteParaAtualizar = this.restauranteService.updateMesaOnRestaurante(restauranteDto);
+        return ResponseEntity.ok(restauranteParaAtualizar.get());
     }
 
     @PutMapping("/horario")
-    public ResponseEntity<Restaurante> updateHorarioOnRestaurante(@RequestBody Restaurante restaurante,
-            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<Restaurante> updatedRestaurant = this.restauranteService.updateHorarioOnRestaurante(restaurante);
-        return updatedRestaurant.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<RestauranteDto> updateHorarioOnRestaurante(@RequestBody RestauranteDto restauranteDto) {
+        Optional<RestauranteDto> restauranteParaAtualizar = this.restauranteService.updateHorarioOnRestaurante(restauranteDto);
+        return ResponseEntity.ok(restauranteParaAtualizar.get());
     }
 
     @DeleteMapping("/{restauranteId}")
     public ResponseEntity<Mesa> deleteById(@PathVariable Long restauranteId) {
-        Optional<Restaurante> restaurante = this.restauranteService.findRestauranteById(restauranteId);
-        if (restaurante.isPresent()) {
-            restauranteService.deleteRestaurante(restaurante.get());
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        restauranteService.deleteRestaurante(restauranteId);
+        return ResponseEntity.noContent().build();
     }
 }

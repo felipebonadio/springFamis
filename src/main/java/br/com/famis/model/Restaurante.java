@@ -1,5 +1,6 @@
 package br.com.famis.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
@@ -34,11 +35,11 @@ public class Restaurante {
     private int quantidadeMesa;
 
     @Column
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime horarioAbertura;
 
     @Column
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime horarioEncerramento;
 
     public Restaurante(String nome, String telefone, String cnpj, int quantidadeMesa, LocalTime horarioAbertura,

@@ -22,12 +22,12 @@ public class RestauranteService {
         this.restauranteRepository = restauranteRepository;
     }
 
-    public RestauranteDto findRestauranteById(Long id) {
+    public Optional<RestauranteDto> findRestauranteById(Long id) {
         Optional<RestauranteDto> restauranteParaProcurar = restauranteRepository.findById(id).map(RestauranteMapper::restauranteToDto);
         if(restauranteParaProcurar.isEmpty()){
             throw new NotFoundException("Não foi possível localizar o restaurante com Id " + id);
         }
-        return restauranteParaProcurar.get();
+        return restauranteParaProcurar;
     }
 
     public List<RestauranteDto> findAllRestaurantes() throws DataAccessException {
@@ -46,7 +46,7 @@ public class RestauranteService {
     public Optional<RestauranteDto> updateRestaurante(RestauranteDto restauranteDto) throws DataAccessException {
         Optional<Restaurante> restauranteParaAtualizar = this.restauranteRepository.findById(restauranteDto.getId());
         if(restauranteParaAtualizar.isEmpty()){
-            throw new NotFoundException("Não foiu possível localizar o restaurante com o id " + restauranteDto.getId())
+            throw new NotFoundException("Não foiu possível localizar o restaurante com o id " + restauranteDto.getId());
         }
             restauranteParaAtualizar.get().setNome(restauranteDto.getNome());
             restauranteParaAtualizar.get().setTelefone(restauranteDto.getTelefone());
@@ -57,7 +57,7 @@ public class RestauranteService {
             return Optional.of(restauranteRepository.save(restauranteParaAtualizar.get())).map(RestauranteMapper::restauranteToDto);
     }
 
-    public Optional<RestauranteDto> updateMesaOnRestaurante(Restaurante restaurante) throws DataAccessException {
+    public Optional<RestauranteDto> updateMesaOnRestaurante(RestauranteDto restaurante) throws DataAccessException {
         Optional<Restaurante> restauranteParaAtualizar = this.restauranteRepository.findById(restaurante.getId());
         if(restauranteParaAtualizar.isEmpty()){
             throw new NotFoundException("Não foi possível encontrar o restaurante para atualizar");
@@ -66,7 +66,7 @@ public class RestauranteService {
         return Optional.of(restauranteRepository.save(restauranteParaAtualizar.get())).map(RestauranteMapper::restauranteToDto);
     }
 
-    public Optional<RestauranteDto> updateHorarioOnRestaurante(Restaurante restaurante) throws DataAccessException {
+    public Optional<RestauranteDto> updateHorarioOnRestaurante(RestauranteDto restaurante) throws DataAccessException {
         Optional<Restaurante> restauranteParaAtualizar = this.restauranteRepository.findById(restaurante.getId());
         if (restauranteParaAtualizar.isEmpty()) {
             throw new NotFoundException("Não foi possível encontrar o restaurante para atualizar");

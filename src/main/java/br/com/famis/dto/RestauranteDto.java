@@ -1,5 +1,6 @@
 package br.com.famis.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
@@ -23,9 +24,9 @@ public class RestauranteDto {
 
     private int quantidadeMesa;
 
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime horarioAbertura;
 
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime horarioEncerramento;
 }

@@ -2,13 +2,7 @@ package br.com.famis.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +24,12 @@ public class Mesa {
 
     private Integer numero;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "colaborador_id")
     private Colaborador colaborador;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name = "produto_id")
     private List<Produto> produtos = new ArrayList<>();
 
     public void adicionarProduto(Produto produto) {

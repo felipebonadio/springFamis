@@ -21,15 +21,17 @@ public class MesaMapper {
 
     public static Function<Produto, ProdutoDto> produtoToDto(){
         return produto -> ProdutoDto.builder()
-                .categoria(produto.getCategoria())
+                .id(produto.getId())
                 .nome(produto.getNome())
                 .valor(produto.getValor())
+                .categoria(produto.getCategoria())
                 .build();
     }
 
     public static Mesa dtoToMesa(MesaDto mesaDto){
         return Mesa.builder()
                 .id(mesaDto.getId())
+                .numero(mesaDto.getNumero())
                 .colaborador(new Colaborador(mesaDto.getColaboradorNome()))
                 .produtos(mesaDto.getProdutos().stream().map(dtoToProduto()).toList())
                 .build();
@@ -37,9 +39,10 @@ public class MesaMapper {
 
     public static Function<ProdutoDto, Produto> dtoToProduto(){
         return produto -> Produto.builder()
-                .categoria(produto.getCategoria())
+                .id(produto.getId())
                 .nome(produto.getNome())
                 .valor(produto.getValor())
+                .categoria(produto.getCategoria())
                 .build();
     }
 }

@@ -30,7 +30,7 @@ public class Colaborador {
 	@Column
 	private String cpf;
 
-	@OneToOne
+	@ManyToOne
 	private Restaurante restaurante;
 
 	@Column
